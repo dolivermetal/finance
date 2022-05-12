@@ -1,0 +1,10 @@
+apply plugin: 'application'
+
+mainClassName = 'br.com.doliver.Application'
+description = 'finance'
+
+dependencies {
+  api project(':application:core')
+  api project(':application:dataprovider')
+  api project(':application:entrypoint')
+}

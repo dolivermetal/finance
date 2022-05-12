@@ -1,0 +1,5 @@
+dependencies {
+  api project(':application:core')
+
+  apiElements 'org.springframework.boot:spring-boot-starter-test:2.6.4'
+}

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<FindBugsFilter>
+  <Match>
+    <Or>
+      <Class name="~.*Test$"/>
+      <Package name="~avro.*"/>
+    </Or>
+  </Match>
+  <Match>
+    <Bug pattern="DM_DEFAULT_ENCODING,EI_EXPOSE_REP,EI_EXPOSE_REP2,MS_PKGPROTECT,MS_MUTABLE_COLLECTION_PKGPROTECT"/>
+  </Match>
+</FindBugsFilter>
