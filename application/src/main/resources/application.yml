@@ -2,5 +2,21 @@ server:
   port: 9090
 
 spring:
+  main:
+    banner-mode: off
   application:
     name: finance
+  datasource:
+    url: jdbc:postgresql://localhost:5432/finance?currentSchema=finance
+    username: finance_adm
+    password: finance_adm
+    hikari:
+      minimum-idle: 10
+      maximum-pool-size: 20
+  jpa:
+    show-sql: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} app=${spring.application.name} tid=[%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-}] -%5p ${PID:- } --- [%15.15thread] %-40.40logger{39} : M=%M, %m%n"
