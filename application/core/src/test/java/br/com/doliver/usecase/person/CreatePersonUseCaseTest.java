@@ -64,6 +64,19 @@ class CreatePersonUseCaseTest {
   }
 
   @Test
+  @DisplayName("Deve retornar InvalidObjectException ao criar uma Pessoa com nome em branco")
+  void shouldReturnInvalidObjectExceptionWhenCreatePersonWithNameEmpty() {
+    final var person = factory.getEmpty();
+    person.setName("");
+
+    assertAll(
+        () -> assertThrows(InvalidObjectException.class, () -> useCase.create(person)),
+        () -> Mockito.verify(service, Mockito.times(0))
+            .create(Mockito.any(Person.class))
+    );
+  }
+
+  @Test
   @DisplayName("Deve retornar InvalidObjectException ao criar uma Pessoa nula")
   void shouldReturnInvalidObjectExceptionWhenCreatePersonNull() {
     assertAll(
