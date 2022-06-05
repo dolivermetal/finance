@@ -12,7 +12,7 @@ import br.com.doliver.domain.Outbox;
 import br.com.doliver.dto.converter.OutboxEntrypointMapper;
 import br.com.doliver.dto.request.OutboxRequest;
 import br.com.doliver.dto.response.OutboxResponse;
-import br.com.doliver.usecase.OutboxUseCase;
+import br.com.doliver.usecase.outbox.OutboxUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

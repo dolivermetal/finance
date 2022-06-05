@@ -1,4 +1,4 @@
-package br.com.doliver.usecase;
+package br.com.doliver.usecase.outbox;
 
 import br.com.doliver.domain.Outbox;
 
