@@ -32,5 +32,9 @@ public class CreateAccountUseCaseImpl implements CreateAccountUseCase {
     if (Objects.isNull(account.getAlias()) || account.getAlias().isEmpty()) {
       throw new InvalidObjectException("Account alias can't not be null");
     }
+
+    if (Objects.isNull(account.getPerson())) {
+      throw new InvalidObjectException("Account's person can't not be null");
+    }
   }
 }

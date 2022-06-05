@@ -86,4 +86,17 @@ class CreateAccountUseCaseTest {
     );
   }
 
+  @Test
+  @DisplayName("Deve retornar InvalidObjectException ao criar uma Conta sem uma Pessoa")
+  void shouldReturnInvalidObjectExceptionWhenCreateAccountWithoutAPerson() {
+    final var account = factory.getDefault();
+    account.setPerson(null);
+
+    assertAll(
+        () -> assertThrows(InvalidObjectException.class, () -> useCase.create(account)),
+        () -> Mockito.verify(service, Mockito.times(0))
+            .create(Mockito.any(Account.class))
+    );
+  }
+
 }
