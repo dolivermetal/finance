@@ -1,6 +1,5 @@
 package br.com.doliver.usecase.person;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,9 +7,16 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import br.com.doliver.domain.Person;
+import br.com.doliver.exception.InvalidObjectException;
 import br.com.doliver.factory.PersonFactory;
 import br.com.doliver.service.PersonService;
 import br.com.doliver.usecase.person.impl.CreatePersonUseCaseImpl;
+import lombok.SneakyThrows;
+
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CreatePersonUseCaseTest {
 
@@ -28,6 +34,7 @@ class CreatePersonUseCaseTest {
   }
 
   @Test
+  @SneakyThrows
   @DisplayName("Deve criar uma Pessoa com sucesso")
   void shouldCreatePersonWithSuccess() {
     final var person = factory.getDefault();
@@ -36,10 +43,32 @@ class CreatePersonUseCaseTest {
 
     Person personCreated = useCase.create(person);
 
-    Assertions.assertAll(
-        () -> Assertions.assertEquals(personCreated.getName(), person.getName()),
-        () -> Assertions.assertNotNull(personCreated.getId()),
+    assertAll(
+        () -> assertEquals(personCreated.getName(), person.getName()),
+        () -> assertNotNull(personCreated.getId()),
         () -> Mockito.verify(service, Mockito.times(1))
+            .create(Mockito.any(Person.class))
+    );
+  }
+
+  @Test
+  @DisplayName("Deve retornar InvalidObjectException ao criar uma Pessoa sem nome")
+  void shouldReturnInvalidObjectExceptionWhenCreatePersonWithoutName() {
+    final var person = factory.getEmpty();
+
+    assertAll(
+        () -> assertThrows(InvalidObjectException.class, () -> useCase.create(person)),
+        () -> Mockito.verify(service, Mockito.times(0))
+            .create(Mockito.any(Person.class))
+    );
+  }
+
+  @Test
+  @DisplayName("Deve retornar InvalidObjectException ao criar uma Pessoa nula")
+  void shouldReturnInvalidObjectExceptionWhenCreatePersonNull() {
+    assertAll(
+        () -> assertThrows(InvalidObjectException.class, () -> useCase.create(null)),
+        () -> Mockito.verify(service, Mockito.times(0))
             .create(Mockito.any(Person.class))
     );
   }
