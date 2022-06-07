@@ -7,7 +7,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import br.com.doliver.domain.Account;
-import br.com.doliver.exception.InvalidObjectException;
+import br.com.doliver.exception.EmptyAttributeException;
+import br.com.doliver.exception.NullObjectException;
 import br.com.doliver.factory.AccountFactory;
 import br.com.doliver.service.AccountService;
 import br.com.doliver.usecase.account.impl.CreateAccountUseCaseImpl;
@@ -52,48 +53,23 @@ class CreateAccountUseCaseTest {
   }
 
   @Test
-  @DisplayName("Deve retornar InvalidObjectException ao criar uma Conta sem apelido")
-  void shouldReturnInvalidObjectExceptionWhenCreateAccountWithoutAlias() {
-    final var account = factory.getEmpty();
-
-    assertAll(
-        () -> assertThrows(InvalidObjectException.class, () -> useCase.create(account)),
-        () -> Mockito.verify(service, Mockito.times(0))
-            .create(Mockito.any(Account.class))
-    );
-  }
-
-  @Test
-  @DisplayName("Deve retornar InvalidObjectException ao criar uma Conta com apelido em branco")
-  void shouldReturnInvalidObjectExceptionWhenCreateAccountWithAliasEmpty() {
+  @DisplayName("Deve retornar EmptyAttributeException ao criar uma Conta com apelido em branco")
+  void shouldReturnEmptyAttributeExceptionWhenCreateAccountWithAliasEmpty() {
     final var account = factory.getDefault();
     account.setAlias("");
 
     assertAll(
-        () -> assertThrows(InvalidObjectException.class, () -> useCase.create(account)),
+        () -> assertThrows(EmptyAttributeException.class, () -> useCase.create(account)),
         () -> Mockito.verify(service, Mockito.times(0))
             .create(Mockito.any(Account.class))
     );
   }
 
   @Test
-  @DisplayName("Deve retornar InvalidObjectException ao criar uma Conta nula")
-  void shouldReturnInvalidObjectExceptionWhenCreateAccountNull() {
+  @DisplayName("Deve retornar NullObjectException ao criar uma Conta nula")
+  void shouldReturnNullObjectExceptionWhenCreateAccountNull() {
     assertAll(
-        () -> assertThrows(InvalidObjectException.class, () -> useCase.create(null)),
-        () -> Mockito.verify(service, Mockito.times(0))
-            .create(Mockito.any(Account.class))
-    );
-  }
-
-  @Test
-  @DisplayName("Deve retornar InvalidObjectException ao criar uma Conta sem uma Pessoa")
-  void shouldReturnInvalidObjectExceptionWhenCreateAccountWithoutAPerson() {
-    final var account = factory.getDefault();
-    account.setPerson(null);
-
-    assertAll(
-        () -> assertThrows(InvalidObjectException.class, () -> useCase.create(account)),
+        () -> assertThrows(NullObjectException.class, () -> useCase.create(null)),
         () -> Mockito.verify(service, Mockito.times(0))
             .create(Mockito.any(Account.class))
     );

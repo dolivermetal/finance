@@ -5,7 +5,8 @@ import java.util.Objects;
 import org.springframework.stereotype.Service;
 
 import br.com.doliver.domain.Account;
-import br.com.doliver.exception.InvalidObjectException;
+import br.com.doliver.exception.DomainException;
+import br.com.doliver.exception.NullObjectException;
 import br.com.doliver.service.AccountService;
 import br.com.doliver.usecase.account.CreateAccountUseCase;
 import lombok.RequiredArgsConstructor;
@@ -19,22 +20,15 @@ public class CreateAccountUseCaseImpl implements CreateAccountUseCase {
   private final AccountService accountService;
 
   @Override
-  public Account create(final Account account) throws InvalidObjectException {
+  public Account create(final Account account) throws DomainException {
     validate(account);
     return accountService.create(account);
   }
 
-  private void validate(final Account account) throws InvalidObjectException {
+  private void validate(final Account account) throws DomainException {
     if (Objects.isNull(account)) {
-      throw new InvalidObjectException("Account can't not be null");
+      throw new NullObjectException("Account can't be null");
     }
-
-    if (Objects.isNull(account.getAlias()) || account.getAlias().isEmpty()) {
-      throw new InvalidObjectException("Account alias can't not be null");
-    }
-
-    if (Objects.isNull(account.getPerson())) {
-      throw new InvalidObjectException("Account's person can't not be null");
-    }
+    account.validate();
   }
 }

@@ -16,9 +16,4 @@ public class PersonFactory {
         .build();
   }
 
-  public Person getEmpty() {
-    return Person.builder()
-        .build();
-  }
-
 }

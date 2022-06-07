@@ -7,7 +7,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import br.com.doliver.domain.CreditCard;
-import br.com.doliver.exception.InvalidObjectException;
+import br.com.doliver.exception.EmptyAttributeException;
+import br.com.doliver.exception.NullObjectException;
 import br.com.doliver.factory.CreditCardFactory;
 import br.com.doliver.service.CreditCardService;
 import br.com.doliver.usecase.creditcard.impl.CreateCreditCardUseCaseImpl;
@@ -35,7 +36,7 @@ class CreateCreditCardUseCaseTest {
 
   @Test
   @SneakyThrows
-  @DisplayName("Deve criar uma Conta com sucesso")
+  @DisplayName("Deve criar um Cartão de Cŕedito com sucesso")
   void shouldCreateCreditCardWithSuccess() {
     final var creditCard = factory.getDefault();
     Mockito.when(service.create(Mockito.any(CreditCard.class)))
@@ -52,48 +53,23 @@ class CreateCreditCardUseCaseTest {
   }
 
   @Test
-  @DisplayName("Deve retornar InvalidObjectException ao criar uma Conta sem apelido")
-  void shouldReturnInvalidObjectExceptionWhenCreateCreditCardWithoutAlias() {
-    final var creditCard = factory.getEmpty();
-
-    assertAll(
-        () -> assertThrows(InvalidObjectException.class, () -> useCase.create(creditCard)),
-        () -> Mockito.verify(service, Mockito.times(0))
-            .create(Mockito.any(CreditCard.class))
-    );
-  }
-
-  @Test
-  @DisplayName("Deve retornar InvalidObjectException ao criar uma Conta com apelido em branco")
-  void shouldReturnInvalidObjectExceptionWhenCreateCreditCardWithAliasEmpty() {
+  @DisplayName("Deve retornar EmptyAttributeException ao criar um Cartão de Cŕedito com apelido em branco")
+  void shouldReturnEmptyAttributeExceptionWhenCreateCreditCardWithAliasEmpty() {
     final var creditCard = factory.getDefault();
     creditCard.setAlias("");
 
     assertAll(
-        () -> assertThrows(InvalidObjectException.class, () -> useCase.create(creditCard)),
+        () -> assertThrows(EmptyAttributeException.class, () -> useCase.create(creditCard)),
         () -> Mockito.verify(service, Mockito.times(0))
             .create(Mockito.any(CreditCard.class))
     );
   }
 
   @Test
-  @DisplayName("Deve retornar InvalidObjectException ao criar uma Conta nula")
-  void shouldReturnInvalidObjectExceptionWhenCreateCreditCardNull() {
+  @DisplayName("Deve retornar NullObjectException ao criar um Cartão de Cŕedito nulo")
+  void shouldReturnNullObjectExceptionWhenCreateCreditCardNull() {
     assertAll(
-        () -> assertThrows(InvalidObjectException.class, () -> useCase.create(null)),
-        () -> Mockito.verify(service, Mockito.times(0))
-            .create(Mockito.any(CreditCard.class))
-    );
-  }
-
-  @Test
-  @DisplayName("Deve retornar InvalidObjectException ao criar uma Conta sem uma Pessoa")
-  void shouldReturnInvalidObjectExceptionWhenCreateCreditCardWithoutAPerson() {
-    final var creditCard = factory.getDefault();
-    creditCard.setPerson(null);
-
-    assertAll(
-        () -> assertThrows(InvalidObjectException.class, () -> useCase.create(creditCard)),
+        () -> assertThrows(NullObjectException.class, () -> useCase.create(null)),
         () -> Mockito.verify(service, Mockito.times(0))
             .create(Mockito.any(CreditCard.class))
     );

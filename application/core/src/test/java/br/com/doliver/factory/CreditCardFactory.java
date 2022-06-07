@@ -20,9 +20,4 @@ public class CreditCardFactory {
         .build();
   }
 
-  public CreditCard getEmpty() {
-    return CreditCard.builder()
-        .build();
-  }
-
 }

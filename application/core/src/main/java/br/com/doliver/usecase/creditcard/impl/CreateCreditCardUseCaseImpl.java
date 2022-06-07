@@ -5,7 +5,8 @@ import java.util.Objects;
 import org.springframework.stereotype.Service;
 
 import br.com.doliver.domain.CreditCard;
-import br.com.doliver.exception.InvalidObjectException;
+import br.com.doliver.exception.DomainException;
+import br.com.doliver.exception.NullObjectException;
 import br.com.doliver.service.CreditCardService;
 import br.com.doliver.usecase.creditcard.CreateCreditCardUseCase;
 import lombok.RequiredArgsConstructor;
@@ -19,22 +20,15 @@ public class CreateCreditCardUseCaseImpl implements CreateCreditCardUseCase {
   private final CreditCardService creditCardService;
 
   @Override
-  public CreditCard create(final CreditCard creditCard) throws InvalidObjectException {
+  public CreditCard create(final CreditCard creditCard) throws DomainException {
     validate(creditCard);
     return creditCardService.create(creditCard);
   }
 
-  private void validate(final CreditCard creditCard) throws InvalidObjectException {
+  private void validate(final CreditCard creditCard) throws DomainException {
     if (Objects.isNull(creditCard)) {
-      throw new InvalidObjectException("Credit Card can't not be null");
+      throw new NullObjectException("Credit Card can't be null");
     }
-
-    if (Objects.isNull(creditCard.getAlias()) || creditCard.getAlias().isEmpty()) {
-      throw new InvalidObjectException("Credit Card alias can't not be null");
-    }
-
-    if (Objects.isNull(creditCard.getPerson())) {
-      throw new InvalidObjectException("Credit Card's person can't not be null");
-    }
+    creditCard.validate();
   }
 }

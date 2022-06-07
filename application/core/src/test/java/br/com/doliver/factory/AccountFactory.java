@@ -17,10 +17,4 @@ public class AccountFactory {
         .person(personFactory.getDefault())
         .build();
   }
-
-  public Account getEmpty() {
-    return Account.builder()
-        .build();
-  }
-
 }
