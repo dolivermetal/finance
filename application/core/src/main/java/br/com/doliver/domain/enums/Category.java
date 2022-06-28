@@ -1,4 +1,4 @@
-package br.com.doliver.domain.enumeration;
+package br.com.doliver.domain.enums;
 
 import lombok.Getter;
 

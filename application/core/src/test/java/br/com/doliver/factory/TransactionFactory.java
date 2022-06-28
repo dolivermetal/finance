@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import br.com.doliver.domain.Transaction;
-import br.com.doliver.domain.enumeration.Category;
+import br.com.doliver.domain.enums.Category;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor

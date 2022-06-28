@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import br.com.doliver.domain.enumeration.Category;
+import br.com.doliver.domain.enums.Category;
 import br.com.doliver.exception.EmptyAttributeException;
 import lombok.Builder;
 import lombok.Data;
