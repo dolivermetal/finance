@@ -1,13 +1,14 @@
-package br.com.doliver.service;
+package br.com.doliver.service.impl;
 
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import br.com.doliver.database.converter.OutboxDataProviderMapper;
+import br.com.doliver.database.converter.OutboxEntityMapper;
 import br.com.doliver.database.entity.OutboxEntity;
 import br.com.doliver.database.repository.OutboxRepository;
 import br.com.doliver.domain.Outbox;
+import br.com.doliver.service.OutboxService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 public class OutboxServiceImpl implements OutboxService {
 
   private final OutboxRepository repository;
-  private final OutboxDataProviderMapper mapper;
+  private final OutboxEntityMapper mapper;
 
   @Override
   public Outbox create(final Outbox outbox) {
