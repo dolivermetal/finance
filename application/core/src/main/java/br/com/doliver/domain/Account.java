@@ -1,11 +1,11 @@
 package br.com.doliver.domain;
 
+import java.util.UUID;
+
 import br.com.doliver.exception.EmptyAttributeException;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
-
-import java.util.UUID;
 
 @Data
 @Builder
