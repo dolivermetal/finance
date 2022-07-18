@@ -4,14 +4,14 @@ import org.springframework.stereotype.Service;
 
 import br.com.doliver.domain.Outbox;
 import br.com.doliver.service.OutboxService;
-import br.com.doliver.usecase.outbox.OutboxUseCase;
+import br.com.doliver.usecase.outbox.CreateOutboxUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class OutboxUseCaseImpl implements OutboxUseCase {
+public class CreateOutboxUseCaseImpl implements CreateOutboxUseCase {
 
   private final OutboxService service;
 
@@ -21,9 +21,4 @@ public class OutboxUseCaseImpl implements OutboxUseCase {
     return service.create(outbox);
   }
 
-  @Override
-  public Outbox find(final Long id) {
-    log.info("i=finding outbox, id={}", id);
-    return service.find(id);
-  }
 }

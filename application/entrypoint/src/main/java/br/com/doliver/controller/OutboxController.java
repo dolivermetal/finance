@@ -1,5 +1,7 @@
 package br.com.doliver.controller;
 
+import br.com.doliver.usecase.outbox.FindOutboxUseCase;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,7 +14,7 @@ import br.com.doliver.domain.Outbox;
 import br.com.doliver.dto.converter.OutboxEntrypointMapper;
 import br.com.doliver.dto.request.OutboxRequest;
 import br.com.doliver.dto.response.OutboxResponse;
-import br.com.doliver.usecase.outbox.OutboxUseCase;
+import br.com.doliver.usecase.outbox.CreateOutboxUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,18 +24,19 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/outbox")
 public class OutboxController {
 
-  private final OutboxUseCase useCase;
+  private final CreateOutboxUseCase createUseCase;
+  private final FindOutboxUseCase findUseCase;
   private final OutboxEntrypointMapper mapper;
 
   @PostMapping
   public ResponseEntity<OutboxResponse> create(@RequestBody final OutboxRequest request) {
-    final Outbox outbox = useCase.create(mapper.toOutbox(request));
+    final Outbox outbox = createUseCase.create(mapper.toOutbox(request));
     return ResponseEntity.ok(mapper.toResponse(outbox));
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<OutboxResponse> get(@PathVariable final Long id) {
-    final Outbox outbox = useCase.find(id);
+    final Outbox outbox = findUseCase.find(id);
     return ResponseEntity.ok(mapper.toResponse(outbox));
   }
 }
