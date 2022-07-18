@@ -1,6 +1,10 @@
 package br.com.doliver.usecase.transaction.impl;
 
 import java.util.Objects;
+import java.util.UUID;
+
+import br.com.doliver.domain.Outbox;
+import br.com.doliver.service.OutboxService;
 
 import org.springframework.stereotype.Service;
 
@@ -18,11 +22,22 @@ import lombok.extern.slf4j.Slf4j;
 public class CreateTransactionUseCaseImpl implements CreateTransactionUseCase {
 
   private final TransactionService transactionService;
+  private final OutboxService outboxService;
 
   @Override
   public Transaction create(final Transaction transaction) throws DomainException {
     validate(transaction);
-    return transactionService.create(transaction);
+
+    final Transaction transactionSaved = transactionService.create(transaction);
+
+    final Outbox outbox = Outbox.builder()
+        .code(UUID.randomUUID())
+        .topic("br.com.doliver.finance.transactions")
+        .metadata(transactionSaved.toString())
+        .build();
+    outboxService.create(outbox);
+
+    return transactionSaved;
   }
 
   private void validate(final Transaction transaction) throws DomainException {

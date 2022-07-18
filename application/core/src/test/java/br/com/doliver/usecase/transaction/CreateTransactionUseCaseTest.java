@@ -2,6 +2,8 @@ package br.com.doliver.usecase.transaction;
 
 import java.math.BigDecimal;
 
+import br.com.doliver.service.OutboxService;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,21 +29,24 @@ class CreateTransactionUseCaseTest {
   private CreateTransactionUseCase useCase;
 
   @Mock
-  private TransactionService service;
+  private TransactionService transactionService;
+
+  @Mock
+  private OutboxService outboxService;
 
   @BeforeEach
   void setup() {
-    service = Mockito.spy(TransactionService.class);
+    transactionService = Mockito.spy(TransactionService.class);
     factory = new TransactionFactory();
-    useCase = new CreateTransactionUseCaseImpl(service);
+    useCase = new CreateTransactionUseCaseImpl(transactionService, outboxService);
   }
 
   @Test
   @SneakyThrows
-  @DisplayName("Deve criar uma Transação associada a uma Conta com sucesso")
+  @DisplayName("Deve criar uma Transação associada a uma Conta com sucesso e criar uma outbox")
   void shouldCreateTransactionRelatedToAccountWithSuccess() {
     final var transaction = factory.getDefaultWithAccount();
-    Mockito.when(service.create(Mockito.any(Transaction.class)))
+    Mockito.when(transactionService.create(Mockito.any(Transaction.class)))
         .thenReturn(transaction);
 
     Transaction transactionCreated = useCase.create(transaction);
@@ -53,7 +58,7 @@ class CreateTransactionUseCaseTest {
         () -> assertEquals(transactionCreated.getCategory(), transaction.getCategory()),
         () -> assertNotNull(transactionCreated.getId()),
         () -> assertNotNull(transactionCreated.getAccount()),
-        () -> Mockito.verify(service, Mockito.times(1))
+        () -> Mockito.verify(transactionService, Mockito.times(1))
             .create(Mockito.any(Transaction.class))
     );
   }
@@ -63,7 +68,7 @@ class CreateTransactionUseCaseTest {
   @DisplayName("Deve criar uma Transação associada a um Cartão de Crédito com sucesso")
   void shouldCreateTransactionRelatedToCreditCardWithSuccess() {
     final var transaction = factory.getDefaultWithCreditCard();
-    Mockito.when(service.create(Mockito.any(Transaction.class)))
+    Mockito.when(transactionService.create(Mockito.any(Transaction.class)))
         .thenReturn(transaction);
 
     Transaction transactionCreated = useCase.create(transaction);
@@ -75,7 +80,7 @@ class CreateTransactionUseCaseTest {
         () -> assertEquals(transactionCreated.getCategory(), transaction.getCategory()),
         () -> assertNotNull(transactionCreated.getId()),
         () -> assertNotNull(transactionCreated.getCreditCard()),
-        () -> Mockito.verify(service, Mockito.times(1))
+        () -> Mockito.verify(transactionService, Mockito.times(1))
             .create(Mockito.any(Transaction.class))
     );
   }
@@ -88,7 +93,7 @@ class CreateTransactionUseCaseTest {
 
     assertAll(
         () -> assertThrows(EmptyAttributeException.class, () -> useCase.create(transaction)),
-        () -> Mockito.verify(service, Mockito.times(0))
+        () -> Mockito.verify(transactionService, Mockito.times(0))
             .create(Mockito.any(Transaction.class))
     );
   }
@@ -101,7 +106,7 @@ class CreateTransactionUseCaseTest {
 
     assertAll(
         () -> assertThrows(EmptyAttributeException.class, () -> useCase.create(transaction)),
-        () -> Mockito.verify(service, Mockito.times(0))
+        () -> Mockito.verify(transactionService, Mockito.times(0))
             .create(Mockito.any(Transaction.class))
     );
   }
@@ -111,7 +116,7 @@ class CreateTransactionUseCaseTest {
   void shouldReturnNullObjectExceptionWhenCreateTransactionNull() {
     assertAll(
         () -> assertThrows(NullObjectException.class, () -> useCase.create(null)),
-        () -> Mockito.verify(service, Mockito.times(0))
+        () -> Mockito.verify(transactionService, Mockito.times(0))
             .create(Mockito.any(Transaction.class))
     );
   }
@@ -123,7 +128,7 @@ class CreateTransactionUseCaseTest {
 
     assertAll(
         () -> assertThrows(EmptyAttributeException.class, () -> useCase.create(transaction)),
-        () -> Mockito.verify(service, Mockito.times(0))
+        () -> Mockito.verify(transactionService, Mockito.times(0))
             .create(Mockito.any(Transaction.class))
     );
   }
