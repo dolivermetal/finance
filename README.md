@@ -1,4 +1,5 @@
 # Doliver Finance
+<<<<<<< Updated upstream
 This project is for a personal study. The main goals is experimental the follow technologies:
 
 - Spring Boot
@@ -19,3 +20,28 @@ Follow the steps
 3. Run application
    1. Java Application
    2. Docker
+=======
+Este projeto tem como objetivo o aprendizado e aprimoramento do uso das tecnologias abaixo:
+* Spring Boot
+* Docker
+* Bancos Relacionais
+* Bancos Não Relacionais
+* Filas e Mensagerias
+
+### Roteiro para execução
+
+Contrua o projeto
+```
+./gradlew clean build
+```
+
+Você pode executar a aplicação de duas formas:
+
+1. Linha de comando
+
+        java -jar build/finance-api-{version}.jar
+    
+2. Docker
+
+        wip
+>>>>>>> Stashed changes
