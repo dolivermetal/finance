@@ -1,6 +1,9 @@
 package br.com.doliver.service.impl;
 
 import java.util.Optional;
+import java.util.UUID;
+
+import br.com.doliver.domain.Transaction;
 
 import org.springframework.stereotype.Service;
 
@@ -32,5 +35,15 @@ public class OutboxServiceImpl implements OutboxService {
     log.info("i=getting outbox from database, id={}", id);
     Optional<OutboxEntity> entity = repository.findById(id);
     return mapper.toOutbox(entity.orElseThrow());
+  }
+
+  @Override
+  public Outbox create(Transaction transaction) {
+    final Outbox outbox = Outbox.builder()
+        .code(UUID.randomUUID())
+        .topic("br.com.doliver.finance.transactions")
+        .metadata(transaction.toString())
+        .build();
+    return create(outbox);
   }
 }

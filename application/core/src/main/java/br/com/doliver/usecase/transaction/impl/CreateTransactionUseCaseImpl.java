@@ -29,13 +29,7 @@ public class CreateTransactionUseCaseImpl implements CreateTransactionUseCase {
     validate(transaction);
 
     final Transaction transactionSaved = transactionService.create(transaction);
-
-    final Outbox outbox = Outbox.builder()
-        .code(UUID.randomUUID())
-        .topic("br.com.doliver.finance.transactions")
-        .metadata(transactionSaved.toString())
-        .build();
-    outboxService.create(outbox);
+    outboxService.create(transaction);
 
     return transactionSaved;
   }

@@ -1,5 +1,5 @@
 dependencies {
   api project(':application:core')
 
-  annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+  annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.1.Final'
 }
