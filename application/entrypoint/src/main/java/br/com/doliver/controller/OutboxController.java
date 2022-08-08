@@ -30,13 +30,19 @@ public class OutboxController {
 
   @PostMapping
   public ResponseEntity<OutboxResponse> create(@RequestBody final OutboxRequest request) {
+    log.info("request={}", request);
     final Outbox outbox = createUseCase.create(mapper.toOutbox(request));
-    return ResponseEntity.ok(mapper.toResponse(outbox));
+    OutboxResponse response = mapper.toResponse(outbox);
+    log.info("response={}", response);
+    return ResponseEntity.ok(response);
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<OutboxResponse> get(@PathVariable final Long id) {
+    log.info("id={}", id);
     final Outbox outbox = findUseCase.find(id);
-    return ResponseEntity.ok(mapper.toResponse(outbox));
+    OutboxResponse response = mapper.toResponse(outbox);
+    log.info("response={}", response);
+    return ResponseEntity.ok(response);
   }
 }

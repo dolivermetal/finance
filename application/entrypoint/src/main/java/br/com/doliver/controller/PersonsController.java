@@ -28,9 +28,13 @@ public class PersonsController {
   @PostMapping
   public ResponseEntity<PersonResponse> create(@RequestBody final PersonRequest person) {
     try {
-      Person response = createPersonUseCase.create(mapper.toDomain(person));
-      return ResponseEntity.ok().body(mapper.toResponse(response));
+      log.info("person={}", person);
+      Person personSaved = createPersonUseCase.create(mapper.toDomain(person));
+      PersonResponse response = mapper.toResponse(personSaved);
+      log.info("response={}", response);
+      return ResponseEntity.ok().body(response);
     } catch (DomainException e) {
+      log.error("error=", e.getMessage());
       return ResponseEntity.badRequest().build();
     }
   }

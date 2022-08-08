@@ -3,8 +3,8 @@ dependencies {
   api 'org.mapstruct:mapstruct:1.5.1.Final'
   api 'org.springframework.kafka:spring-kafka:2.9.0'
 
-  implementation 'io.confluent:kafka-avro-serializer:7.2.1'
-  implementation 'org.apache.avro:avro:1.11.0'
+  // implementation 'io.confluent:kafka-avro-serializer:7.2.1'
+  // implementation 'org.apache.avro:avro:1.11.0'
 
   annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.1.Final'
 }

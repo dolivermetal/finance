@@ -3,6 +3,7 @@ dependencies {
   api project(':test-commons')
 
   testImplementation 'io.rest-assured:rest-assured:3.1.0'
+  testImplementation project(':test-commons')
 }
 
 test {

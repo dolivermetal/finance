@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import br.com.doliver.domain.Outbox;
 import br.com.doliver.service.OutboxService;
-import br.com.doliver.usecase.outbox.CreateOutboxUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

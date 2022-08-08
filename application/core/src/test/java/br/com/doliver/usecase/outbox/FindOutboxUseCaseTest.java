@@ -3,7 +3,6 @@ package br.com.doliver.usecase.outbox;
 import br.com.doliver.domain.Outbox;
 import br.com.doliver.factory.OutboxFactory;
 import br.com.doliver.service.OutboxService;
-import br.com.doliver.usecase.outbox.impl.CreateOutboxUseCaseImpl;
 import br.com.doliver.usecase.outbox.impl.FindOutboxUseCaseImpl;
 import lombok.SneakyThrows;
 

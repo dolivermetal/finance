@@ -1,16 +1,9 @@
 package br.com.doliver.usecase.outbox;
 
 import br.com.doliver.domain.Outbox;
-import br.com.doliver.domain.Person;
-import br.com.doliver.exception.EmptyAttributeException;
-import br.com.doliver.exception.NullObjectException;
 import br.com.doliver.factory.OutboxFactory;
-import br.com.doliver.factory.PersonFactory;
 import br.com.doliver.service.OutboxService;
-import br.com.doliver.service.PersonService;
 import br.com.doliver.usecase.outbox.impl.CreateOutboxUseCaseImpl;
-import br.com.doliver.usecase.person.CreatePersonUseCase;
-import br.com.doliver.usecase.person.impl.CreatePersonUseCaseImpl;
 import lombok.SneakyThrows;
 
 import org.junit.jupiter.api.BeforeEach;

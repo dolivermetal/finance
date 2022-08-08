@@ -36,7 +36,6 @@ subprojects {
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.4.2'
     testImplementation 'org.mockito:mockito-junit-jupiter:3.1.0'
-    testImplementation project(':test-commons')
   }
 
   test {
