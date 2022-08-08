@@ -60,11 +60,12 @@ services:
     depends_on:
       - broker
       - schema-registry
+      - kafka-connect
     ports:
       - "9021:9021"
     environment:
       CONTROL_CENTER_BOOTSTRAP_SERVERS: 'broker:29092'
-      CONTROL_CENTER_CONNECT_CLUSTER: 'kconnect:8083'
+      CONTROL_CENTER_CONNECT_CLUSTER: 'http://kafka-connect:8083'
       CONTROL_CENTER_KSQL_KSQLDB1_ADVERTISED_URL: "http://localhost:8088"
       CONTROL_CENTER_SCHEMA_REGISTRY_URL: "http://schema-registry:8081"
       CONTROL_CENTER_REPLICATION_FACTOR: 1
@@ -83,13 +84,14 @@ services:
       - broker
       - schema-registry
     environment:
-      CONNECT_BOOTSTRAP_SERVERS: 'broker:9092'
+      CONNECT_BOOTSTRAP_SERVERS: 'broker:29092'
       CONNECT_REST_PORT: 8083
       CONNECT_GROUP_ID: 'kafka-connect'
       CONNECT_CONFIG_STORAGE_TOPIC: 'connect-config'
       CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 1
       CONNECT_OFFSET_STORAGE_TOPIC: 'connect-offset'
       CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_OFFSET_STORAGE_PARTITIONS: 1
       CONNECT_STATUS_STORAGE_TOPIC: 'connect-status'
       CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 1
       CONNECT_KEY_CONVERTER: 'org.apache.kafka.connect.storage.StringConverter'
@@ -97,13 +99,12 @@ services:
       CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: 'http://schema-registry:8081'
       CONNECT_REST_ADVERTISED_HOST_NAME: 'kafka-connect'
       CONNECT_PLUGIN_PATH: '/usr/share/java,/usr/share/confluent-hub-components'
+      CONNECT_SECURITY_PROTOCOL: "PLAINTEXT"
+      CONNECT_LISTENERS: 'http://0.0.0.0:8083'
+      CONNECT_REST_HOST_NAME: '0.0.0.0'
+      CONNECT_REST_ADVERTISED_LISTENER: 'http'
+      CONNECT_REST_ADVERTISED_PORT: 8083
       # -----------
-      # CONNECT_SECURITY_PROTOCOL: "PLAINTEXT"
-      # CONNECT_LISTENERS: 'http://0.0.0.0:8083'
-      # CONNECT_REST_HOST_NAME: '0.0.0.0'
-      # CONNECT_REST_ADVERTISED_LISTENER: 'http'
-      # CONNECT_REST_ADVERTISED_PORT: 8083
-      # CONNECT_OFFSET_STORAGE_PARTITIONS: 1
       # CONNECT_INTERNAL_KEY_CONVERTER: 'org.apache.kafka.connect.json.JsonConverter'
       # CONNECT_INTERNAL_VALUE_CONVERTER: 'org.apache.kafka.connect.json.JsonConverter'
     command:
@@ -121,6 +122,7 @@ services:
 
   postgres:
     image: postgres
+    hostname: postgres
     container_name: postgres
     ports:
       - "5432:5432"
