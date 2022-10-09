@@ -1,11 +1,10 @@
 package br.com.doliver.usecase.outbox.impl;
 
-import br.com.doliver.usecase.outbox.FindOutboxUseCase;
-
 import org.springframework.stereotype.Service;
 
 import br.com.doliver.domain.Outbox;
 import br.com.doliver.service.OutboxService;
+import br.com.doliver.usecase.outbox.FindOutboxUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

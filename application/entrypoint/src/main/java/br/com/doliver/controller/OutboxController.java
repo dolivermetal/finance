@@ -1,7 +1,5 @@
 package br.com.doliver.controller;
 
-import br.com.doliver.usecase.outbox.FindOutboxUseCase;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +13,7 @@ import br.com.doliver.dto.converter.OutboxEntrypointMapper;
 import br.com.doliver.dto.request.OutboxRequest;
 import br.com.doliver.dto.response.OutboxResponse;
 import br.com.doliver.usecase.outbox.CreateOutboxUseCase;
+import br.com.doliver.usecase.outbox.FindOutboxUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

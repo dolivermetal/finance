@@ -2,8 +2,6 @@ package br.com.doliver.usecase.transaction;
 
 import java.math.BigDecimal;
 
-import br.com.doliver.service.OutboxService;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,6 +12,7 @@ import br.com.doliver.domain.Transaction;
 import br.com.doliver.exception.EmptyAttributeException;
 import br.com.doliver.exception.NullObjectException;
 import br.com.doliver.factory.TransactionFactory;
+import br.com.doliver.service.OutboxService;
 import br.com.doliver.service.TransactionService;
 import br.com.doliver.usecase.transaction.impl.CreateTransactionUseCaseImpl;
 import lombok.SneakyThrows;
@@ -37,6 +36,7 @@ class CreateTransactionUseCaseTest {
   @BeforeEach
   void setup() {
     transactionService = Mockito.spy(TransactionService.class);
+    outboxService = Mockito.spy(OutboxService.class);
     factory = new TransactionFactory();
     useCase = new CreateTransactionUseCaseImpl(transactionService, outboxService);
   }

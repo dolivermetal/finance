@@ -1,18 +1,20 @@
 package br.com.doliver.usecase.outbox;
 
-import br.com.doliver.domain.Outbox;
-import br.com.doliver.factory.OutboxFactory;
-import br.com.doliver.service.OutboxService;
-import br.com.doliver.usecase.outbox.impl.CreateOutboxUseCaseImpl;
-import lombok.SneakyThrows;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
-import static org.junit.jupiter.api.Assertions.*;
+import br.com.doliver.domain.Outbox;
+import br.com.doliver.factory.OutboxFactory;
+import br.com.doliver.service.OutboxService;
+import br.com.doliver.usecase.outbox.impl.CreateOutboxUseCaseImpl;
+import lombok.SneakyThrows;
+
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class CreateOutboxUseCaseTest {
 

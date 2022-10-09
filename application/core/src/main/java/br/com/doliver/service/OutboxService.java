@@ -7,7 +7,7 @@ public interface OutboxService {
 
   Outbox create(Outbox outbox);
 
-  Outbox find(Long id);
-
   Outbox create(Transaction transaction);
+
+  Outbox find(Long id);
 }
