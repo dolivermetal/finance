@@ -8,4 +8,6 @@ import br.com.doliver.database.entity.PersonEntity;
 @Repository
 public interface PersonRepository extends CrudRepository<PersonEntity, Long> {
 
+  PersonEntity findByCode(String code);
+
 }
