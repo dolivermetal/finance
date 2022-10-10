@@ -1,13 +1,5 @@
 package br.com.doliver.usecase.transaction;
 
-import java.math.BigDecimal;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-
 import br.com.doliver.domain.Transaction;
 import br.com.doliver.exception.EmptyAttributeException;
 import br.com.doliver.exception.NullObjectException;
@@ -17,10 +9,15 @@ import br.com.doliver.service.TransactionService;
 import br.com.doliver.usecase.transaction.impl.CreateTransactionUseCaseImpl;
 import lombok.SneakyThrows;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+
+import java.math.BigDecimal;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class CreateTransactionUseCaseTest {
 
@@ -81,7 +78,9 @@ class CreateTransactionUseCaseTest {
         () -> assertNotNull(transactionCreated.getId()),
         () -> assertNotNull(transactionCreated.getCreditCard()),
         () -> Mockito.verify(transactionService, Mockito.times(1))
-            .create(Mockito.any(Transaction.class))
+            .create(transaction),
+        () -> Mockito.verify(outboxService, Mockito.times(1))
+            .create(transaction)
     );
   }
 
@@ -93,8 +92,10 @@ class CreateTransactionUseCaseTest {
 
     assertAll(
         () -> assertThrows(EmptyAttributeException.class, () -> useCase.create(transaction)),
-        () -> Mockito.verify(transactionService, Mockito.times(0))
-            .create(Mockito.any(Transaction.class))
+        () -> Mockito.verify(transactionService, Mockito.never())
+            .create(transaction),
+        () -> Mockito.verify(outboxService, Mockito.never())
+            .create(transaction)
     );
   }
 
@@ -106,8 +107,10 @@ class CreateTransactionUseCaseTest {
 
     assertAll(
         () -> assertThrows(EmptyAttributeException.class, () -> useCase.create(transaction)),
-        () -> Mockito.verify(transactionService, Mockito.times(0))
-            .create(Mockito.any(Transaction.class))
+        () -> Mockito.verify(transactionService, Mockito.never())
+            .create(transaction),
+        () -> Mockito.verify(outboxService, Mockito.never())
+            .create(transaction)
     );
   }
 
@@ -116,7 +119,9 @@ class CreateTransactionUseCaseTest {
   void shouldReturnNullObjectExceptionWhenCreateTransactionNull() {
     assertAll(
         () -> assertThrows(NullObjectException.class, () -> useCase.create(null)),
-        () -> Mockito.verify(transactionService, Mockito.times(0))
+        () -> Mockito.verify(transactionService, Mockito.never())
+            .create(Mockito.any(Transaction.class)),
+        () -> Mockito.verify(outboxService, Mockito.never())
             .create(Mockito.any(Transaction.class))
     );
   }
@@ -128,8 +133,10 @@ class CreateTransactionUseCaseTest {
 
     assertAll(
         () -> assertThrows(EmptyAttributeException.class, () -> useCase.create(transaction)),
-        () -> Mockito.verify(transactionService, Mockito.times(0))
-            .create(Mockito.any(Transaction.class))
+        () -> Mockito.verify(transactionService, Mockito.never())
+            .create(transaction),
+        () -> Mockito.verify(outboxService, Mockito.never())
+            .create(transaction)
     );
   }
 
