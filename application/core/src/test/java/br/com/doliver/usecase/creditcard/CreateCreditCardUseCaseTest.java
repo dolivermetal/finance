@@ -48,7 +48,7 @@ class CreateCreditCardUseCaseTest {
         () -> assertEquals(creditCardCreated.getAlias(), creditCard.getAlias()),
         () -> assertNotNull(creditCardCreated.getId()),
         () -> Mockito.verify(service, Mockito.times(1))
-            .create(Mockito.any(CreditCard.class))
+            .create(creditCard)
     );
   }
 
@@ -60,8 +60,8 @@ class CreateCreditCardUseCaseTest {
 
     assertAll(
         () -> assertThrows(EmptyAttributeException.class, () -> useCase.create(creditCard)),
-        () -> Mockito.verify(service, Mockito.times(0))
-            .create(Mockito.any(CreditCard.class))
+        () -> Mockito.verify(service, Mockito.never())
+            .create(creditCard)
     );
   }
 
@@ -70,7 +70,7 @@ class CreateCreditCardUseCaseTest {
   void shouldReturnNullObjectExceptionWhenCreateCreditCardNull() {
     assertAll(
         () -> assertThrows(NullObjectException.class, () -> useCase.create(null)),
-        () -> Mockito.verify(service, Mockito.times(0))
+        () -> Mockito.verify(service, Mockito.never())
             .create(Mockito.any(CreditCard.class))
     );
   }

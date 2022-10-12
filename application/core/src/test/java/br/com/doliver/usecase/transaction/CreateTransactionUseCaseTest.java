@@ -1,5 +1,13 @@
 package br.com.doliver.usecase.transaction;
 
+import java.math.BigDecimal;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+
 import br.com.doliver.domain.Transaction;
 import br.com.doliver.exception.EmptyAttributeException;
 import br.com.doliver.exception.NullObjectException;
@@ -9,15 +17,10 @@ import br.com.doliver.service.TransactionService;
 import br.com.doliver.usecase.transaction.impl.CreateTransactionUseCaseImpl;
 import lombok.SneakyThrows;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-
-import java.math.BigDecimal;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CreateTransactionUseCaseTest {
 

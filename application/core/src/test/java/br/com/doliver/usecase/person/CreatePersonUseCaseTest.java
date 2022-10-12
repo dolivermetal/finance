@@ -48,7 +48,7 @@ class CreatePersonUseCaseTest {
         () -> assertEquals(personCreated.getName(), person.getName()),
         () -> assertNotNull(personCreated.getId()),
         () -> Mockito.verify(service, Mockito.times(1))
-            .create(Mockito.any(Person.class))
+            .create(person)
     );
   }
 
@@ -60,8 +60,8 @@ class CreatePersonUseCaseTest {
 
     assertAll(
         () -> assertThrows(EmptyAttributeException.class, () -> useCase.execute(person)),
-        () -> Mockito.verify(service, Mockito.times(0))
-            .create(Mockito.any(Person.class))
+        () -> Mockito.verify(service, Mockito.never())
+            .create(person)
     );
   }
 
@@ -70,7 +70,7 @@ class CreatePersonUseCaseTest {
   void shouldReturnNullObjectExceptionWhenCreatePersonNull() {
     assertAll(
         () -> assertThrows(NullObjectException.class, () -> useCase.execute(null)),
-        () -> Mockito.verify(service, Mockito.times(0))
+        () -> Mockito.verify(service, Mockito.never())
             .create(Mockito.any(Person.class))
     );
   }

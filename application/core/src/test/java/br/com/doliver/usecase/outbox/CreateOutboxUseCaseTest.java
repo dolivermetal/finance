@@ -50,7 +50,7 @@ class CreateOutboxUseCaseTest {
         () -> assertEquals(outboxCreated.getUpdateDate(), outbox.getUpdateDate()),
         () -> assertNotNull(outboxCreated.getId()),
         () -> Mockito.verify(service, Mockito.times(1))
-            .create(Mockito.any(Outbox.class))
+            .create(outbox)
     );
   }
 

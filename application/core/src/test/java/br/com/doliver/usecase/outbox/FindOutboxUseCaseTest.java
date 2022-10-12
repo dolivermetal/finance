@@ -50,7 +50,7 @@ class FindOutboxUseCaseTest {
         () -> assertEquals(outboxCreated.getUpdateDate(), outbox.getUpdateDate()),
         () -> assertNotNull(outboxCreated.getId()),
         () -> Mockito.verify(service, Mockito.times(1))
-            .find(Mockito.anyLong())
+            .find(outbox.getId())
     );
   }
 
