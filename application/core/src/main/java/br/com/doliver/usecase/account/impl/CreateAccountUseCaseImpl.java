@@ -22,6 +22,7 @@ public class CreateAccountUseCaseImpl implements CreateAccountUseCase {
   @Override
   public Account create(final Account account) throws DomainException {
     validate(account);
+    log.info("creating account, account={}", account);
     return accountService.create(account);
   }
 

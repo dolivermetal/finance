@@ -20,8 +20,9 @@ public class CreatePersonUseCaseImpl implements CreatePersonUseCase {
   private final PersonService personService;
 
   @Override
-  public Person create(final Person person) throws DomainException {
+  public Person execute(final Person person) throws DomainException {
     validate(person);
+    log.info("creating person, person={}", person);
     return personService.create(person);
   }
 

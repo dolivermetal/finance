@@ -48,7 +48,7 @@ class CreateAccountUseCaseTest {
         () -> assertEquals(accountCreated.getAlias(), account.getAlias()),
         () -> assertNotNull(accountCreated.getId()),
         () -> Mockito.verify(service, Mockito.times(1))
-            .create(Mockito.any(Account.class))
+            .create(account)
     );
   }
 
@@ -60,8 +60,8 @@ class CreateAccountUseCaseTest {
 
     assertAll(
         () -> assertThrows(EmptyAttributeException.class, () -> useCase.create(account)),
-        () -> Mockito.verify(service, Mockito.times(0))
-            .create(Mockito.any(Account.class))
+        () -> Mockito.verify(service, Mockito.never())
+            .create(account)
     );
   }
 
@@ -70,7 +70,7 @@ class CreateAccountUseCaseTest {
   void shouldReturnNullObjectExceptionWhenCreateAccountNull() {
     assertAll(
         () -> assertThrows(NullObjectException.class, () -> useCase.create(null)),
-        () -> Mockito.verify(service, Mockito.times(0))
+        () -> Mockito.verify(service, Mockito.never())
             .create(Mockito.any(Account.class))
     );
   }

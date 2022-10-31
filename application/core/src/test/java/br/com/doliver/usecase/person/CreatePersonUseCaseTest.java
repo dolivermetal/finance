@@ -42,13 +42,13 @@ class CreatePersonUseCaseTest {
     Mockito.when(service.create(Mockito.any(Person.class)))
         .thenReturn(person);
 
-    Person personCreated = useCase.create(person);
+    Person personCreated = useCase.execute(person);
 
     assertAll(
         () -> assertEquals(personCreated.getName(), person.getName()),
         () -> assertNotNull(personCreated.getId()),
         () -> Mockito.verify(service, Mockito.times(1))
-            .create(Mockito.any(Person.class))
+            .create(person)
     );
   }
 
@@ -59,9 +59,9 @@ class CreatePersonUseCaseTest {
     person.setName("");
 
     assertAll(
-        () -> assertThrows(EmptyAttributeException.class, () -> useCase.create(person)),
-        () -> Mockito.verify(service, Mockito.times(0))
-            .create(Mockito.any(Person.class))
+        () -> assertThrows(EmptyAttributeException.class, () -> useCase.execute(person)),
+        () -> Mockito.verify(service, Mockito.never())
+            .create(person)
     );
   }
 
@@ -69,8 +69,8 @@ class CreatePersonUseCaseTest {
   @DisplayName("Deve retornar NullObjectException ao criar uma Pessoa nula")
   void shouldReturnNullObjectExceptionWhenCreatePersonNull() {
     assertAll(
-        () -> assertThrows(NullObjectException.class, () -> useCase.create(null)),
-        () -> Mockito.verify(service, Mockito.times(0))
+        () -> assertThrows(NullObjectException.class, () -> useCase.execute(null)),
+        () -> Mockito.verify(service, Mockito.never())
             .create(Mockito.any(Person.class))
     );
   }

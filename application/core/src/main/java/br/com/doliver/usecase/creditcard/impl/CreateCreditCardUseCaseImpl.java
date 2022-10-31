@@ -22,6 +22,7 @@ public class CreateCreditCardUseCaseImpl implements CreateCreditCardUseCase {
   @Override
   public CreditCard create(final CreditCard creditCard) throws DomainException {
     validate(creditCard);
+    log.info("creating credit card, creditCard={}", creditCard);
     return creditCardService.create(creditCard);
   }
 

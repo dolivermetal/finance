@@ -25,4 +25,10 @@ public class PersonServiceImpl implements PersonService {
     PersonEntity entity = repository.save(mapper.toEntity(person));
     return mapper.toDomain(entity);
   }
+
+  @Override
+  public Person find(final String code) {
+    PersonEntity entity = repository.findByCode(code);
+    return mapper.toDomain(entity);
+  }
 }

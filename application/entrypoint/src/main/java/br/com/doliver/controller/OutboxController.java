@@ -12,7 +12,8 @@ import br.com.doliver.domain.Outbox;
 import br.com.doliver.dto.converter.OutboxEntrypointMapper;
 import br.com.doliver.dto.request.OutboxRequest;
 import br.com.doliver.dto.response.OutboxResponse;
-import br.com.doliver.usecase.outbox.OutboxUseCase;
+import br.com.doliver.usecase.outbox.CreateOutboxUseCase;
+import br.com.doliver.usecase.outbox.FindOutboxUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,18 +23,25 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/outbox")
 public class OutboxController {
 
-  private final OutboxUseCase useCase;
+  private final CreateOutboxUseCase createUseCase;
+  private final FindOutboxUseCase findUseCase;
   private final OutboxEntrypointMapper mapper;
 
   @PostMapping
   public ResponseEntity<OutboxResponse> create(@RequestBody final OutboxRequest request) {
-    final Outbox outbox = useCase.create(mapper.toOutbox(request));
-    return ResponseEntity.ok(mapper.toResponse(outbox));
+    log.info("request={}", request);
+    final Outbox outbox = createUseCase.create(mapper.toOutbox(request));
+    OutboxResponse response = mapper.toResponse(outbox);
+    log.info("response={}", response);
+    return ResponseEntity.ok(response);
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<OutboxResponse> get(@PathVariable final Long id) {
-    final Outbox outbox = useCase.find(id);
-    return ResponseEntity.ok(mapper.toResponse(outbox));
+    log.info("id={}", id);
+    final Outbox outbox = findUseCase.find(id);
+    OutboxResponse response = mapper.toResponse(outbox);
+    log.info("response={}", response);
+    return ResponseEntity.ok(response);
   }
 }
