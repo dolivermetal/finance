@@ -2,28 +2,17 @@ package br.com.doliver.domain;
 
 import java.util.UUID;
 
-import br.com.doliver.exception.EmptyAttributeException;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NonNull;
+/**
+ * Definição de uma conta
+ */
+public interface Account {
 
-@Data
-@Builder
-public class Account {
+  Long getId();
 
-  private Long id;
+  UUID getUUID();
 
-  private UUID code;
+  String getAlias();
 
-  @NonNull
-  private String alias;
+  Person getPerson();
 
-  @NonNull
-  private Person person;
-
-  public void validate() throws EmptyAttributeException {
-    if (this.getAlias().isEmpty()) {
-      throw new EmptyAttributeException("Account alias can't be null or empty");
-    }
-  }
 }

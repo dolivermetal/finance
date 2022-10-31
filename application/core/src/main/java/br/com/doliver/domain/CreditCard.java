@@ -1,27 +1,13 @@
 package br.com.doliver.domain;
 
-import br.com.doliver.exception.EmptyAttributeException;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NonNull;
+public interface CreditCard {
 
-@Data
-@Builder
-public class CreditCard {
+  Long getId();
 
-  private Long id;
+  String getAlias();
 
-  @NonNull
-  private String alias;
+  String getBrand();
 
-  private String brand;
+  Person getPerson();
 
-  @NonNull
-  private Person person;
-
-  public void validate() throws EmptyAttributeException {
-    if (this.getAlias().isEmpty()) {
-      throw new EmptyAttributeException("Credit Card alias can't be null or empty");
-    }
-  }
 }

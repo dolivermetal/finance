@@ -3,17 +3,20 @@ package br.com.doliver.domain;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import lombok.Data;
+public interface Outbox {
 
-@Data
-public class Outbox {
+  Long getId();
 
-  private Long id;
-  private UUID code;
-  private String topic;
-  private String metadata;
-  private String integrationStatus;
-  private LocalDateTime creationDate;
-  private LocalDateTime updateDate;
+  UUID getCode();
+
+  String getTopic();
+
+  String getMetadata();
+
+  String getIntegrationStatus();
+
+  LocalDateTime getCreationDate();
+
+  LocalDateTime getUpdateDate();
 
 }

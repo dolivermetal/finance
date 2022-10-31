@@ -5,12 +5,18 @@ import java.time.LocalDateTime;
 
 import lombok.Data;
 
-@Data
-public class Statement {
-  private Long id;
-  private Account account;
-  private CreditCard card;
-  private LocalDateTime date;
-  private BigDecimal balance;
-  private Transaction transaction;
+public interface Statement {
+
+  Long getId();
+
+  Account getAccount();
+
+  CreditCard getCreditCard();
+
+  LocalDateTime getRefenceDate();
+
+  BigDecimal getBalance();
+
+  Transaction getTransaction();
+
 }

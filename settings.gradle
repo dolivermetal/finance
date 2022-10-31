@@ -1,7 +1,4 @@
 rootProject.name = 'finance'
 
-include 'application:core'
-include 'application:dataprovider'
-include 'application:entrypoint'
-include 'comp-tests'
-include 'test-commons'
+include 'application:core',
+  'application:rest-api'
