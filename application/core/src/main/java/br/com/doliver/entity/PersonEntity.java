@@ -40,8 +40,8 @@ public class PersonEntity implements Person {
   @OneToMany(mappedBy = "person")
   private List<AccountEntity> accounts;
 
-//  @OneToMany(mappedBy = "person")
-//  private List<CreditCardEntity> creditCards;
+  //  @OneToMany(mappedBy = "person")
+  //  private List<CreditCardEntity> creditCards;
 
   public PersonEntity(final Person person) {
     this.id = person.getId();

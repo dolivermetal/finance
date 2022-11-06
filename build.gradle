@@ -13,11 +13,12 @@ buildscript {
 
   repositories {
     mavenCentral()
+    gradlePluginPortal()
   }
 
-//  dependencies {
-//    classpath 'gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:4.7.5'
-//  }
+  dependencies {
+    classpath 'gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:4.7.5'
+  }
 }
 
 subprojects {
@@ -33,7 +34,7 @@ subprojects {
   compileJava.options.encoding = StandardCharsets.UTF_8.displayName()
 
   dependencies {
-//    compileOnly 'com.github.spotbugs:spotbugs-annotations:4.4.1'
+    compileOnly 'com.github.spotbugs:spotbugs-annotations:4.4.1'
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
@@ -42,7 +43,6 @@ subprojects {
 
 //    testImplementation 'org.junit.jupiter:junit-jupiter:5.4.2'
 //    testImplementation 'org.mockito:mockito-junit-jupiter:3.1.0'
-//    testImplementation project(':test-commons')
   }
 
 //  test {
@@ -51,39 +51,39 @@ subprojects {
 //      events 'passed', 'skipped', 'failed'
 //    }
 //  }
-//
-//  apply plugin: 'pmd'
-//  apply plugin: 'checkstyle'
-//  apply plugin: 'com.github.spotbugs'
-//
-//  checkstyle {
-//    configFile = file("${rootDir}/checkstyle.xml")
-//    maxErrors = 0
-//    maxWarnings = 0
-//    ignoreFailures = false
-//    toolVersion('8.28')
-//  }
-//
-//  pmd {
-//    toolVersion = '6.43.0'
-//    ruleSets = []
-//    consoleOutput = true
-//    ruleSetFiles("$rootProject.projectDir/pmd.xml")
-//  }
-//
-//  spotbugs {
-//    showProgress = true
-//    excludeFilter = file("$rootProject.projectDir/spotbugs.xml")
-//  }
-//
-//  spotbugsMain {
-//    reports {
-//      html {
-//        enabled = true
-//        stylesheet = 'fancy-hist.xsl'
-//      }
-//    }
-//  }
+
+  apply plugin: 'pmd'
+  apply plugin: 'checkstyle'
+  apply plugin: 'com.github.spotbugs'
+
+  checkstyle {
+    configFile = file("${rootDir}/checkstyle.xml")
+    maxErrors = 0
+    maxWarnings = 0
+    ignoreFailures = false
+    toolVersion('8.28')
+  }
+
+  pmd {
+    toolVersion = '6.43.0'
+    ruleSets = []
+    consoleOutput = true
+    ruleSetFiles("$rootProject.projectDir/pmd.xml")
+  }
+
+  spotbugs {
+    showProgress = true
+    excludeFilter = file("$rootProject.projectDir/spotbugs.xml")
+  }
+
+  spotbugsMain {
+    reports {
+      html {
+        enabled = true
+        stylesheet = 'fancy-hist.xsl'
+      }
+    }
+  }
 }
 
 project(':application:core') {

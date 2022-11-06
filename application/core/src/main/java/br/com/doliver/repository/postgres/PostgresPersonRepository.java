@@ -18,7 +18,7 @@ public class PostgresPersonRepository implements PersonRepository {
 
   @Override
   @Transactional
-  public PersonEntity createPerson(Person person) {
+  public PersonEntity createPerson(final Person person) {
     PersonEntity entity = new PersonEntity(person);
     entityManager.persist(entity);
     return entity;

@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class APIConfig {
 
-  private static final PropertyNamingStrategy strategy = PropertyNamingStrategies.SNAKE_CASE;
+  private static final PropertyNamingStrategy STRATEGY = PropertyNamingStrategies.SNAKE_CASE;
 
   @Bean
   public ObjectMapper objectMapper() {
@@ -23,7 +23,7 @@ public class APIConfig {
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-    mapper.setPropertyNamingStrategy(strategy);
+    mapper.setPropertyNamingStrategy(STRATEGY);
     return mapper;
   }
 }

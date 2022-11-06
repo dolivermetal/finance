@@ -20,14 +20,14 @@ public class PersonForm {
   private String name;
 
   public Person asPerson() {
-    return new _PersonFormToPersonAdapter(this);
+    return new PersonFormToPersonAdapter(this);
   }
 
-  private static class _PersonFormToPersonAdapter implements Person {
+  private static class PersonFormToPersonAdapter implements Person {
 
     private final PersonForm form;
 
-    public _PersonFormToPersonAdapter(PersonForm form) {
+    public PersonFormToPersonAdapter(final PersonForm form) {
       this.form = form;
     }
 

@@ -4,9 +4,6 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import br.com.doliver.domain.Person;
-
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
-
 import lombok.Getter;
 import lombok.ToString;
 
@@ -22,7 +19,7 @@ public class PersonResponse {
 
   private LocalDateTime creationDate;
 
-  public PersonResponse(Person person) {
+  public PersonResponse(final Person person) {
     this.id = person.getId();
     this.code = person.getCode();
     this.name = person.getName();
