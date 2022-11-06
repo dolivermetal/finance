@@ -14,7 +14,7 @@ public interface Person {
   Long getId();
 
   /**
-   * Código da pessoa
+   * Código único de identificação
    */
   UUID getCode();
 

@@ -2,6 +2,7 @@ package br.com.doliver.domain;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import br.com.doliver.domain.enums.Category;
 
@@ -9,7 +10,9 @@ public interface Transaction {
 
   Long getId();
 
-  LocalDateTime getDate();
+  UUID getCode();
+
+  LocalDateTime getReferenceDate();
 
   BigDecimal getAmount();
 
@@ -17,7 +20,8 @@ public interface Transaction {
 
   String getDescription();
 
-  Account getAccount();
+  LocalDateTime getCreationDate();
 
-  CreditCard getCreditCard();
+  LocalDateTime getUpdateDate();
+
 }

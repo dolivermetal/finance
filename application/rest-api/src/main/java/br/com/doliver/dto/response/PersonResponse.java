@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import br.com.doliver.domain.Person;
+
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+
 import lombok.Getter;
 import lombok.ToString;
 
