@@ -16,6 +16,14 @@ Follow the steps
 ```
 2. Execute Flyway Migration
 
+TODO: need to find a solution that works with Java 16
+
 3. Run application
-   1. Java Application
+   1. Command line
+      ```
+      java -jar build/finance-api-{version}.jar
+      ```
    2. Docker
+      ```
+      wip
+      ```

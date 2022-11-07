@@ -1,5 +1,7 @@
 package br.com.doliver.repository.postgres;
 
+import java.util.UUID;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -18,10 +20,22 @@ public class PostgresPersonRepository implements PersonRepository {
 
   @Override
   @Transactional
-  public PersonEntity createPerson(final Person person) {
+  public PersonEntity create(final Person person) {
     PersonEntity entity = new PersonEntity(person);
     entityManager.persist(entity);
     return entity;
+  }
+
+  @Override
+  public PersonEntity findByCode(final UUID code) {
+    StringBuilder jpql = new StringBuilder()
+        .append("select p")
+        .append("  from PersonEntity p")
+        .append(" where p.code = :code");
+
+    return entityManager.createQuery(jpql.toString(), PersonEntity.class)
+        .setParameter("code", code)
+        .getSingleResult();
   }
 
 }
