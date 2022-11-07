@@ -3,10 +3,20 @@ package br.com.doliver.repository;
 import br.com.doliver.domain.Person;
 import br.com.doliver.entity.PersonEntity;
 
+import java.util.UUID;
+
 public interface PersonRepository {
 
   /**
    * Cria uma pessoa.
+   * @return PersonEntity
    */
-  PersonEntity createPerson(Person person);
+  PersonEntity create(Person person);
+
+  /**
+   * Consulta uma pessoa pelo código UUID.
+   * @return PersonEntity
+   */
+  PersonEntity findByCode(UUID code);
+
 }

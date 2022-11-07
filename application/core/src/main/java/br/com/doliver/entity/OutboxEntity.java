@@ -1,6 +1,7 @@
 package br.com.doliver.entity;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -54,5 +55,36 @@ public class OutboxEntity implements Outbox {
     this.integrationStatus = outbox.getIntegrationStatus();
     this.creationDate = outbox.getCreationDate();
     this.updateDate = outbox.getUpdateDate();
+
+    this.validate();
+    this.generateDefaultValues();
+  }
+
+  public OutboxEntity(TransactionEntity transaction) {
+    this.topic = "br.com.doliver.finance.transactions";
+    this.metadata = transaction.toString();
+
+    this.validate();
+    this.generateDefaultValues();
+  }
+
+  private void validate() {
+    if (Objects.isNull(this.topic)) {
+      throw new IllegalArgumentException("topic name can't be null");
+    }
+
+    if (Objects.isNull(this.metadata)) {
+      throw new IllegalArgumentException("metadata can't be null");
+    }
+  }
+
+  private void generateDefaultValues() {
+    if (Objects.isNull(this.code)) {
+      this.code = UUID.randomUUID();
+    }
+
+    if (Objects.isNull(this.integrationStatus)) {
+      this.integrationStatus = "W";
+    }
   }
 }

@@ -41,16 +41,16 @@ subprojects {
     testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
     testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
-//    testImplementation 'org.junit.jupiter:junit-jupiter:5.4.2'
-//    testImplementation 'org.mockito:mockito-junit-jupiter:3.1.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.4.2'
+    testImplementation 'org.mockito:mockito-junit-jupiter:3.1.0'
   }
 
-//  test {
-//    useJUnitPlatform()
-//    testLogging {
-//      events 'passed', 'skipped', 'failed'
-//    }
-//  }
+  test {
+    useJUnitPlatform()
+    testLogging {
+      events 'passed', 'skipped', 'failed'
+    }
+  }
 
   apply plugin: 'pmd'
   apply plugin: 'checkstyle'
@@ -108,6 +108,5 @@ project(':application:rest-api') {
 
     // Spring
     implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
-
   }
 }

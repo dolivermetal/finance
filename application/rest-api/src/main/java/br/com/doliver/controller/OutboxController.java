@@ -33,14 +33,23 @@ public class OutboxController {
       return ResponseEntity.ok(response);
     } catch (Exception e) {
       log.error("m=exception, e.message={}", e.getMessage());
-      return ResponseEntity.internalServerError().build();
+      return ResponseEntity.internalServerError()
+          .build();
     }
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<OutboxResponse> get(@PathVariable final Long id) {
-    final Outbox outbox = service.find(id);
-    return ResponseEntity.ok(new OutboxResponse(outbox));
+    try {
+      log.info("m=find outbox, id={}", id);
+      final Outbox outbox = service.find(id);
+      log.info("m=outbox found, outbox={}", outbox);
+      return ResponseEntity.ok(new OutboxResponse(outbox));
+    } catch (Exception e) {
+      log.error("m=exception, e.message={}", e.getMessage());
+      return ResponseEntity.internalServerError()
+          .build();
+    }
   }
 
 }
