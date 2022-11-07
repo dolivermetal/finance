@@ -5,8 +5,6 @@ import java.util.UUID;
 import br.com.doliver.domain.Person;
 import br.com.doliver.entity.PersonEntity;
 
-import java.util.UUID;
-
 public interface PersonRepository {
 
   /**
