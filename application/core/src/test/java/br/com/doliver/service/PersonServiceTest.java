@@ -38,7 +38,8 @@ class PersonServiceTest {
   @DisplayName("Deve criar uma pessoa com sucesso")
   void shouldCreatePersonWithSuccess() {
     final Person person = factory.getDefault();
-    Mockito.when(repository.create(Mockito.any(Person.class)))
+
+    Mockito.when(repository.create(Mockito.any(PersonEntity.class)))
         .thenReturn(new PersonEntity(person));
 
     Person personCreated = service.create(person);
@@ -47,7 +48,7 @@ class PersonServiceTest {
         () -> assertEquals(personCreated.getName(), person.getName()),
         () -> assertNotNull(personCreated.getId()),
         () -> Mockito.verify(repository, Mockito.times(1))
-            .create(person)
+            .create(new PersonEntity(person))
     );
   }
 
@@ -59,7 +60,7 @@ class PersonServiceTest {
     assertAll(
         () -> assertThrows(IllegalArgumentException.class, () -> service.create(person)),
         () -> Mockito.verify(repository, Mockito.never())
-            .create(person)
+            .create(Mockito.any(PersonEntity.class))
     );
   }
 
@@ -69,7 +70,7 @@ class PersonServiceTest {
     assertAll(
         () -> assertThrows(NullPointerException.class, () -> service.create(null)),
         () -> Mockito.verify(repository, Mockito.never())
-            .create(Mockito.any(Person.class))
+            .create(Mockito.any(PersonEntity.class))
     );
   }
 

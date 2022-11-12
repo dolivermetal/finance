@@ -5,16 +5,19 @@ import java.util.UUID;
 
 import br.com.doliver.domain.Account;
 import br.com.doliver.domain.Person;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-@NoArgsConstructor
+@AllArgsConstructor
 public class AccountFactory {
 
   private static final Long ID = 1L;
 
   private static final String ALIAS = "Apelido";
+
+  private final PersonFactory personFactory;
 
   public Account getDefault() {
     return getDefaultMock();
@@ -31,13 +34,14 @@ public class AccountFactory {
         .id(ID)
         .code(UUID.randomUUID())
         .alias(ALIAS)
-        .person(null)
+        .person(personFactory.getDefault())
         .creationDate(LocalDateTime.now())
         .build();
   }
 
   @Getter
   @Builder
+  @ToString
   private static class AccountMock implements Account {
 
     private Long id;

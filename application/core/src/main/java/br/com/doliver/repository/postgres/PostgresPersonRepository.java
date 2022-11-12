@@ -8,7 +8,6 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.doliver.domain.Person;
 import br.com.doliver.entity.PersonEntity;
 import br.com.doliver.repository.PersonRepository;
 
@@ -20,10 +19,9 @@ public class PostgresPersonRepository implements PersonRepository {
 
   @Override
   @Transactional
-  public PersonEntity create(final Person person) {
-    PersonEntity entity = new PersonEntity(person);
-    entityManager.persist(entity);
-    return entity;
+  public PersonEntity create(final PersonEntity person) {
+    entityManager.persist(person);
+    return person;
   }
 
   @Override

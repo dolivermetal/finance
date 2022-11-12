@@ -2,6 +2,7 @@ package br.com.doliver.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -40,14 +41,22 @@ public class PersonEntity implements Person {
   @OneToMany(mappedBy = "person")
   private List<AccountEntity> accounts;
 
-  //  @OneToMany(mappedBy = "person")
-  //  private List<CreditCardEntity> creditCards;
+  @OneToMany(mappedBy = "person")
+  private List<CreditCardEntity> creditCards;
 
   public PersonEntity(final Person person) {
     this.id = person.getId();
     this.code = person.getCode();
     this.name = person.getName();
     this.creationDate = person.getCreationDate();
+
+    this.validate();
+  }
+
+  private void validate() {
+    if (Objects.isNull(this.name) || this.name.isEmpty()) {
+      throw new IllegalArgumentException("name can't be null or empty");
+    }
   }
 }
 

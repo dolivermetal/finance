@@ -69,12 +69,12 @@ public class OutboxEntity implements Outbox {
   }
 
   private void validate() {
-    if (Objects.isNull(this.topic)) {
-      throw new IllegalArgumentException("topic name can't be null");
+    if (Objects.isNull(this.topic) || this.topic.isEmpty()) {
+      throw new IllegalArgumentException("topic name can't be null or empty");
     }
 
-    if (Objects.isNull(this.metadata)) {
-      throw new IllegalArgumentException("metadata can't be null");
+    if (Objects.isNull(this.metadata) || this.metadata.isEmpty()) {
+      throw new IllegalArgumentException("metadata can't be null or empty");
     }
   }
 

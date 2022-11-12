@@ -9,6 +9,7 @@ import org.mockito.Mockito;
 import br.com.doliver.domain.CreditCard;
 import br.com.doliver.entity.CreditCardEntity;
 import br.com.doliver.factory.CreditCardFactory;
+import br.com.doliver.factory.PersonFactory;
 import br.com.doliver.repository.CreditCardRepository;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -28,7 +29,10 @@ class CreditCardServiceTest {
   @BeforeEach
   void setup() {
     this.repository = Mockito.spy(CreditCardRepository.class);
-    this.factory = new CreditCardFactory();
+
+    final PersonFactory personFactory = new PersonFactory();
+
+    this.factory = new CreditCardFactory(personFactory);
     this.service = new CreditCardService(repository);
   }
 
@@ -36,16 +40,17 @@ class CreditCardServiceTest {
   @DisplayName("Deve criar um cartão de crédito com sucesso")
   void shouldCreateCreditCardWithSuccess() {
     final CreditCard creditCard = factory.getDefault();
-    Mockito.when(service.create(Mockito.any(CreditCard.class)))
-        .thenReturn(creditCard);
+
+    Mockito.when(repository.save(Mockito.any(CreditCardEntity.class)))
+        .thenReturn(new CreditCardEntity(creditCard));
 
     CreditCard creditCardCreated = service.create(creditCard);
 
     assertAll(
         () -> assertEquals(creditCardCreated.getAlias(), creditCard.getAlias()),
         () -> assertNotNull(creditCardCreated.getId()),
-        () -> Mockito.verify(service, Mockito.times(1))
-            .create(creditCard)
+        () -> Mockito.verify(repository, Mockito.times(1))
+            .save(Mockito.any(CreditCardEntity.class))
     );
   }
 
@@ -57,7 +62,7 @@ class CreditCardServiceTest {
     assertAll(
         () -> assertThrows(IllegalArgumentException.class, () -> service.create(creditCard)),
         () -> Mockito.verify(repository, Mockito.never())
-            .save(new CreditCardEntity(creditCard))
+            .save(Mockito.any(CreditCardEntity.class))
     );
   }
 

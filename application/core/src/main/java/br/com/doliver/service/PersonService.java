@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import br.com.doliver.domain.Person;
+import br.com.doliver.entity.PersonEntity;
 import br.com.doliver.repository.PersonRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,7 @@ public class PersonService {
 
   public Person create(final Person person) {
     log.info("i=creating person, person={}", person);
-    return repository.create(person);
+    return repository.create(new PersonEntity(person));
   }
 
   public Person find(final String code) {

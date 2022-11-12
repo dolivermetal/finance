@@ -9,6 +9,7 @@ import org.mockito.Mockito;
 import br.com.doliver.domain.Account;
 import br.com.doliver.entity.AccountEntity;
 import br.com.doliver.factory.AccountFactory;
+import br.com.doliver.factory.PersonFactory;
 import br.com.doliver.repository.AccountRepository;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -28,7 +29,10 @@ class AccountServiceTest {
   @BeforeEach
   void setup() {
     this.repository = Mockito.spy(AccountRepository.class);
-    this.factory = new AccountFactory();
+
+    final PersonFactory personFactory = new PersonFactory();
+
+    this.factory = new AccountFactory(personFactory);
     this.service = new AccountService(repository);
   }
 
@@ -36,6 +40,7 @@ class AccountServiceTest {
   @DisplayName("Deve criar uma conta com sucesso.")
   void shouldCreateAccountWithSucess() {
     final Account account = factory.getDefault();
+
     Mockito.when(repository.save(Mockito.any(AccountEntity.class)))
         .thenReturn(new AccountEntity(account));
 
@@ -44,8 +49,8 @@ class AccountServiceTest {
     assertAll(
         () -> assertEquals(accountCreated.getAlias(), account.getAlias()),
         () -> assertNotNull(accountCreated.getId()),
-        () -> Mockito.verify(service, Mockito.times(1))
-            .create(account)
+        () -> Mockito.verify(repository, Mockito.times(1))
+            .save(Mockito.any(AccountEntity.class))
     );
   }
 
@@ -57,7 +62,7 @@ class AccountServiceTest {
     assertAll(
         () -> assertThrows(IllegalArgumentException.class, () -> service.create(account)),
         () -> Mockito.verify(repository, Mockito.never())
-            .save(new AccountEntity(account))
+            .save(Mockito.any(AccountEntity.class))
     );
   }
 
@@ -65,9 +70,9 @@ class AccountServiceTest {
   @DisplayName("Deve retornar NullPointerException ao criar uma conta nula")
   void shouldReturnNullPointerExceptionWhenCreateAccountIsNull() {
     assertAll(
-        () -> assertThrows(IllegalArgumentException.class, () -> service.create(null)),
-        () -> Mockito.verify(service, Mockito.never())
-            .create(Mockito.any(Account.class))
+        () -> assertThrows(NullPointerException.class, () -> service.create(null)),
+        () -> Mockito.verify(repository, Mockito.never())
+            .save(Mockito.any(AccountEntity.class))
     );
   }
 

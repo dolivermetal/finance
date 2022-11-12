@@ -1,6 +1,7 @@
 package br.com.doliver.entity;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -49,7 +50,19 @@ public class CreditCardEntity implements CreditCard {
     this.code = creditCard.getCode();
     this.alias = creditCard.getAlias();
     this.brand = creditCard.getBrand();
-    this.person = (PersonEntity) creditCard.getPerson();
+    this.person = new PersonEntity(creditCard.getPerson());
     this.creationDate = creditCard.getCreationDate();
+
+    this.validate();
+  }
+
+  private void validate() {
+    if (Objects.isNull(this.alias) || this.alias.isEmpty()) {
+      throw new IllegalArgumentException("alias can't be null or empty");
+    }
+
+    if (Objects.isNull(this.person)) {
+      throw new IllegalArgumentException("Person can't be null");
+    }
   }
 }

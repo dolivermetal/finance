@@ -37,6 +37,7 @@ class OutboxServiceTest {
   @DisplayName("Deve criar um outbox com sucesso")
   void shouldCreateOutboxWithSuccess() {
     final Outbox outbox = factory.getDefault();
+
     Mockito.when(repository.save(Mockito.any(OutboxEntity.class)))
         .thenReturn(new OutboxEntity(outbox));
 
@@ -59,6 +60,7 @@ class OutboxServiceTest {
   @DisplayName("Deve encontrar um outbox com sucesso")
   void shouldFindOutboxWithSuccess() {
     final Outbox outbox = factory.getDefault();
+
     Mockito.when(repository.findById(Mockito.anyLong()))
         .thenReturn(Optional.of(new OutboxEntity(outbox)));
 
@@ -72,8 +74,8 @@ class OutboxServiceTest {
         () -> assertEquals(outboxCreated.getCreationDate(), outbox.getCreationDate()),
         () -> assertEquals(outboxCreated.getUpdateDate(), outbox.getUpdateDate()),
         () -> assertNotNull(outboxCreated.getId()),
-        () -> Mockito.verify(service, Mockito.times(1))
-            .find(outbox.getId())
+        () -> Mockito.verify(repository, Mockito.times(1))
+            .findById(outbox.getId())
     );
   }
 

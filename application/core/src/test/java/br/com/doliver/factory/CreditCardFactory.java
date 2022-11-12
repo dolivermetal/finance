@@ -5,11 +5,12 @@ import java.util.UUID;
 
 import br.com.doliver.domain.CreditCard;
 import br.com.doliver.domain.Person;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-@NoArgsConstructor
+@AllArgsConstructor
 public class CreditCardFactory {
 
   private static final Long ID = 1L;
@@ -17,6 +18,8 @@ public class CreditCardFactory {
   private static final String ALIAS = "Apelido";
 
   private static final String BRAND = "Bandeira";
+
+  private final PersonFactory personFactory;
 
   public CreditCard getDefault() {
     return getDefaultMock();
@@ -34,13 +37,14 @@ public class CreditCardFactory {
         .code(UUID.randomUUID())
         .alias(ALIAS)
         .brand(BRAND)
-        .person(null)
+        .person(personFactory.getDefault())
         .creationDate(LocalDateTime.now())
         .build();
   }
 
   @Getter
   @Builder
+  @ToString
   private static class CreditCardMock implements CreditCard {
 
     private Long id;

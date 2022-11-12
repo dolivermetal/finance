@@ -4,11 +4,12 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import br.com.doliver.domain.Person;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-@NoArgsConstructor
+@AllArgsConstructor
 public class PersonFactory {
 
   private static final Long ID = 1L;
@@ -36,6 +37,7 @@ public class PersonFactory {
 
   @Getter
   @Builder
+  @ToString
   private static class PersonMock implements Person {
 
     private Long id;
