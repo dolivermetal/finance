@@ -23,6 +23,12 @@ public class TransactionFactory {
     return getDefaultMock();
   }
 
+  public Transaction getWithZeroAmount() {
+    final TransactionMock mock = getDefaultMock();
+    mock.amount = BigDecimal.ZERO;
+    return mock;
+  }
+
   public Transaction getWithEmptyDescription() {
     final TransactionMock mock = getDefaultMock();
     mock.description = "";

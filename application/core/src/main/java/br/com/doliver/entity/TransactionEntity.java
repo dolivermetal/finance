@@ -2,6 +2,7 @@ package br.com.doliver.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -63,5 +64,28 @@ public class TransactionEntity implements Transaction {
     this.description = transaction.getDescription();
     this.creationDate = transaction.getCreationDate();
     this.updateDate = transaction.getUpdateDate();
+
+    this.validate();
+    this.generateDefaultValues();
+  }
+
+  private void validate() {
+    if (Objects.isNull(this.amount) || this.amount.compareTo(BigDecimal.ZERO) <= 0) {
+      throw new IllegalArgumentException("amount can't be null or equal zero");
+    }
+
+    if (Objects.isNull(this.description) || this.description.isEmpty()) {
+      throw new IllegalArgumentException("amount can't be null or empty");
+    }
+  }
+
+  private void generateDefaultValues() {
+    if (Objects.isNull(this.code)) {
+      this.code = UUID.randomUUID();
+    }
+
+    if (Objects.isNull(this.category)) {
+      this.category = Category.OTHERS;
+    }
   }
 }

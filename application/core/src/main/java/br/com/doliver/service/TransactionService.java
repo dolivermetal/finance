@@ -15,15 +15,8 @@ public class TransactionService {
 
   private final TransactionRepository repository;
 
-  private final OutboxService outboxService;
-
   public Transaction create(final Transaction transaction) {
     log.info("i=creating transaction, transaction={}", transaction);
-    TransactionEntity transactionSaved = repository.save(new TransactionEntity(transaction));
-
-    log.info("i=creating outbox from transaction, code={}", transactionSaved.getCode());
-    outboxService.create(transactionSaved);
-
-    return transactionSaved;
+    return repository.save(new TransactionEntity(transaction));
   }
 }
