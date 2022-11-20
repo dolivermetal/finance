@@ -26,6 +26,12 @@ public class PersonFactory {
     return mock;
   }
 
+  public Person getWithoutCode() {
+    final PersonMock mock = getDefaultMock();
+    mock.code = null;
+    return mock;
+  }
+
   private PersonMock getDefaultMock() {
     return PersonMock.builder()
         .id(ID)

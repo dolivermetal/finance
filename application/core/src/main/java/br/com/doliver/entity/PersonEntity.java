@@ -14,13 +14,16 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Type;
 
 import br.com.doliver.domain.Person;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Table(name = "person")
+@NoArgsConstructor
 public class PersonEntity implements Person {
 
   @Id
@@ -29,6 +32,7 @@ public class PersonEntity implements Person {
   private Long id;
 
   @Column(name = "cod_person", nullable = false, unique = true)
+  @Type(type = "uuid-char")
   private UUID code;
 
   @Column(name = "nam_person", nullable = false, length = 50)
@@ -56,6 +60,10 @@ public class PersonEntity implements Person {
   private void validate() {
     if (Objects.isNull(this.name) || this.name.isEmpty()) {
       throw new IllegalArgumentException("name can't be null or empty");
+    }
+
+    if (Objects.isNull(this.code)) {
+      throw new IllegalArgumentException("code can't be null");
     }
   }
 }

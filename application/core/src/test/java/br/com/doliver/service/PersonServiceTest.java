@@ -65,6 +65,18 @@ class PersonServiceTest {
   }
 
   @Test
+  @DisplayName("Deve retornar IllegalArgumentException ao criar uma pessoa sem código")
+  void shouldReturnIllegalArgumentExceptionWhenCreatePersonWithoutCode() {
+    final Person person = factory.getWithoutCode();
+
+    assertAll(
+        () -> assertThrows(IllegalArgumentException.class, () -> service.create(person)),
+        () -> Mockito.verify(repository, Mockito.never())
+            .create(Mockito.any(PersonEntity.class))
+    );
+  }
+
+  @Test
   @DisplayName("Deve retornar NullPointerException ao criar uma pessoa nula")
   void shouldReturnNullPointerExceptionWhenCreatePersonIsNull() {
     assertAll(
