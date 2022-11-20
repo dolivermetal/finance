@@ -9,6 +9,9 @@ buildscript {
     springBootVersion = '2.6.7'
     postgresVersion = '42.3.4'
     jaxbApiVersion = '2.4.0-b180830.0359'
+    restAssuredVersion = '5.2.0'
+    jBaconVersion = '2.1.1'
+    h2DBVersion = '2.1.214'
   }
 
   repositories {
@@ -84,6 +87,15 @@ subprojects {
       }
     }
   }
+
+  spotbugsTest {
+    reports {
+      html {
+        enabled = true
+        stylesheet = 'fancy-hist.xsl'
+      }
+    }
+  }
 }
 
 project(':application:core') {
@@ -104,9 +116,14 @@ project(':application:rest-api') {
   mainClassName = 'br.com.doliver.Application'
 
   dependencies {
-    implementation project(':application:core');
+    implementation project(':application:core')
 
     // Spring
     implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+
+    testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+    testImplementation "io.rest-assured:rest-assured:${restAssuredVersion}"
+//    testImplementation "br.com.leonardoferreira:JBacon:${jBaconVersion}"
+    testImplementation "com.h2database:h2:${h2DBVersion}"
   }
 }
