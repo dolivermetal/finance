@@ -27,7 +27,7 @@ create table finance.person (
 	nam_person varchar(50) not null,
 	dat_creation timestamp not null,
 	constraint person_pk primary key (idt_person),
-	constraint person_uk unique (cod_person)
+	constraint person_uk01 unique (cod_person)
 );
 
 create table finance.account (

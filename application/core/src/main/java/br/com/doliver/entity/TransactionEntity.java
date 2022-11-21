@@ -12,7 +12,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -20,10 +22,19 @@ import org.hibernate.annotations.UpdateTimestamp;
 import br.com.doliver.domain.Transaction;
 import br.com.doliver.domain.enums.Category;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "transaction")
+@Table(name = "transaction",
+    indexes = {
+        @Index(name = "transaction_pk", columnList = "idt_transaction", unique = true)
+    },
+    uniqueConstraints = {
+        @UniqueConstraint(name = "transaction_uk01", columnNames = "cod_transaction")
+    }
+)
+@NoArgsConstructor
 public class TransactionEntity implements Transaction {
 
   @Id
@@ -31,7 +42,7 @@ public class TransactionEntity implements Transaction {
   @Column(name = "idt_transaction")
   private Long id;
 
-  @Column(name = "cod_transaction", nullable = false, unique = true)
+  @Column(name = "cod_transaction", nullable = false)
   private UUID code;
 
   @Column(name = "dat_reference")

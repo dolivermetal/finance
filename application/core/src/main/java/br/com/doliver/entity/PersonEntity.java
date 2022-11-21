@@ -10,8 +10,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
@@ -22,7 +24,14 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "person")
+@Table(name = "person",
+    indexes = {
+        @Index(name = "person_pk", columnList = "idt_person", unique = true)
+    },
+    uniqueConstraints = {
+        @UniqueConstraint(name = "person_uk01", columnNames = "cod_person")
+    }
+)
 @NoArgsConstructor
 public class PersonEntity implements Person {
 
@@ -31,7 +40,7 @@ public class PersonEntity implements Person {
   @Column(name = "idt_person", nullable = false, unique = true)
   private Long id;
 
-  @Column(name = "cod_person", nullable = false, unique = true)
+  @Column(name = "cod_person", nullable = false)
   @Type(type = "uuid-char")
   private UUID code;
 

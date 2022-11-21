@@ -9,17 +9,28 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import br.com.doliver.domain.Outbox;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "outbox")
+@Table(name = "outbox",
+    indexes = {
+        @Index(name = "outbox_pk", columnList = "idt_outbox", unique = true)
+    },
+    uniqueConstraints = {
+        @UniqueConstraint(name = "outbox_uk01", columnNames = "cod_outbox")
+    }
+)
+@NoArgsConstructor
 public class OutboxEntity implements Outbox {
 
   @Id
@@ -27,7 +38,7 @@ public class OutboxEntity implements Outbox {
   @Column(name = "idt_outbox", nullable = false, unique = true)
   private Long id;
 
-  @Column(name = "cod_outbox", nullable = false, unique = true)
+  @Column(name = "cod_outbox", nullable = false)
   private UUID code;
 
   @Column(name = "nam_topic", nullable = false)

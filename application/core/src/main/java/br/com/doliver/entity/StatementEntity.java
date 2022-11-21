@@ -6,21 +6,33 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.CreationTimestamp;
 
 import br.com.doliver.domain.Statement;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "statement")
+@Table(name = "statement",
+    indexes = {
+        @Index(name = "statement_pk", columnList = "idt_statement", unique = true)
+    },
+    uniqueConstraints = {
+        @UniqueConstraint(name = "statement_uk01", columnNames = "cod_statement")
+    }
+)
+@NoArgsConstructor
 public class StatementEntity implements Statement {
 
   @Id
@@ -28,19 +40,19 @@ public class StatementEntity implements Statement {
   @Column(name = "idt_statement")
   private Long id;
 
-  @Column(name = "cod_settlement", nullable = false, unique = true)
+  @Column(name = "cod_statement", nullable = false)
   private UUID code;
 
   @ManyToOne
-  @JoinColumn(name = "idt_account")
+  @JoinColumn(name = "idt_account", foreignKey = @ForeignKey(name = "statement_fk01"))
   private AccountEntity account;
 
   @ManyToOne
-  @JoinColumn(name = "idt_credit_card")
+  @JoinColumn(name = "idt_credit_card", foreignKey = @ForeignKey(name = "statement_fk03"))
   private CreditCardEntity creditCard;
 
   @ManyToOne
-  @JoinColumn(name = "idt_transaction", nullable = false)
+  @JoinColumn(name = "idt_transaction", nullable = false, foreignKey = @ForeignKey(name = "statement_fk02"))
   private TransactionEntity transaction;
 
   @Column(name = "num_balance")
