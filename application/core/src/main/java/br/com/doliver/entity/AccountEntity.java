@@ -54,12 +54,12 @@ public class AccountEntity implements Account {
   @Column(name = "dat_creation", nullable = false)
   private LocalDateTime creationDate;
 
-  public AccountEntity(final Account account) {
+  public AccountEntity(final Account account, final PersonEntity person) {
     this.id = account.getId();
     this.code = account.getCode();
     this.alias = account.getAlias();
-    this.person = new PersonEntity(account.getPerson());
     this.creationDate = account.getCreationDate();
+    this.person = person;
 
     this.validate();
   }

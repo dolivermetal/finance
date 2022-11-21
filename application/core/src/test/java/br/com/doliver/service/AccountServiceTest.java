@@ -1,5 +1,8 @@
 package br.com.doliver.service;
 
+import br.com.doliver.entity.PersonEntity;
+import br.com.doliver.repository.PersonRepository;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,25 +29,33 @@ class AccountServiceTest {
   @Mock
   private AccountRepository repository;
 
+  @Mock
+  private PersonRepository personRepository;
+
   @BeforeEach
   void setup() {
     this.repository = Mockito.spy(AccountRepository.class);
+    this.personRepository = Mockito.spy(PersonRepository.class);
 
     final PersonFactory personFactory = new PersonFactory();
 
     this.factory = new AccountFactory(personFactory);
-    this.service = new AccountService(repository);
+    this.service = new AccountService(repository, personRepository);
   }
 
   @Test
   @DisplayName("Deve criar uma conta com sucesso.")
   void shouldCreateAccountWithSucess() {
     final Account account = factory.getDefault();
+    final PersonEntity person = new PersonEntity(account.getPerson());
+
+    Mockito.when(personRepository.findByCode(person.getCode()))
+        .thenReturn(person);
 
     Mockito.when(repository.save(Mockito.any(AccountEntity.class)))
-        .thenReturn(new AccountEntity(account));
+        .thenReturn(new AccountEntity(account, person));
 
-    Account accountCreated = service.create(account);
+    Account accountCreated = service.create(account, account.getPerson().getCode());
 
     assertAll(
         () -> assertEquals(accountCreated.getAlias(), account.getAlias()),
@@ -60,7 +71,8 @@ class AccountServiceTest {
     final Account account = factory.getWithEmptyAlias();
 
     assertAll(
-        () -> assertThrows(IllegalArgumentException.class, () -> service.create(account)),
+        () -> assertThrows(IllegalArgumentException.class,
+            () -> service.create(account, account.getPerson().getCode())),
         () -> Mockito.verify(repository, Mockito.never())
             .save(Mockito.any(AccountEntity.class))
     );
@@ -70,7 +82,20 @@ class AccountServiceTest {
   @DisplayName("Deve retornar NullPointerException ao criar uma conta nula")
   void shouldReturnNullPointerExceptionWhenCreateAccountIsNull() {
     assertAll(
-        () -> assertThrows(NullPointerException.class, () -> service.create(null)),
+        () -> assertThrows(NullPointerException.class, () -> service.create(null, null)),
+        () -> Mockito.verify(repository, Mockito.never())
+            .save(Mockito.any(AccountEntity.class))
+    );
+  }
+
+  @Test
+  @DisplayName("Deve retornar IllegalArgumentException ao criar uma conta sem pessoa")
+  void shouldReturnIllegalArgumentExceptionWhenCreateAccountWithouPerson() {
+    final Account account = factory.getWithoutPerson();
+
+    assertAll(
+        () -> assertThrows(IllegalArgumentException.class,
+            () -> service.create(account, null)),
         () -> Mockito.verify(repository, Mockito.never())
             .save(Mockito.any(AccountEntity.class))
     );

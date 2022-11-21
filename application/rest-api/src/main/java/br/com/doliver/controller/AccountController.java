@@ -1,0 +1,57 @@
+package br.com.doliver.controller;
+
+import br.com.doliver.domain.Account;
+import br.com.doliver.domain.Person;
+import br.com.doliver.dto.form.AccountForm;
+import br.com.doliver.dto.form.PersonForm;
+import br.com.doliver.dto.response.AccountResponse;
+import br.com.doliver.dto.response.PersonResponse;
+import br.com.doliver.service.AccountService;
+import br.com.doliver.service.PersonService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@Slf4j
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/accounts")
+public class AccountController {
+
+  private final AccountService service;
+
+  @PostMapping
+  public ResponseEntity<AccountResponse> create(@RequestBody final AccountForm form) {
+    try {
+      log.info("m=create account, form={}", form);
+      Account account = service.create(form.asAccount(), form.getPersonCode());
+      AccountResponse response = new AccountResponse(account);
+      log.info("m=account created, response={}", response);
+      return ResponseEntity.ok(response);
+    } catch (IllegalArgumentException e) {
+      log.error("m=exception, e.type={}, e.message={}", e.getClass().toString(), e.getMessage());
+      return ResponseEntity.badRequest().build();
+    } catch (Exception e) {
+      log.error("m=exception, e.type={}, e.message={}", e.getClass().toString(), e.getMessage());
+      return ResponseEntity.internalServerError()
+          .build();
+    }
+  }
+
+  @GetMapping("/{code}")
+  public ResponseEntity<AccountResponse> find(@PathVariable final String code) {
+    try {
+      log.info("m=find account, code={}", code);
+      Account account = service.find(code);
+      log.info("m=account found, account={}", account);
+      return ResponseEntity.ok(new AccountResponse(account));
+    } catch (Exception e) {
+      log.error("m=exception, e.message={}", e.getMessage());
+      return ResponseEntity.internalServerError()
+          .build();
+    }
+  }
+
+}

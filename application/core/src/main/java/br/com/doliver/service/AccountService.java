@@ -1,5 +1,8 @@
 package br.com.doliver.service;
 
+import br.com.doliver.entity.PersonEntity;
+import br.com.doliver.repository.PersonRepository;
+
 import org.springframework.stereotype.Service;
 
 import br.com.doliver.domain.Account;
@@ -8,6 +11,8 @@ import br.com.doliver.repository.AccountRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.UUID;
+
 @Slf4j
 @Service
 @AllArgsConstructor
@@ -15,8 +20,17 @@ public class AccountService {
 
   private final AccountRepository repository;
 
-  public Account create(final Account account) {
+  private final PersonRepository personRepository;
+
+  public Account create(final Account account, UUID personCode) {
     log.info("i=saving account on database, account={}", account);
-    return repository.save(new AccountEntity(account));
+    PersonEntity personEntity = personRepository.findByCode(personCode);
+    AccountEntity accountEntity = new AccountEntity(account, personEntity);
+    return repository.save(accountEntity);
+  }
+
+  public Account find(final String code) {
+    log.info("i=finding account, code={}", code);
+    return repository.findByCode(UUID.fromString(code));
   }
 }

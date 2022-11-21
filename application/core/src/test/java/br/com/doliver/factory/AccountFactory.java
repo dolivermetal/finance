@@ -29,6 +29,12 @@ public class AccountFactory {
     return mock;
   }
 
+  public Account getWithoutPerson() {
+    final AccountMock mock = getDefaultMock();
+    mock.person = null;
+    return mock;
+  }
+
   private AccountMock getDefaultMock() {
     return AccountMock.builder()
         .id(ID)
