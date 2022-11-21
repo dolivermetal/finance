@@ -2,15 +2,24 @@ package br.com.doliver.domain;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
-import lombok.Data;
+public interface Statement {
 
-@Data
-public class Statement {
-  private Long id;
-  private Account account;
-  private CreditCard card;
-  private LocalDateTime date;
-  private BigDecimal balance;
-  private Transaction transaction;
+  Long getId();
+
+  UUID getCode();
+
+  Account getAccount();
+
+  CreditCard getCreditCard();
+
+  LocalDateTime getReferenceDate();
+
+  BigDecimal getBalance();
+
+  Transaction getTransaction();
+
+  LocalDateTime getCreationDate();
+
 }

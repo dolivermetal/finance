@@ -2,42 +2,71 @@ package br.com.doliver.factory;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import br.com.doliver.domain.Transaction;
 import br.com.doliver.domain.enums.Category;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 public class TransactionFactory {
 
-  public static final Long ID = 1L;
-  public static final LocalDateTime DATE = LocalDateTime.now();
-  public static final BigDecimal AMOUNT = BigDecimal.TEN;
-  public static final Category CATEGORY = Category.OTHERS;
-  public static final String DESCRIPTION = "Description";
-  private final AccountFactory accountFactory = new AccountFactory();
-  private final CreditCardFactory creditCardFactory = new CreditCardFactory();
+  private static final Long ID = 1L;
+
+  private static final BigDecimal AMOUNT = BigDecimal.TEN;
+
+  private static final String DESCRIPTION = "Descrição";
 
   public Transaction getDefault() {
-    return Transaction.builder()
+    return getDefaultMock();
+  }
+
+  public Transaction getWithZeroAmount() {
+    final TransactionMock mock = getDefaultMock();
+    mock.amount = BigDecimal.ZERO;
+    return mock;
+  }
+
+  public Transaction getWithEmptyDescription() {
+    final TransactionMock mock = getDefaultMock();
+    mock.description = "";
+    return mock;
+  }
+
+  private TransactionMock getDefaultMock() {
+    return TransactionMock.builder()
         .id(ID)
-        .date(DATE)
+        .code(UUID.randomUUID())
+        .referenceDate(LocalDateTime.now())
         .amount(AMOUNT)
-        .category(CATEGORY)
+        .category(Category.OTHERS)
         .description(DESCRIPTION)
+        .creationDate(LocalDateTime.now())
+        .updateDate(LocalDateTime.now())
         .build();
   }
 
-  public Transaction getDefaultWithAccount() {
-    Transaction transaction = getDefault();
-    transaction.setAccount(accountFactory.getDefault());
-    return transaction;
-  }
+  @Getter
+  @Builder
+  private static class TransactionMock implements Transaction {
 
-  public Transaction getDefaultWithCreditCard() {
-    Transaction transaction = getDefault();
-    transaction.setCreditCard(creditCardFactory.getDefault());
-    return transaction;
-  }
+    private Long id;
 
+    private UUID code;
+
+    private LocalDateTime referenceDate;
+
+    private BigDecimal amount;
+
+    private Category category;
+
+    private String description;
+
+    private LocalDateTime creationDate;
+
+    private LocalDateTime updateDate;
+
+  }
 }

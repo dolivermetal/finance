@@ -1,7 +1,22 @@
 package br.com.doliver.service;
 
-import br.com.doliver.domain.Transaction;
+import org.springframework.stereotype.Service;
 
-public interface TransactionService {
-  Transaction create(Transaction transaction);
+import br.com.doliver.domain.Transaction;
+import br.com.doliver.entity.TransactionEntity;
+import br.com.doliver.repository.TransactionRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class TransactionService {
+
+  private final TransactionRepository repository;
+
+  public Transaction create(final Transaction transaction) {
+    log.info("i=creating transaction, transaction={}", transaction);
+    return repository.save(new TransactionEntity(transaction));
+  }
 }

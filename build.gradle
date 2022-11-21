@@ -4,10 +4,26 @@ group 'br.com.doliver'
 version '1.0-SNAPSHOT'
 
 buildscript {
+  ext {
+    lombokVersion = '1.18.20'
+    springBootVersion = '2.6.7'
+    postgresVersion = '42.3.4'
+    jaxbApiVersion = '2.4.0-b180830.0359'
+    restAssuredVersion = '5.2.0'
+    jBaconVersion = '2.1.1'
+    h2DBVersion = '2.1.214'
+    spotbugsVersion = '4.4.1'
+    junitVersion = '5.4.2'
+    mockitoVersion = '3.1.0'
+    wiremockVersion = '2.19.0'
+    springCloudWireMock = '2.2.6.RELEASE'
+  }
+
   repositories {
     mavenCentral()
     gradlePluginPortal()
   }
+
   dependencies {
     classpath 'gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:4.7.5'
   }
@@ -18,7 +34,6 @@ subprojects {
 
   repositories {
     mavenCentral()
-    gradlePluginPortal()
   }
 
   sourceCompatibility = JavaVersion.VERSION_16
@@ -27,15 +42,16 @@ subprojects {
   compileJava.options.encoding = StandardCharsets.UTF_8.displayName()
 
   dependencies {
-    compileOnly 'com.github.spotbugs:spotbugs-annotations:4.4.1'
-    compileOnly 'org.projectlombok:lombok:1.18.20'
-    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+    compileOnly "com.github.spotbugs:spotbugs-annotations:${spotbugsVersion}"
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
-    testCompileOnly 'org.projectlombok:lombok:1.18.20'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testCompileOnly "com.github.spotbugs:spotbugs-annotations:${spotbugsVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.4.2'
-    testImplementation 'org.mockito:mockito-junit-jupiter:3.1.0'
+    testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
+    testImplementation "org.mockito:mockito-junit-jupiter:${mockitoVersion}"
   }
 
   test {
@@ -76,5 +92,49 @@ subprojects {
         stylesheet = 'fancy-hist.xsl'
       }
     }
+  }
+
+  spotbugsTest {
+    reports {
+      html {
+        enabled = true
+        stylesheet = 'fancy-hist.xsl'
+      }
+    }
+  }
+}
+
+project(':application:core') {
+  dependencies {
+    // Spring
+    implementation "org.springframework.boot:spring-boot-starter:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
+
+    // Database
+    implementation "org.postgresql:postgresql:${postgresVersion}"
+
+    // Others
+    implementation "javax.xml.bind:jaxb-api:${jaxbApiVersion}"
+  }
+}
+
+project(':application:rest-api') {
+  apply plugin: 'application'
+
+  mainClassName = 'br.com.doliver.Application'
+
+  dependencies {
+    implementation project(':application:core')
+
+    // Spring
+    implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+    testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+
+    // Tests
+    testImplementation "io.rest-assured:rest-assured:${restAssuredVersion}"
+    testImplementation "com.github.tomakehurst:wiremock-standalone:${wiremockVersion}"
+    testImplementation "org.springframework.cloud:spring-cloud-contract-wiremock:${springCloudWireMock}"
+    testImplementation "com.h2database:h2:${h2DBVersion}"
+    testImplementation "br.com.leonardoferreira:JBacon:${jBaconVersion}"
   }
 }

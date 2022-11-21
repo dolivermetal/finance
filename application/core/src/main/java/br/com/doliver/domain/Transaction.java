@@ -2,47 +2,26 @@ package br.com.doliver.domain;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Objects;
+import java.util.UUID;
 
 import br.com.doliver.domain.enums.Category;
-import br.com.doliver.exception.EmptyAttributeException;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NonNull;
 
-@Data
-@Builder
-public class Transaction {
+public interface Transaction {
 
-  private Long id;
+  Long getId();
 
-  @NonNull
-  private LocalDateTime date;
+  UUID getCode();
 
-  @NonNull
-  private BigDecimal amount;
+  LocalDateTime getReferenceDate();
 
-  @NonNull
-  private Category category;
+  BigDecimal getAmount();
 
-  @NonNull
-  private String description;
+  Category getCategory();
 
-  private Account account;
+  String getDescription();
 
-  private CreditCard creditCard;
+  LocalDateTime getCreationDate();
 
-  public void validate() throws EmptyAttributeException {
-    if (this.getAmount().equals(BigDecimal.ZERO)) {
-      throw new EmptyAttributeException("Transaction amount can't be equal zero");
-    }
+  LocalDateTime getUpdateDate();
 
-    if (this.getDescription().isEmpty()) {
-      throw new EmptyAttributeException("Transaction description can't be empty");
-    }
-
-    if (Objects.isNull(this.getAccount()) && Objects.isNull(this.getCreditCard())) {
-      throw new EmptyAttributeException("Transaction's account or credit card needs to be informed");
-    }
-  }
 }

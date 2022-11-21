@@ -1,29 +1,37 @@
 package br.com.doliver.domain;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
-import br.com.doliver.exception.EmptyAttributeException;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NonNull;
+/**
+ * Definição de uma conta.
+ */
+public interface Account {
 
-@Data
-@Builder
-public class Account {
+  /**
+   * ID único de identificação.
+   */
+  Long getId();
 
-  private Long id;
+  /**
+   * Código único de identificação.
+   */
+  UUID getCode();
 
-  private UUID code;
+  /**
+   * Apelido da conta.
+   */
+  String getAlias();
 
-  @NonNull
-  private String alias;
+  /**
+   * Pessoa dona da conta.
+   * @return Person
+   */
+  Person getPerson();
 
-  @NonNull
-  private Person person;
+  /**
+   * Data de cadastro da conta.
+   */
+  LocalDateTime getCreationDate();
 
-  public void validate() throws EmptyAttributeException {
-    if (this.getAlias().isEmpty()) {
-      throw new EmptyAttributeException("Account alias can't be null or empty");
-    }
-  }
 }
