@@ -48,7 +48,7 @@ class PersonServiceTest {
         () -> assertEquals(personCreated.getName(), person.getName()),
         () -> assertNotNull(personCreated.getId()),
         () -> Mockito.verify(repository, Mockito.times(1))
-            .create(new PersonEntity(person))
+            .create(Mockito.any(PersonEntity.class))
     );
   }
 
