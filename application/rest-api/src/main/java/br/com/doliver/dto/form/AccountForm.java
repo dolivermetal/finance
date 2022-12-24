@@ -3,6 +3,9 @@ package br.com.doliver.dto.form;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+
 import br.com.doliver.domain.Account;
 import br.com.doliver.domain.Person;
 import lombok.Getter;
@@ -12,6 +15,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class AccountForm {
 
   private UUID code;

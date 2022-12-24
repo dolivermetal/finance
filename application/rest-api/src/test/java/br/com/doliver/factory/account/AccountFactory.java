@@ -1,18 +1,17 @@
 package br.com.doliver.factory.account;
 
-import br.com.doliver.domain.Person;
+import java.time.LocalDateTime;
+import java.util.Objects;
+import java.util.UUID;
+
+import org.springframework.stereotype.Component;
+
 import br.com.doliver.entity.AccountEntity;
 import br.com.doliver.entity.PersonEntity;
 import br.com.doliver.repository.AccountRepository;
 import br.com.doliver.repository.PersonRepository;
 import br.com.leonardoferreira.jbacon.JBacon;
 import lombok.RequiredArgsConstructor;
-
-import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -33,6 +32,7 @@ public class AccountFactory extends JBacon<AccountEntity> {
     account.setCreationDate(LocalDateTime.now());
 
     PersonEntity personEntity = new PersonEntity();
+    personEntity.setCode(UUID.randomUUID());
     personEntity.setName(NAME);
     account.setPerson(personEntity);
     return account;

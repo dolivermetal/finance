@@ -1,12 +1,11 @@
 package br.com.doliver.dto.response;
 
-import br.com.doliver.domain.Account;
-import br.com.doliver.domain.Person;
-import lombok.Getter;
-import lombok.ToString;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
+
+import br.com.doliver.domain.Account;
+import lombok.Getter;
+import lombok.ToString;
 
 @Getter
 @ToString

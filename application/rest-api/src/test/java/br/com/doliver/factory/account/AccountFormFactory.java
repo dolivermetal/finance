@@ -3,7 +3,6 @@ package br.com.doliver.factory.account;
 import java.util.UUID;
 
 import br.com.doliver.dto.form.AccountForm;
-import br.com.doliver.dto.form.PersonForm;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor

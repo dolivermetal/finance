@@ -4,11 +4,12 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 import br.com.doliver.entity.AccountEntity;
 
 public interface AccountRepository extends CrudRepository<AccountEntity, Long> {
 
   @Query("select a from AccountEntity a where a.code = :code")
-  AccountEntity findByCode(UUID code);
+  AccountEntity findByCode(@Param("code") UUID code);
 }

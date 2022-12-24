@@ -1,8 +1,5 @@
 package br.com.doliver.service;
 
-import br.com.doliver.entity.PersonEntity;
-import br.com.doliver.repository.PersonRepository;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,9 +8,11 @@ import org.mockito.Mockito;
 
 import br.com.doliver.domain.Account;
 import br.com.doliver.entity.AccountEntity;
+import br.com.doliver.entity.PersonEntity;
 import br.com.doliver.factory.AccountFactory;
 import br.com.doliver.factory.PersonFactory;
 import br.com.doliver.repository.AccountRepository;
+import br.com.doliver.repository.PersonRepository;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
