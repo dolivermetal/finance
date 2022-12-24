@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,10 +20,14 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 
 import br.com.doliver.domain.Person;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Getter
+@Setter
+@ToString(exclude = {"accounts","creditCards"})
 @Entity
 @Table(name = "person",
     indexes = {
@@ -54,7 +59,7 @@ public class PersonEntity implements Person {
   @OneToMany(mappedBy = "person")
   private List<AccountEntity> accounts;
 
-  @OneToMany(mappedBy = "person")
+  @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
   private List<CreditCardEntity> creditCards;
 
   public PersonEntity(final Person person) {
