@@ -81,3 +81,6 @@ services:
     environment:
       POSTGRES_PASSWORD: 'postgres'
       POSTGRES_HOST_AUTH_METHOD: 'password'
+    volumes:
+      - /var/lib/postgres/data:/var/lib/postgresql/data
+      - /var/lib/postgres/tmp:/tmp
