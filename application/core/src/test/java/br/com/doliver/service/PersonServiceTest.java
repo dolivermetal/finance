@@ -6,10 +6,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
+import br.com.doliver.database.postgres.entity.PersonEntity;
+import br.com.doliver.database.postgres.repository.PersonRepository;
+import br.com.doliver.database.postgres.repository.impl.PersonSpringDataRepository;
 import br.com.doliver.domain.Person;
-import br.com.doliver.entity.PersonEntity;
 import br.com.doliver.factory.PersonFactory;
-import br.com.doliver.repository.PersonRepository;
 import lombok.SneakyThrows;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -26,11 +27,14 @@ class PersonServiceTest {
   @Mock
   private PersonRepository repository;
 
+  @Mock
+  private PersonSpringDataRepository springDataRepository;
+
   @BeforeEach
   void setup() {
     this.repository = Mockito.spy(PersonRepository.class);
     this.factory = new PersonFactory();
-    this.service = new PersonService(repository);
+    this.service = new PersonService(repository, springDataRepository);
   }
 
   @Test

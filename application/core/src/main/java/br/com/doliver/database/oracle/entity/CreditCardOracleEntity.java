@@ -1,4 +1,4 @@
-package br.com.doliver.entity;
+package br.com.doliver.database.oracle.entity;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -17,55 +17,54 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Type;
 
-import br.com.doliver.domain.Account;
-import lombok.Getter;
+import br.com.doliver.database.postgres.entity.CreditCardEntity;
+import br.com.doliver.domain.CreditCard;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
-@Getter
-@Setter
-@ToString(exclude = {"person"})
+@Data
 @Entity
-@Table(name = "account",
+@Table(name = "credit_card",
     indexes = {
-        @Index(name = "account_pk", columnList = "idt_account", unique = true)
+        @Index(name = "credit_card_pk", columnList = "idt_credit_card", unique = true)
     },
     uniqueConstraints = {
-        @UniqueConstraint(name = "account_uk01", columnNames = "cod_account")
+        @UniqueConstraint(name = "credit_card_uk01", columnNames = "cod_credit_card")
     }
 )
 @NoArgsConstructor
-public class AccountEntity implements Account {
+public class CreditCardOracleEntity implements CreditCard {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "idt_account", nullable = false, unique = true)
+  @Column(name = "idt_credit_card", nullable = false, unique = true)
   private Long id;
 
-  @Column(name = "cod_account", nullable = false)
-  @Type(type = "org.hibernate.type.UUIDCharType")
+  @Column(name = "cod_credit_card", nullable = false)
   private UUID code;
 
   @Column(name = "nam_alias", nullable = false, length = 50)
   private String alias;
 
+  @Column(name = "nam_brand", length = 30)
+  private String brand;
+
   @ManyToOne
-  @JoinColumn(name = "idt_person", nullable = false, foreignKey = @ForeignKey(name = "account_fk01"))
-  private PersonEntity person;
+  @JoinColumn(name = "idt_person", nullable = false, foreignKey = @ForeignKey(name = "credit_card_fk01"))
+  private PersonOracleEntity person;
 
   @CreationTimestamp
   @Column(name = "dat_creation", nullable = false)
   private LocalDateTime creationDate;
 
-  public AccountEntity(final Account account, final PersonEntity person) {
-    this.id = account.getId();
-    this.code = account.getCode();
-    this.alias = account.getAlias();
-    this.creationDate = account.getCreationDate();
-    this.person = person;
+  public CreditCardOracleEntity(final CreditCardEntity creditCard) {
+    this.id = creditCard.getId();
+    this.code = creditCard.getCode();
+    this.alias = creditCard.getAlias();
+    this.brand = creditCard.getBrand();
+    this.person = new PersonOracleEntity(creditCard.getPerson());
+    this.creationDate = creditCard.getCreationDate();
 
     this.validate();
   }
@@ -77,10 +76,6 @@ public class AccountEntity implements Account {
 
     if (Objects.isNull(this.person)) {
       throw new IllegalArgumentException("Person can't be null");
-    }
-
-    if (Objects.isNull(this.code)) {
-      throw new IllegalArgumentException("code can't be null or empty");
     }
   }
 }

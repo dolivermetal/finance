@@ -2,9 +2,9 @@ package br.com.doliver.service;
 
 import org.springframework.stereotype.Service;
 
+import br.com.doliver.database.postgres.entity.TransactionEntity;
+import br.com.doliver.database.postgres.repository.TransactionRepository;
 import br.com.doliver.domain.Transaction;
-import br.com.doliver.entity.TransactionEntity;
-import br.com.doliver.repository.TransactionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

@@ -6,10 +6,10 @@ import javax.persistence.EntityNotFoundException;
 
 import org.springframework.stereotype.Service;
 
+import br.com.doliver.database.postgres.entity.OutboxEntity;
+import br.com.doliver.database.postgres.entity.TransactionEntity;
+import br.com.doliver.database.postgres.repository.OutboxRepository;
 import br.com.doliver.domain.Outbox;
-import br.com.doliver.entity.OutboxEntity;
-import br.com.doliver.entity.TransactionEntity;
-import br.com.doliver.repository.OutboxRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

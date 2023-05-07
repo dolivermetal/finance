@@ -6,11 +6,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
+import br.com.doliver.database.postgres.entity.CreditCardEntity;
+import br.com.doliver.database.postgres.repository.CreditCardRepository;
 import br.com.doliver.domain.CreditCard;
-import br.com.doliver.entity.CreditCardEntity;
 import br.com.doliver.factory.CreditCardFactory;
 import br.com.doliver.factory.PersonFactory;
-import br.com.doliver.repository.CreditCardRepository;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;

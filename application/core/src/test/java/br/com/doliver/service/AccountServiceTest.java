@@ -6,13 +6,13 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
+import br.com.doliver.database.postgres.entity.AccountEntity;
+import br.com.doliver.database.postgres.entity.PersonEntity;
+import br.com.doliver.database.postgres.repository.AccountRepository;
+import br.com.doliver.database.postgres.repository.PersonRepository;
 import br.com.doliver.domain.Account;
-import br.com.doliver.entity.AccountEntity;
-import br.com.doliver.entity.PersonEntity;
 import br.com.doliver.factory.AccountFactory;
 import br.com.doliver.factory.PersonFactory;
-import br.com.doliver.repository.AccountRepository;
-import br.com.doliver.repository.PersonRepository;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;

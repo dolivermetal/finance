@@ -1,4 +1,4 @@
-package br.com.doliver.repository;
+package br.com.doliver.database.postgres.repository;
 
 import java.util.UUID;
 
@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-import br.com.doliver.entity.AccountEntity;
+import br.com.doliver.database.postgres.entity.AccountEntity;
 
 public interface AccountRepository extends CrudRepository<AccountEntity, Long> {
 
