@@ -8,10 +8,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
+import br.com.doliver.database.postgres.entity.OutboxEntity;
+import br.com.doliver.database.postgres.repository.OutboxRepository;
 import br.com.doliver.domain.Outbox;
-import br.com.doliver.entity.OutboxEntity;
 import br.com.doliver.factory.OutboxFactory;
-import br.com.doliver.repository.OutboxRepository;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;

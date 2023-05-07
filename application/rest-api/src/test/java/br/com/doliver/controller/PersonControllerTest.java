@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.doliver.config.IntegrationTestConfig;
+import br.com.doliver.database.postgres.entity.PersonEntity;
 import br.com.doliver.dto.form.PersonForm;
-import br.com.doliver.entity.PersonEntity;
 import br.com.doliver.factory.PersonFactory;
 import br.com.doliver.factory.PersonFormFactory;
 import io.restassured.RestAssured;

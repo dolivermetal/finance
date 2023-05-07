@@ -1,8 +1,8 @@
-package br.com.doliver.repository;
+package br.com.doliver.database.postgres.repository;
 
 import org.springframework.data.repository.CrudRepository;
 
-import br.com.doliver.entity.StatementEntity;
+import br.com.doliver.database.postgres.entity.StatementEntity;
 
 public interface StatementRepository extends CrudRepository<StatementEntity, Long> {
 

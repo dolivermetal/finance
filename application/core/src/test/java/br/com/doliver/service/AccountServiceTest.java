@@ -6,11 +6,13 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
+import br.com.doliver.database.oracle.entity.AccountOracleEntity;
+import br.com.doliver.database.oracle.repository.AccountOracleRepository;
+import br.com.doliver.database.postgres.entity.AccountEntity;
+import br.com.doliver.database.postgres.repository.AccountRepository;
 import br.com.doliver.domain.Account;
-import br.com.doliver.entity.AccountEntity;
 import br.com.doliver.factory.AccountFactory;
 import br.com.doliver.factory.PersonFactory;
-import br.com.doliver.repository.AccountRepository;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,14 +28,18 @@ class AccountServiceTest {
   @Mock
   private AccountRepository repository;
 
+  @Mock
+  private AccountOracleRepository oracleRepository;
+
   @BeforeEach
   void setup() {
     this.repository = Mockito.spy(AccountRepository.class);
+    this.oracleRepository = Mockito.spy(AccountOracleRepository.class);
 
     final PersonFactory personFactory = new PersonFactory();
 
     this.factory = new AccountFactory(personFactory);
-    this.service = new AccountService(repository);
+    this.service = new AccountService(repository, oracleRepository);
   }
 
   @Test
@@ -50,7 +56,9 @@ class AccountServiceTest {
         () -> assertEquals(accountCreated.getAlias(), account.getAlias()),
         () -> assertNotNull(accountCreated.getId()),
         () -> Mockito.verify(repository, Mockito.times(1))
-            .save(Mockito.any(AccountEntity.class))
+            .save(Mockito.any(AccountEntity.class)),
+        () -> Mockito.verify(oracleRepository, Mockito.times(1))
+            .save(Mockito.any(AccountOracleEntity.class))
     );
   }
 
@@ -62,7 +70,9 @@ class AccountServiceTest {
     assertAll(
         () -> assertThrows(IllegalArgumentException.class, () -> service.create(account)),
         () -> Mockito.verify(repository, Mockito.never())
-            .save(Mockito.any(AccountEntity.class))
+            .save(Mockito.any(AccountEntity.class)),
+        () -> Mockito.verify(oracleRepository, Mockito.never())
+            .save(Mockito.any(AccountOracleEntity.class))
     );
   }
 
@@ -72,7 +82,9 @@ class AccountServiceTest {
     assertAll(
         () -> assertThrows(NullPointerException.class, () -> service.create(null)),
         () -> Mockito.verify(repository, Mockito.never())
-            .save(Mockito.any(AccountEntity.class))
+            .save(Mockito.any(AccountEntity.class)),
+        () -> Mockito.verify(oracleRepository, Mockito.never())
+            .save(Mockito.any(AccountOracleEntity.class))
     );
   }
 

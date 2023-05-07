@@ -5,8 +5,8 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
-import br.com.doliver.entity.PersonEntity;
-import br.com.doliver.repository.PersonRepository;
+import br.com.doliver.database.postgres.entity.PersonEntity;
+import br.com.doliver.database.postgres.repository.PersonRepository;
 import br.com.leonardoferreira.jbacon.JBacon;
 import lombok.RequiredArgsConstructor;
 
