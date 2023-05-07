@@ -1,4 +1,4 @@
-package br.com.doliver.factory;
+package br.com.doliver.factory.person;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

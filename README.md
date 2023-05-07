@@ -25,5 +25,5 @@ TODO: need to find a solution that works with Java 16
       ```
    2. Docker
       ```
-      wip
+      docker-compose up -d
       ```

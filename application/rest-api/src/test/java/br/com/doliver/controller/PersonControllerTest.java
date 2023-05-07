@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import br.com.doliver.config.IntegrationTestConfig;
 import br.com.doliver.database.postgres.entity.PersonEntity;
 import br.com.doliver.dto.form.PersonForm;
-import br.com.doliver.factory.PersonFactory;
-import br.com.doliver.factory.PersonFormFactory;
+import br.com.doliver.factory.person.PersonFactory;
+import br.com.doliver.factory.person.PersonFormFactory;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 

@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
-import br.com.doliver.database.oracle.entity.AccountOracleEntity;
-import br.com.doliver.database.oracle.repository.AccountOracleRepository;
 import br.com.doliver.database.postgres.entity.AccountEntity;
+import br.com.doliver.database.postgres.entity.PersonEntity;
 import br.com.doliver.database.postgres.repository.AccountRepository;
+import br.com.doliver.database.postgres.repository.PersonRepository;
 import br.com.doliver.domain.Account;
 import br.com.doliver.factory.AccountFactory;
 import br.com.doliver.factory.PersonFactory;
@@ -29,36 +29,38 @@ class AccountServiceTest {
   private AccountRepository repository;
 
   @Mock
-  private AccountOracleRepository oracleRepository;
+  private PersonRepository personRepository;
 
   @BeforeEach
   void setup() {
     this.repository = Mockito.spy(AccountRepository.class);
-    this.oracleRepository = Mockito.spy(AccountOracleRepository.class);
+    this.personRepository = Mockito.spy(PersonRepository.class);
 
     final PersonFactory personFactory = new PersonFactory();
 
     this.factory = new AccountFactory(personFactory);
-    this.service = new AccountService(repository, oracleRepository);
+    this.service = new AccountService(repository, personRepository);
   }
 
   @Test
   @DisplayName("Deve criar uma conta com sucesso.")
   void shouldCreateAccountWithSucess() {
     final Account account = factory.getDefault();
+    final PersonEntity person = new PersonEntity(account.getPerson());
+
+    Mockito.when(personRepository.findByCode(person.getCode()))
+        .thenReturn(person);
 
     Mockito.when(repository.save(Mockito.any(AccountEntity.class)))
-        .thenReturn(new AccountEntity(account));
+        .thenReturn(new AccountEntity(account, person));
 
-    Account accountCreated = service.create(account);
+    Account accountCreated = service.create(account, account.getPerson().getCode());
 
     assertAll(
         () -> assertEquals(accountCreated.getAlias(), account.getAlias()),
         () -> assertNotNull(accountCreated.getId()),
         () -> Mockito.verify(repository, Mockito.times(1))
-            .save(Mockito.any(AccountEntity.class)),
-        () -> Mockito.verify(oracleRepository, Mockito.times(1))
-            .save(Mockito.any(AccountOracleEntity.class))
+            .save(Mockito.any(AccountEntity.class))
     );
   }
 
@@ -68,11 +70,10 @@ class AccountServiceTest {
     final Account account = factory.getWithEmptyAlias();
 
     assertAll(
-        () -> assertThrows(IllegalArgumentException.class, () -> service.create(account)),
+        () -> assertThrows(IllegalArgumentException.class,
+            () -> service.create(account, account.getPerson().getCode())),
         () -> Mockito.verify(repository, Mockito.never())
-            .save(Mockito.any(AccountEntity.class)),
-        () -> Mockito.verify(oracleRepository, Mockito.never())
-            .save(Mockito.any(AccountOracleEntity.class))
+            .save(Mockito.any(AccountEntity.class))
     );
   }
 
@@ -80,11 +81,22 @@ class AccountServiceTest {
   @DisplayName("Deve retornar NullPointerException ao criar uma conta nula")
   void shouldReturnNullPointerExceptionWhenCreateAccountIsNull() {
     assertAll(
-        () -> assertThrows(NullPointerException.class, () -> service.create(null)),
+        () -> assertThrows(NullPointerException.class, () -> service.create(null, null)),
         () -> Mockito.verify(repository, Mockito.never())
-            .save(Mockito.any(AccountEntity.class)),
-        () -> Mockito.verify(oracleRepository, Mockito.never())
-            .save(Mockito.any(AccountOracleEntity.class))
+            .save(Mockito.any(AccountEntity.class))
+    );
+  }
+
+  @Test
+  @DisplayName("Deve retornar IllegalArgumentException ao criar uma conta sem pessoa")
+  void shouldReturnIllegalArgumentExceptionWhenCreateAccountWithouPerson() {
+    final Account account = factory.getWithoutPerson();
+
+    assertAll(
+        () -> assertThrows(IllegalArgumentException.class,
+            () -> service.create(account, null)),
+        () -> Mockito.verify(repository, Mockito.never())
+            .save(Mockito.any(AccountEntity.class))
     );
   }
 

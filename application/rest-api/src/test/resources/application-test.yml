@@ -6,6 +6,7 @@ spring:
     driverClassName: org.h2.Driver
   jpa:
     show-sql: true
+    open-in-view: false
     hibernate:
       ddl-auto: create-drop
     database-platform: org.hibernate.dialect.H2Dialect
