@@ -10,6 +10,8 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - finance
 
   broker:
     image: confluentinc/cp-server:latest
@@ -39,6 +41,8 @@ services:
       CONFLUENT_METRICS_REPORTER_TOPIC_REPLICAS: 1
       CONFLUENT_METRICS_ENABLE: 'true'
       CONFLUENT_SUPPORT_CUSTOMER_ID: 'anonymous'
+    networks:
+      - finance
 
   schema-registry:
     image: confluentinc/cp-schema-registry:latest
@@ -52,6 +56,8 @@ services:
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'broker:29092'
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
+    networks:
+      - finance
 
   control-center:
     image: confluentinc/cp-enterprise-control-center:latest
@@ -71,6 +77,8 @@ services:
       CONTROL_CENTER_MONITORING_INTERCEPTOR_TOPIC_PARTITIONS: 1
       CONFLUENT_METRICS_TOPIC_REPLICATION: 1
       PORT: 9021
+    networks:
+      - finance
 
   postgres:
     image: postgres
@@ -84,3 +92,14 @@ services:
     volumes:
       - /var/lib/postgres/data:/var/lib/postgresql/data
       - /var/lib/postgres/tmp:/tmp
+    networks:
+      - finance
+
+networks:
+  finance:
+    driver: bridge
+    name: finance
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.18.0.0/16"
