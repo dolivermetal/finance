@@ -1,5 +1,7 @@
 package br.com.doliver.controller;
 
+import java.util.Objects;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,6 +45,9 @@ public class OutboxController {
     try {
       log.info("m=find outbox, id={}", id);
       final Outbox outbox = service.find(id);
+      if (Objects.isNull(outbox)) {
+        return ResponseEntity.notFound().build();
+      }
       log.info("m=outbox found, outbox={}", outbox);
       return ResponseEntity.ok(new OutboxResponse(outbox));
     } catch (Exception e) {

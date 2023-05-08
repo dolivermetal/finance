@@ -1,5 +1,7 @@
 package br.com.doliver.controller;
 
+import java.util.Objects;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,6 +48,9 @@ public class AccountController {
     try {
       log.info("m=find account, code={}", code);
       Account account = service.find(code);
+      if (Objects.isNull(account)) {
+        return ResponseEntity.notFound().build();
+      }
       log.info("m=account found, account={}", account);
       return ResponseEntity.ok(new AccountResponse(account));
     } catch (Exception e) {

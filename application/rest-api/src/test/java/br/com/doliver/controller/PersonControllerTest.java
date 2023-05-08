@@ -97,4 +97,19 @@ class PersonControllerTest extends IntegrationTestConfig {
         .body("code", Matchers.is(entity.getCode().toString()))
         .body("name", Matchers.is(entity.getName()));
   }
+
+  @Test
+  @DisplayName("Deve retornar NotFound ao consultar uma pessoa inexistente")
+  void shouldReturnNotFoundWhenTryToSearchAPersonWhoNotExists() {
+    RestAssured.given()
+        .log()
+        .all()
+        .contentType(ContentType.JSON)
+        .when()
+        .get("/persons/ee0df165-ae1e-42ae-81e1-09e79804b3f7")
+        .then()
+        .log()
+        .all()
+        .statusCode(HttpStatus.SC_NOT_FOUND);
+  }
 }

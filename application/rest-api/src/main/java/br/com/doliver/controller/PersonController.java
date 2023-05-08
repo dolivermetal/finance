@@ -1,5 +1,7 @@
 package br.com.doliver.controller;
 
+import java.util.Objects;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,6 +48,9 @@ public class PersonController {
     try {
       log.info("m=find person, code={}", code);
       Person person = service.find(code);
+      if (Objects.isNull(person)) {
+        return ResponseEntity.notFound().build();
+      }
       log.info("m=person found, person={}", person);
       return ResponseEntity.ok(new PersonResponse(person));
     } catch (Exception e) {

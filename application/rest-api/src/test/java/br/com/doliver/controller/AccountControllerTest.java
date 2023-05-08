@@ -115,4 +115,19 @@ class AccountControllerTest extends IntegrationTestConfig {
         .body("person.code", Matchers.is(entity.getPerson().getCode().toString()))
         .body("person.name", Matchers.is(entity.getPerson().getName()));
   }
+
+  @Test
+  @DisplayName("Deve retornar NotFound ao consultar uma conta inexistente")
+  void shouldReturnNotFoundWhenTryToSearchAnAccountWhoNotExists() {
+    RestAssured.given()
+        .log()
+        .all()
+        .contentType(ContentType.JSON)
+        .when()
+        .get("/accounts/ee0df165-ae1e-42ae-81e1-09e79804b3f7")
+        .then()
+        .log()
+        .all()
+        .statusCode(HttpStatus.SC_NOT_FOUND);
+  }
 }

@@ -18,7 +18,6 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 
-import br.com.doliver.database.postgres.entity.PersonEntity;
 import br.com.doliver.domain.Person;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -58,7 +57,7 @@ public class PersonOracleEntity implements Person {
   @OneToMany(mappedBy = "person")
   private List<CreditCardOracleEntity> creditCards;
 
-  public PersonOracleEntity(final PersonEntity person) {
+  public PersonOracleEntity(final Person person) {
     this.id = person.getId();
     this.code = person.getCode();
     this.name = person.getName();

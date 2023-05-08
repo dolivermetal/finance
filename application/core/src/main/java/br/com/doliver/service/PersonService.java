@@ -27,6 +27,6 @@ public class PersonService {
 
   public Person find(final String code) {
     log.info("i=finding person, code={}", code);
-    return repository.findByCode(UUID.fromString(code));
+    return springDataRepository.findByCode(UUID.fromString(code));
   }
 }
