@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Type;
 
 import br.com.doliver.domain.CreditCard;
 import lombok.Data;
@@ -41,6 +42,7 @@ public class CreditCardEntity implements CreditCard {
   private Long id;
 
   @Column(name = "cod_credit_card", nullable = false)
+  @Type(type = "org.hibernate.type.UUIDCharType")
   private UUID code;
 
   @Column(name = "nam_alias", nullable = false, length = 50)
@@ -57,12 +59,12 @@ public class CreditCardEntity implements CreditCard {
   @Column(name = "dat_creation", nullable = false)
   private LocalDateTime creationDate;
 
-  public CreditCardEntity(final CreditCard creditCard) {
+  public CreditCardEntity(final CreditCard creditCard, final PersonEntity person) {
     this.id = creditCard.getId();
     this.code = creditCard.getCode();
     this.alias = creditCard.getAlias();
     this.brand = creditCard.getBrand();
-    this.person = new PersonEntity(creditCard.getPerson());
+    this.person = person;
     this.creationDate = creditCard.getCreationDate();
 
     this.validate();

@@ -1,5 +1,7 @@
 package br.com.doliver.service;
 
+import java.util.UUID;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -97,6 +99,25 @@ class AccountServiceTest {
             () -> service.create(account, null)),
         () -> Mockito.verify(repository, Mockito.never())
             .save(Mockito.any(AccountEntity.class))
+    );
+  }
+
+  @Test
+  @DisplayName("Deve encontrar uma conta com sucesso")
+  void shoulReturnAnAccountWithSuccess() {
+    Account account = factory.getDefault();
+
+    Mockito.when(repository.findByCode(Mockito.any(UUID.class)))
+        .thenReturn(new AccountEntity(account, new PersonEntity(account.getPerson())));
+
+    Account accountFounded = service.find(account.getCode()
+        .toString());
+
+    assertAll(
+        () -> assertEquals(accountFounded.getId(), account.getId()),
+        () -> assertEquals(accountFounded.getCode(), account.getCode()),
+        () -> assertEquals(accountFounded.getAlias(), account.getAlias()),
+        () -> assertEquals(accountFounded.getPerson().getCode(), account.getPerson().getCode())
     );
   }
 
