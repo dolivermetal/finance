@@ -1,4 +1,4 @@
-package br.com.doliver.database.postgres.entity;
+package br.com.doliver.database.entity;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -17,53 +17,55 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Type;
 
-import br.com.doliver.domain.CreditCard;
-import lombok.Data;
+import br.com.doliver.domain.Account;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Getter
+@Setter
+@ToString(exclude = {"person"})
 @Entity
-@Table(name = "credit_card",
+@Table(name = "account",
     indexes = {
-        @Index(name = "credit_card_pk", columnList = "idt_credit_card", unique = true)
+        @Index(name = "account_pk", columnList = "idt_account", unique = true)
     },
     uniqueConstraints = {
-        @UniqueConstraint(name = "credit_card_uk01", columnNames = "cod_credit_card")
+        @UniqueConstraint(name = "account_uk01", columnNames = "cod_account")
     }
 )
 @NoArgsConstructor
-public class CreditCardEntity implements CreditCard {
+public class AccountEntity implements Account {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "idt_credit_card", nullable = false, unique = true)
+  @Column(name = "idt_account", nullable = false, unique = true)
   private Long id;
 
-  @Column(name = "cod_credit_card", nullable = false)
+  @Column(name = "cod_account", nullable = false)
+  @Type(type = "org.hibernate.type.UUIDCharType")
   private UUID code;
 
   @Column(name = "nam_alias", nullable = false, length = 50)
   private String alias;
 
-  @Column(name = "nam_brand", length = 30)
-  private String brand;
-
   @ManyToOne
-  @JoinColumn(name = "idt_person", nullable = false, foreignKey = @ForeignKey(name = "credit_card_fk01"))
+  @JoinColumn(name = "idt_person", nullable = false, foreignKey = @ForeignKey(name = "account_fk01"))
   private PersonEntity person;
 
   @CreationTimestamp
   @Column(name = "dat_creation", nullable = false)
   private LocalDateTime creationDate;
 
-  public CreditCardEntity(final CreditCard creditCard) {
-    this.id = creditCard.getId();
-    this.code = creditCard.getCode();
-    this.alias = creditCard.getAlias();
-    this.brand = creditCard.getBrand();
-    this.person = new PersonEntity(creditCard.getPerson());
-    this.creationDate = creditCard.getCreationDate();
+  public AccountEntity(final Account account, final PersonEntity person) {
+    this.id = account.getId();
+    this.code = account.getCode();
+    this.alias = account.getAlias();
+    this.creationDate = account.getCreationDate();
+    this.person = person;
 
     this.validate();
   }
@@ -75,6 +77,10 @@ public class CreditCardEntity implements CreditCard {
 
     if (Objects.isNull(this.person)) {
       throw new IllegalArgumentException("Person can't be null");
+    }
+
+    if (Objects.isNull(this.code)) {
+      throw new IllegalArgumentException("code can't be null or empty");
     }
   }
 }

@@ -1,4 +1,4 @@
-package br.com.doliver.database.postgres.entity;
+package br.com.doliver.database.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

@@ -1,4 +1,4 @@
-package br.com.doliver.database.postgres.entity;
+package br.com.doliver.database.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;

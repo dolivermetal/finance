@@ -1,4 +1,4 @@
-package br.com.doliver.database.oracle.entity;
+package br.com.doliver.database.entity;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -18,7 +18,6 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import br.com.doliver.database.postgres.entity.CreditCardEntity;
 import br.com.doliver.domain.CreditCard;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,7 +33,7 @@ import lombok.NoArgsConstructor;
     }
 )
 @NoArgsConstructor
-public class CreditCardOracleEntity implements CreditCard {
+public class CreditCardEntity implements CreditCard {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,18 +51,18 @@ public class CreditCardOracleEntity implements CreditCard {
 
   @ManyToOne
   @JoinColumn(name = "idt_person", nullable = false, foreignKey = @ForeignKey(name = "credit_card_fk01"))
-  private PersonOracleEntity person;
+  private PersonEntity person;
 
   @CreationTimestamp
   @Column(name = "dat_creation", nullable = false)
   private LocalDateTime creationDate;
 
-  public CreditCardOracleEntity(final CreditCardEntity creditCard) {
+  public CreditCardEntity(final CreditCard creditCard) {
     this.id = creditCard.getId();
     this.code = creditCard.getCode();
     this.alias = creditCard.getAlias();
     this.brand = creditCard.getBrand();
-    this.person = new PersonOracleEntity(creditCard.getPerson());
+    this.person = new PersonEntity(creditCard.getPerson());
     this.creationDate = creditCard.getCreationDate();
 
     this.validate();

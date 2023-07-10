@@ -7,24 +7,14 @@ spring:
   application:
     name: finance
   datasource:
-    postgres:
-      url: jdbc:postgresql://localhost:5432/finance?currentSchema=finance
-      username: finance_adm
-      password: finance_adm1234
-      driver-class-name: org.postgresql.Driver
-      database-platform: org.hibernate.dialect.Oracle12cDialect
-      hikari:
-        minimum-idle: 10
-        maximum-pool-size: 20
-    oracle:
-      url: jdbc:oracle:thin:@//localhost:1521/pdbfinance
-      username: finance_adm
-      password: finance_adm1234
-      driver-class-name: oracle.jdbc.OracleDriver
-      database-platform: org.hibernate.dialect.PostgreSQLDialect
-      hikari:
-        minimum-idle: 10
-        maximum-pool-size: 20
+    url: jdbc:postgresql://localhost:5432/finance?currentSchema=finance
+    username: finance_adm
+    password: finance_adm1234
+    driver-class-name: org.postgresql.Driver
+    database-platform: org.hibernate.dialect.Oracle12cDialect
+    hikari:
+      minimum-idle: 10
+      maximum-pool-size: 20
   jpa:
     open-in-view: false
     show-sql: true

@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
-import br.com.doliver.database.postgres.entity.TransactionEntity;
-import br.com.doliver.database.postgres.repository.TransactionRepository;
+import br.com.doliver.database.entity.TransactionEntity;
+import br.com.doliver.database.repository.TransactionRepository;
 import br.com.doliver.domain.Transaction;
 import br.com.doliver.factory.TransactionFactory;
 

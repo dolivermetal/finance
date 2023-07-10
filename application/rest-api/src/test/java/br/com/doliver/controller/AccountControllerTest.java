@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.doliver.config.IntegrationTestConfig;
-import br.com.doliver.database.postgres.entity.AccountEntity;
-import br.com.doliver.database.postgres.entity.PersonEntity;
+import br.com.doliver.database.entity.AccountEntity;
+import br.com.doliver.database.entity.PersonEntity;
 import br.com.doliver.dto.form.AccountForm;
 import br.com.doliver.factory.account.AccountFactory;
 import br.com.doliver.factory.account.AccountFormFactory;
