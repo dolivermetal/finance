@@ -2,8 +2,8 @@ package br.com.doliver.service;
 
 import org.springframework.stereotype.Service;
 
-import br.com.doliver.database.postgres.entity.CreditCardEntity;
-import br.com.doliver.database.postgres.repository.CreditCardRepository;
+import br.com.doliver.database.entity.CreditCardEntity;
+import br.com.doliver.database.repository.CreditCardRepository;
 import br.com.doliver.domain.CreditCard;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

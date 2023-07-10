@@ -4,10 +4,10 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import br.com.doliver.database.postgres.entity.AccountEntity;
-import br.com.doliver.database.postgres.entity.PersonEntity;
-import br.com.doliver.database.postgres.repository.AccountRepository;
-import br.com.doliver.database.postgres.repository.PersonRepository;
+import br.com.doliver.database.entity.AccountEntity;
+import br.com.doliver.database.entity.PersonEntity;
+import br.com.doliver.database.repository.AccountRepository;
+import br.com.doliver.database.repository.PersonRepository;
 import br.com.doliver.domain.Account;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

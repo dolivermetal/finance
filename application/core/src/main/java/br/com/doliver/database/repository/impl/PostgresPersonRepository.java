@@ -1,4 +1,4 @@
-package br.com.doliver.database.postgres.repository.impl;
+package br.com.doliver.database.repository.impl;
 
 import java.util.UUID;
 
@@ -8,17 +8,17 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.doliver.database.postgres.entity.PersonEntity;
-import br.com.doliver.database.postgres.repository.PersonRepository;
+import br.com.doliver.database.entity.PersonEntity;
+import br.com.doliver.database.repository.PersonRepository;
 
 @Repository
 public class PostgresPersonRepository implements PersonRepository {
 
-  @PersistenceContext(unitName = "postgresEntityManagerFactory")
+  @PersistenceContext
   private EntityManager entityManager;
 
   @Override
-  @Transactional(transactionManager = "postgresTransactionManager")
+  @Transactional
   public PersonEntity create(final PersonEntity person) {
     entityManager.persist(person);
     return person;

@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
-import br.com.doliver.database.postgres.entity.OutboxEntity;
-import br.com.doliver.database.postgres.repository.OutboxRepository;
+import br.com.doliver.database.entity.OutboxEntity;
+import br.com.doliver.database.repository.OutboxRepository;
 import br.com.doliver.domain.Outbox;
 import br.com.doliver.factory.OutboxFactory;
 

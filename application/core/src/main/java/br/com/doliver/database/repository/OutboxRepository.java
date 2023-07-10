@@ -1,8 +1,8 @@
-package br.com.doliver.database.postgres.repository;
+package br.com.doliver.database.repository;
 
 import org.springframework.data.repository.CrudRepository;
 
-import br.com.doliver.database.postgres.entity.OutboxEntity;
+import br.com.doliver.database.entity.OutboxEntity;
 
 public interface OutboxRepository extends CrudRepository<OutboxEntity, Long> {
 

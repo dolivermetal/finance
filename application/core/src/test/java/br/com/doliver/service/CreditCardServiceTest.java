@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
-import br.com.doliver.database.postgres.entity.CreditCardEntity;
-import br.com.doliver.database.postgres.repository.CreditCardRepository;
+import br.com.doliver.database.entity.CreditCardEntity;
+import br.com.doliver.database.repository.CreditCardRepository;
 import br.com.doliver.domain.CreditCard;
 import br.com.doliver.factory.CreditCardFactory;
 import br.com.doliver.factory.PersonFactory;

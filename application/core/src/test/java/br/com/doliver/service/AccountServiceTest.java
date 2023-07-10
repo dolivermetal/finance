@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
-import br.com.doliver.database.postgres.entity.AccountEntity;
-import br.com.doliver.database.postgres.entity.PersonEntity;
-import br.com.doliver.database.postgres.repository.AccountRepository;
-import br.com.doliver.database.postgres.repository.PersonRepository;
+import br.com.doliver.database.entity.AccountEntity;
+import br.com.doliver.database.entity.PersonEntity;
+import br.com.doliver.database.repository.AccountRepository;
+import br.com.doliver.database.repository.PersonRepository;
 import br.com.doliver.domain.Account;
 import br.com.doliver.factory.AccountFactory;
 import br.com.doliver.factory.PersonFactory;

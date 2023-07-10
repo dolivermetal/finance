@@ -1,8 +1,8 @@
-package br.com.doliver.database.postgres.repository;
+package br.com.doliver.database.repository;
 
 import java.util.UUID;
 
-import br.com.doliver.database.postgres.entity.PersonEntity;
+import br.com.doliver.database.entity.PersonEntity;
 
 public interface PersonRepository {
 
