@@ -5,6 +5,7 @@ This project is for a personal study. The main goals is experimental the follow 
 - Docker
 - Relational databases
 - No-relational databases
+  - DynamoDB (local)
 - Messages and Event Streaming platforms
 
 ### How to run
