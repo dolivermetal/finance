@@ -1,5 +1,7 @@
 package br.com.doliver.controller;
 
+import java.util.Objects;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,27 +28,30 @@ public class OutboxController {
   @PostMapping
   public ResponseEntity<OutboxResponse> create(@RequestBody final OutboxForm form) {
     try {
-      log.info("m=create outbox, form={}", form);
+      log.info("msg=create outbox, form={}", form);
       Outbox outbox = service.create(form.asOutbox());
       OutboxResponse response = new OutboxResponse(outbox);
-      log.info("m=outbox created, response={}", response);
+      log.info("msg=outbox created, response={}", response);
       return ResponseEntity.ok(response);
     } catch (Exception e) {
-      log.error("m=exception, e.message={}", e.getMessage());
+      log.error("msg=exception, e.message={}", e.getMessage());
       return ResponseEntity.internalServerError()
           .build();
     }
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<OutboxResponse> get(@PathVariable final Long id) {
+  public ResponseEntity<OutboxResponse> find(@PathVariable final Long id) {
     try {
-      log.info("m=find outbox, id={}", id);
+      log.info("msg=find outbox, id={}", id);
       final Outbox outbox = service.find(id);
-      log.info("m=outbox found, outbox={}", outbox);
+      if (Objects.isNull(outbox)) {
+        return ResponseEntity.notFound().build();
+      }
+      log.info("msg=outbox found, outbox={}", outbox);
       return ResponseEntity.ok(new OutboxResponse(outbox));
     } catch (Exception e) {
-      log.error("m=exception, e.message={}", e.getMessage());
+      log.error("msg=exception, e.message={}", e.getMessage());
       return ResponseEntity.internalServerError()
           .build();
     }

@@ -7,10 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.doliver.config.IntegrationTestConfig;
+import br.com.doliver.database.entity.PersonEntity;
 import br.com.doliver.dto.form.PersonForm;
-import br.com.doliver.entity.PersonEntity;
-import br.com.doliver.factory.PersonFactory;
-import br.com.doliver.factory.PersonFormFactory;
+import br.com.doliver.factory.person.PersonFactory;
+import br.com.doliver.factory.person.PersonFormFactory;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 
@@ -96,5 +96,20 @@ class PersonControllerTest extends IntegrationTestConfig {
         .body("id", Matchers.is(entity.getId().intValue()))
         .body("code", Matchers.is(entity.getCode().toString()))
         .body("name", Matchers.is(entity.getName()));
+  }
+
+  @Test
+  @DisplayName("Deve retornar NotFound ao consultar uma pessoa inexistente")
+  void shouldReturnNotFoundWhenTryToSearchAPersonWhoNotExists() {
+    RestAssured.given()
+        .log()
+        .all()
+        .contentType(ContentType.JSON)
+        .when()
+        .get("/persons/ee0df165-ae1e-42ae-81e1-09e79804b3f7")
+        .then()
+        .log()
+        .all()
+        .statusCode(HttpStatus.SC_NOT_FOUND);
   }
 }

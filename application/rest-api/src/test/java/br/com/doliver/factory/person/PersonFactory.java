@@ -1,12 +1,12 @@
-package br.com.doliver.factory;
+package br.com.doliver.factory.person;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
-import br.com.doliver.entity.PersonEntity;
-import br.com.doliver.repository.PersonRepository;
+import br.com.doliver.database.entity.PersonEntity;
+import br.com.doliver.database.repository.PersonRepository;
 import br.com.leonardoferreira.jbacon.JBacon;
 import lombok.RequiredArgsConstructor;
 

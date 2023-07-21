@@ -9,12 +9,15 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/finance?currentSchema=finance
     username: finance_adm
-    password: finance_adm
+    password: finance_adm1234
+    driver-class-name: org.postgresql.Driver
+    database-platform: org.hibernate.dialect.Oracle12cDialect
     hikari:
       minimum-idle: 10
       maximum-pool-size: 20
   jpa:
-    show-sql: false
+    open-in-view: false
+    show-sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   kafka:
     bootstrap-server: localhost:9092

@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
+import br.com.doliver.database.entity.TransactionEntity;
+import br.com.doliver.database.repository.TransactionRepository;
 import br.com.doliver.domain.Transaction;
-import br.com.doliver.entity.TransactionEntity;
 import br.com.doliver.factory.TransactionFactory;
-import br.com.doliver.repository.TransactionRepository;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;

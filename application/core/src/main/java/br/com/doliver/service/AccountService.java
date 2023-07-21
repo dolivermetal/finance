@@ -1,10 +1,16 @@
 package br.com.doliver.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 
+import br.com.doliver.database.entity.AccountEntity;
+import br.com.doliver.database.entity.PersonEntity;
+import br.com.doliver.database.repository.AccountRepository;
+import br.com.doliver.database.repository.PersonRepository;
 import br.com.doliver.domain.Account;
-import br.com.doliver.entity.AccountEntity;
-import br.com.doliver.repository.AccountRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,8 +21,24 @@ public class AccountService {
 
   private final AccountRepository repository;
 
-  public Account create(final Account account) {
-    log.info("i=saving account on database, account={}", account);
-    return repository.save(new AccountEntity(account));
+  private final PersonRepository personRepository;
+
+  public Account create(final Account account, final UUID personCode) {
+    log.info("msg=saving account on database, account={}", account);
+    PersonEntity personEntity = personRepository.findByCode(personCode);
+    AccountEntity accountEntity = new AccountEntity(account, personEntity);
+    return repository.save(accountEntity);
+  }
+
+  public Account find(final String code) {
+    log.info("msg=finding account, code={}", code);
+    return repository.findByCode(UUID.fromString(code));
+  }
+
+  public List<Account> list() {
+    log.info("msg=listing all accounts");
+    List<Account> accounts = new ArrayList<>();
+    repository.findAll().forEach(accounts::add);
+    return accounts;
   }
 }

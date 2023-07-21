@@ -1,6 +1,8 @@
 package br.com.doliver.factory;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import br.com.doliver.domain.Account;
@@ -23,15 +25,37 @@ public class AccountFactory {
     return getDefaultMock();
   }
 
+  public Account getDefaultWithID(final Long id) {
+    return getDefaultMock(id);
+  }
+
   public Account getWithEmptyAlias() {
     final AccountMock mock = getDefaultMock();
     mock.alias = "";
     return mock;
   }
 
+  public Account getWithoutPerson() {
+    final AccountMock mock = getDefaultMock();
+    mock.person = null;
+    return mock;
+  }
+
+  public List<Account> getList(final int size) {
+    List<Account> accounts = new ArrayList<>();
+    for (int i = 0; i < size; i++) {
+      accounts.add(getDefaultWithID(Integer.valueOf(i).longValue()));
+    }
+    return accounts;
+  }
+
   private AccountMock getDefaultMock() {
+    return getDefaultMock(ID);
+  }
+
+  private AccountMock getDefaultMock(final Long id) {
     return AccountMock.builder()
-        .id(ID)
+        .id(id)
         .code(UUID.randomUUID())
         .alias(ALIAS)
         .person(personFactory.getDefault())

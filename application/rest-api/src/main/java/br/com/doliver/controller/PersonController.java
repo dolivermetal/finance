@@ -1,5 +1,7 @@
 package br.com.doliver.controller;
 
+import java.util.Objects;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,16 +28,16 @@ public class PersonController {
   @PostMapping
   public ResponseEntity<PersonResponse> create(@RequestBody final PersonForm form) {
     try {
-      log.info("m=create person, form={}", form);
+      log.info("msg=create person, form={}", form);
       Person person = service.create(form.asPerson());
       PersonResponse response = new PersonResponse(person);
-      log.info("m=person created, response={}", response);
+      log.info("msg=person created, response={}", response);
       return ResponseEntity.ok(response);
     } catch (IllegalArgumentException e) {
-      log.error("m=exception, e.type={}, e.message={}", e.getClass().toString(), e.getMessage());
+      log.error("msg=exception, e.type={}, e.message={}", e.getClass().toString(), e.getMessage());
       return ResponseEntity.badRequest().build();
     } catch (Exception e) {
-      log.error("m=exception, e.type={}, e.message={}", e.getClass().toString(), e.getMessage());
+      log.error("msg=exception, e.type={}, e.message={}", e.getClass().toString(), e.getMessage());
       return ResponseEntity.internalServerError()
           .build();
     }
@@ -44,12 +46,15 @@ public class PersonController {
   @GetMapping("/{code}")
   public ResponseEntity<PersonResponse> find(@PathVariable final String code) {
     try {
-      log.info("m=find person, code={}", code);
+      log.info("msg=find person, code={}", code);
       Person person = service.find(code);
-      log.info("m=person found, person={}", person);
+      if (Objects.isNull(person)) {
+        return ResponseEntity.notFound().build();
+      }
+      log.info("msg=person found, person={}", person);
       return ResponseEntity.ok(new PersonResponse(person));
     } catch (Exception e) {
-      log.error("m=exception, e.message={}", e.getMessage());
+      log.error("msg=exception, e.message={}", e.getMessage());
       return ResponseEntity.internalServerError()
           .build();
     }

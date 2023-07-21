@@ -5,6 +5,7 @@ This project is for a personal study. The main goals is experimental the follow 
 - Docker
 - Relational databases
 - No-relational databases
+  - DynamoDB (local)
 - Messages and Event Streaming platforms
 
 ### How to run
@@ -25,5 +26,5 @@ TODO: need to find a solution that works with Java 16
       ```
    2. Docker
       ```
-      wip
+      docker-compose up -d
       ```

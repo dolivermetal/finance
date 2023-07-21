@@ -8,6 +8,7 @@ buildscript {
     lombokVersion = '1.18.20'
     springBootVersion = '2.6.7'
     postgresVersion = '42.3.4'
+    oracleVersion = '19.17.0.0'
     jaxbApiVersion = '2.4.0-b180830.0359'
     restAssuredVersion = '5.2.0'
     jBaconVersion = '2.1.1'
@@ -112,6 +113,7 @@ project(':application:core') {
 
     // Database
     implementation "org.postgresql:postgresql:${postgresVersion}"
+    implementation "com.oracle.database.jdbc:ojdbc10:${oracleVersion}"
 
     // Others
     implementation "javax.xml.bind:jaxb-api:${jaxbApiVersion}"
@@ -134,7 +136,8 @@ project(':application:rest-api') {
     testImplementation "io.rest-assured:rest-assured:${restAssuredVersion}"
     testImplementation "com.github.tomakehurst:wiremock-standalone:${wiremockVersion}"
     testImplementation "org.springframework.cloud:spring-cloud-contract-wiremock:${springCloudWireMock}"
-    testImplementation "com.h2database:h2:${h2DBVersion}"
     testImplementation "br.com.leonardoferreira:JBacon:${jBaconVersion}"
+    testImplementation "com.h2database:h2:${h2DBVersion}"
+    testImplementation "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
   }
 }
