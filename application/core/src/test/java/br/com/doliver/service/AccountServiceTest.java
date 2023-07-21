@@ -1,5 +1,8 @@
 package br.com.doliver.service;
 
+import java.util.List;
+import java.util.UUID;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -54,7 +57,8 @@ class AccountServiceTest {
     Mockito.when(repository.save(Mockito.any(AccountEntity.class)))
         .thenReturn(new AccountEntity(account, person));
 
-    Account accountCreated = service.create(account, account.getPerson().getCode());
+    Account accountCreated = service.create(account, account.getPerson()
+        .getCode());
 
     assertAll(
         () -> assertEquals(accountCreated.getAlias(), account.getAlias()),
@@ -71,7 +75,9 @@ class AccountServiceTest {
 
     assertAll(
         () -> assertThrows(IllegalArgumentException.class,
-            () -> service.create(account, account.getPerson().getCode())),
+            () -> service.create(account, account.getPerson()
+                .getCode())
+        ),
         () -> Mockito.verify(repository, Mockito.never())
             .save(Mockito.any(AccountEntity.class))
     );
@@ -94,9 +100,47 @@ class AccountServiceTest {
 
     assertAll(
         () -> assertThrows(IllegalArgumentException.class,
-            () -> service.create(account, null)),
+            () -> service.create(account, null)
+        ),
         () -> Mockito.verify(repository, Mockito.never())
             .save(Mockito.any(AccountEntity.class))
+    );
+  }
+
+  @Test
+  @DisplayName("Deve retornar uma lista de contas")
+  void shouldReturnAccountList() {
+    final List<Account> accounts = factory.getList(2);
+    final Iterable<AccountEntity> accountEntities = accounts.stream()
+        .map(it -> new AccountEntity(it, new PersonEntity(it.getPerson())))
+        .toList();
+
+    Mockito.when(repository.findAll())
+        .thenReturn(accountEntities);
+
+    List<Account> accountsReturned = service.list();
+
+    assertAll(
+        () -> assertEquals(accountsReturned.size(), accounts.size())
+    );
+  }
+
+  @Test
+  @DisplayName("Deve retornar uma conta")
+  void shouldReturnAccount() {
+    final Account account = factory.getDefault();
+
+    Mockito.when(repository.findByCode(Mockito.any(UUID.class)))
+        .thenReturn(new AccountEntity(account, new PersonEntity(account.getPerson())));
+
+    Account accountReturned = service.find(UUID.randomUUID()
+        .toString());
+
+    assertAll(
+        () -> assertEquals(accountReturned.getId(), account.getId()),
+        () -> assertEquals(accountReturned.getCode(), account.getCode()),
+        () -> assertEquals(accountReturned.getAlias(), account.getAlias()),
+        () -> assertEquals(accountReturned.getCreationDate(), account.getCreationDate())
     );
   }
 

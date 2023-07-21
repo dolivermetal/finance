@@ -1,5 +1,6 @@
 package br.com.doliver.controller;
 
+import java.util.List;
 import java.util.Objects;
 
 import org.springframework.http.ResponseEntity;
@@ -34,10 +35,28 @@ public class AccountController {
       log.info("msg=account created, response={}", response);
       return ResponseEntity.ok(response);
     } catch (IllegalArgumentException e) {
-      log.error("msg=exception, e.type={}, e.message={}", e.getClass().toString(), e.getMessage());
-      return ResponseEntity.badRequest().build();
+      log.error("msg=exception, e.type={}, e.message={}", e.getClass()
+          .toString(), e.getMessage());
+      return ResponseEntity.badRequest()
+          .build();
     } catch (Exception e) {
-      log.error("msg=exception, e.type={}, e.message={}", e.getClass().toString(), e.getMessage());
+      log.error("msg=exception, e.type={}, e.message={}", e.getClass()
+          .toString(), e.getMessage());
+      return ResponseEntity.internalServerError()
+          .build();
+    }
+  }
+
+  @GetMapping
+  public ResponseEntity<List<AccountResponse>> list() {
+    try {
+      log.info("msg=list accounts");
+      List<Account> accounts = service.list();
+      return Objects.isNull(accounts)
+          ? ResponseEntity.notFound().build()
+          : ResponseEntity.ok(accounts.stream().map(AccountResponse::new).toList());
+    } catch (Exception e) {
+      log.error("msg=exception, e.message={}", e.getMessage());
       return ResponseEntity.internalServerError()
           .build();
     }
@@ -49,7 +68,8 @@ public class AccountController {
       log.info("msg=find account, code={}", code);
       Account account = service.find(code);
       if (Objects.isNull(account)) {
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.notFound()
+            .build();
       }
       log.info("msg=account found, account={}", account);
       return ResponseEntity.ok(new AccountResponse(account));

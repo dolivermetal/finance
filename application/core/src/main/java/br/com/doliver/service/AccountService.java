@@ -1,5 +1,7 @@
 package br.com.doliver.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -31,5 +33,12 @@ public class AccountService {
   public Account find(final String code) {
     log.info("msg=finding account, code={}", code);
     return repository.findByCode(UUID.fromString(code));
+  }
+
+  public List<Account> list() {
+    log.info("msg=listing all accounts");
+    List<Account> accounts = new ArrayList<>();
+    repository.findAll().forEach(accounts::add);
+    return accounts;
   }
 }

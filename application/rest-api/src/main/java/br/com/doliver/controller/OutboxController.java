@@ -1,6 +1,5 @@
 package br.com.doliver.controller;
 
-import java.util.List;
 import java.util.Objects;
 
 import org.springframework.http.ResponseEntity;
