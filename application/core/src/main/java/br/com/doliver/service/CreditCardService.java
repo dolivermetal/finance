@@ -16,7 +16,7 @@ public class CreditCardService {
   private final CreditCardRepository repository;
 
   public CreditCard create(final CreditCard creditCard) {
-    log.info("i=saving credit card on database, creditCard={}", creditCard);
+    log.info("msg=saving credit card on database, creditCard={}", creditCard);
     return repository.save(new CreditCardEntity(creditCard));
   }
 }

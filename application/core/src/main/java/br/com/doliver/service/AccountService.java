@@ -22,14 +22,14 @@ public class AccountService {
   private final PersonRepository personRepository;
 
   public Account create(final Account account, final UUID personCode) {
-    log.info("i=saving account on database, account={}", account);
+    log.info("msg=saving account on database, account={}", account);
     PersonEntity personEntity = personRepository.findByCode(personCode);
     AccountEntity accountEntity = new AccountEntity(account, personEntity);
     return repository.save(accountEntity);
   }
 
   public Account find(final String code) {
-    log.info("i=finding account, code={}", code);
+    log.info("msg=finding account, code={}", code);
     return repository.findByCode(UUID.fromString(code));
   }
 }

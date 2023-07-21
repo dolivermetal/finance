@@ -21,12 +21,12 @@ public class PersonService {
   private final PersonSpringDataRepository springDataRepository;
 
   public Person create(final Person person) {
-    log.info("i=creating person, person={}", person);
+    log.info("msg=creating person, person={}", person);
     return repository.create(new PersonEntity(person));
   }
 
   public Person find(final String code) {
-    log.info("i=finding person, code={}", code);
+    log.info("msg=finding person, code={}", code);
     return springDataRepository.findByCode(UUID.fromString(code));
   }
 }

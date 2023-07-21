@@ -22,10 +22,10 @@ public class FilterOriginController {
   @GetMapping(produces = APPLICATION_JSON_VALUE)
   public ResponseEntity<String> origin(@RequestHeader("origin") final String origin) {
     try {
-      log.info("m=test, origin={}", origin);
+      log.info("msg=test, origin={}", origin);
       return ResponseEntity.ok("{\"origin\" : \"" + origin + "\"}");
     } catch (Exception e) {
-      log.error("m=exception, e.message={}", e.getMessage());
+      log.error("msg=exception, e.message={}", e.getMessage());
       return ResponseEntity.internalServerError()
           .build();
     }
