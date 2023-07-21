@@ -1,4 +1,4 @@
-package br.com.doliver;
+package br.com.doliver.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;

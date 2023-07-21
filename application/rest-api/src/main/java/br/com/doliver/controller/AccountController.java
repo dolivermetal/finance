@@ -1,5 +1,6 @@
 package br.com.doliver.controller;
 
+import java.util.List;
 import java.util.Objects;
 
 import org.springframework.http.ResponseEntity;
@@ -28,16 +29,34 @@ public class AccountController {
   @PostMapping
   public ResponseEntity<AccountResponse> create(@RequestBody final AccountForm form) {
     try {
-      log.info("m=create account, form={}", form);
+      log.info("msg=create account, form={}", form);
       Account account = service.create(form.asAccount(), form.getPersonCode());
       AccountResponse response = new AccountResponse(account);
-      log.info("m=account created, response={}", response);
+      log.info("msg=account created, response={}", response);
       return ResponseEntity.ok(response);
     } catch (IllegalArgumentException e) {
-      log.error("m=exception, e.type={}, e.message={}", e.getClass().toString(), e.getMessage());
-      return ResponseEntity.badRequest().build();
+      log.error("msg=exception, e.type={}, e.message={}", e.getClass()
+          .toString(), e.getMessage());
+      return ResponseEntity.badRequest()
+          .build();
     } catch (Exception e) {
-      log.error("m=exception, e.type={}, e.message={}", e.getClass().toString(), e.getMessage());
+      log.error("msg=exception, e.type={}, e.message={}", e.getClass()
+          .toString(), e.getMessage());
+      return ResponseEntity.internalServerError()
+          .build();
+    }
+  }
+
+  @GetMapping
+  public ResponseEntity<List<AccountResponse>> list() {
+    try {
+      log.info("msg=list accounts");
+      List<Account> accounts = service.list();
+      return Objects.isNull(accounts)
+          ? ResponseEntity.notFound().build()
+          : ResponseEntity.ok(accounts.stream().map(AccountResponse::new).toList());
+    } catch (Exception e) {
+      log.error("msg=exception, e.message={}", e.getMessage());
       return ResponseEntity.internalServerError()
           .build();
     }
@@ -46,15 +65,16 @@ public class AccountController {
   @GetMapping("/{code}")
   public ResponseEntity<AccountResponse> find(@PathVariable final String code) {
     try {
-      log.info("m=find account, code={}", code);
+      log.info("msg=find account, code={}", code);
       Account account = service.find(code);
       if (Objects.isNull(account)) {
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.notFound()
+            .build();
       }
-      log.info("m=account found, account={}", account);
+      log.info("msg=account found, account={}", account);
       return ResponseEntity.ok(new AccountResponse(account));
     } catch (Exception e) {
-      log.error("m=exception, e.message={}", e.getMessage());
+      log.error("msg=exception, e.message={}", e.getMessage());
       return ResponseEntity.internalServerError()
           .build();
     }

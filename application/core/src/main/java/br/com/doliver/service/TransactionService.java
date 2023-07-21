@@ -16,7 +16,7 @@ public class TransactionService {
   private final TransactionRepository repository;
 
   public Transaction create(final Transaction transaction) {
-    log.info("i=creating transaction, transaction={}", transaction);
+    log.info("msg=creating transaction, transaction={}", transaction);
     return repository.save(new TransactionEntity(transaction));
   }
 }

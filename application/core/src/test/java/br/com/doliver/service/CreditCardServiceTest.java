@@ -2,9 +2,6 @@ package br.com.doliver.service;
 
 import java.util.UUID;
 
-import br.com.doliver.database.entity.PersonEntity;
-import br.com.doliver.database.repository.PersonRepository;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,7 +9,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import br.com.doliver.database.entity.CreditCardEntity;
+import br.com.doliver.database.entity.PersonEntity;
 import br.com.doliver.database.repository.CreditCardRepository;
+import br.com.doliver.database.repository.PersonRepository;
 import br.com.doliver.domain.CreditCard;
 import br.com.doliver.factory.CreditCardFactory;
 import br.com.doliver.factory.PersonFactory;

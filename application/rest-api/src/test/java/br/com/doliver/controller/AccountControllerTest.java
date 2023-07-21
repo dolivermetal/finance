@@ -1,5 +1,7 @@
 package br.com.doliver.controller;
 
+import java.util.List;
+
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
@@ -129,5 +131,24 @@ class AccountControllerTest extends IntegrationTestConfig {
         .log()
         .all()
         .statusCode(HttpStatus.SC_NOT_FOUND);
+  }
+
+  @Test
+  @DisplayName("Deve listar todas as contas")
+  void shouldListAccounts() {
+    List<AccountEntity> entities = factory.create(2);
+    // FIXME: avaliar como limpar o banco antes dessa execução
+
+    RestAssured.given()
+        .log()
+        .all()
+        .contentType(ContentType.JSON)
+        .when()
+        .get("/accounts")
+        .then()
+        .log()
+        .all()
+        .statusCode(HttpStatus.SC_OK)
+        .body("[2].id", Matchers.is(entities.get(0).getId().intValue()));
   }
 }
