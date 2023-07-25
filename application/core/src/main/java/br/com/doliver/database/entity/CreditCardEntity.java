@@ -78,5 +78,9 @@ public class CreditCardEntity implements CreditCard {
     if (Objects.isNull(this.person)) {
       throw new IllegalArgumentException("Person can't be null");
     }
+
+    if (Objects.isNull(this.code)) {
+      throw new IllegalArgumentException("code can't be null or empty");
+    }
   }
 }
