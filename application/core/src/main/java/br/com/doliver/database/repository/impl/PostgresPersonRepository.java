@@ -3,6 +3,7 @@ package br.com.doliver.database.repository.impl;
 import java.util.UUID;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
@@ -26,14 +27,18 @@ public class PostgresPersonRepository implements PersonRepository {
 
   @Override
   public PersonEntity findByCode(final UUID code) {
-    StringBuilder jpql = new StringBuilder()
-        .append("select p")
-        .append("  from PersonEntity p")
-        .append(" where p.code = :code");
+    try {
+      StringBuilder jpql = new StringBuilder()
+          .append("select p")
+          .append("  from PersonEntity p")
+          .append(" where p.code = :code");
 
-    return entityManager.createQuery(jpql.toString(), PersonEntity.class)
-        .setParameter("code", code)
-        .getSingleResult();
+      return entityManager.createQuery(jpql.toString(), PersonEntity.class)
+          .setParameter("code", code)
+          .getSingleResult();
+    } catch (NoResultException e) {
+      return null;
+    }
   }
 
 }

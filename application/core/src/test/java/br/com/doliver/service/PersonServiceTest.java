@@ -1,5 +1,7 @@
 package br.com.doliver.service;
 
+import java.util.UUID;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,6 +35,7 @@ class PersonServiceTest {
   @BeforeEach
   void setup() {
     this.repository = Mockito.spy(PersonRepository.class);
+    this.springDataRepository = Mockito.spy(PersonSpringDataRepository.class);
     this.factory = new PersonFactory();
     this.service = new PersonService(repository, springDataRepository);
   }
@@ -90,4 +93,21 @@ class PersonServiceTest {
     );
   }
 
+  @Test
+  @DisplayName("Deve encontrar uma pessoa com sucesso")
+  void shoulReturnAPersonWithSuccess() {
+    Person person = factory.getDefault();
+
+    Mockito.when(springDataRepository.findByCode(Mockito.any(UUID.class)))
+        .thenReturn(new PersonEntity(person));
+
+    Person personFounded = service.find(person.getCode()
+        .toString());
+
+    assertAll(
+        () -> assertEquals(personFounded.getId(), person.getId()),
+        () -> assertEquals(personFounded.getCode(), person.getCode()),
+        () -> assertEquals(personFounded.getName(), person.getName())
+    );
+  }
 }

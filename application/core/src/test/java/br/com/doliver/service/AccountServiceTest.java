@@ -126,21 +126,21 @@ class AccountServiceTest {
   }
 
   @Test
-  @DisplayName("Deve retornar uma conta")
-  void shouldReturnAccount() {
+  @DisplayName("Deve encontrar uma conta com sucesso")
+  void shoulReturnAnAccountWithSuccess() {
     final Account account = factory.getDefault();
 
     Mockito.when(repository.findByCode(Mockito.any(UUID.class)))
         .thenReturn(new AccountEntity(account, new PersonEntity(account.getPerson())));
 
-    Account accountReturned = service.find(UUID.randomUUID()
+    Account accountFounded = service.find(account.getCode()
         .toString());
 
     assertAll(
-        () -> assertEquals(accountReturned.getId(), account.getId()),
-        () -> assertEquals(accountReturned.getCode(), account.getCode()),
-        () -> assertEquals(accountReturned.getAlias(), account.getAlias()),
-        () -> assertEquals(accountReturned.getCreationDate(), account.getCreationDate())
+        () -> assertEquals(accountFounded.getId(), account.getId()),
+        () -> assertEquals(accountFounded.getCode(), account.getCode()),
+        () -> assertEquals(accountFounded.getAlias(), account.getAlias()),
+        () -> assertEquals(accountFounded.getPerson().getCode(), account.getPerson().getCode())
     );
   }
 
