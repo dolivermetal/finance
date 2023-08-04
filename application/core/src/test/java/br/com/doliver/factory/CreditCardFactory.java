@@ -45,7 +45,7 @@ public class CreditCardFactory {
   @Getter
   @Builder
   @ToString
-  private static class CreditCardMock implements CreditCard {
+  private static final class CreditCardMock implements CreditCard {
 
     private Long id;
 

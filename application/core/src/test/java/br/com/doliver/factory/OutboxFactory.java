@@ -37,7 +37,7 @@ public class OutboxFactory {
 
   @Getter
   @Builder
-  private static class OutboxMock implements Outbox {
+  private static final class OutboxMock implements Outbox {
 
     private Long id;
 

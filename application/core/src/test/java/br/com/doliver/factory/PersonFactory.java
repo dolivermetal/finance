@@ -44,7 +44,7 @@ public class PersonFactory {
   @Getter
   @Builder
   @ToString
-  private static class PersonMock implements Person {
+  private static final class PersonMock implements Person {
 
     private Long id;
 

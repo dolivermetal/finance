@@ -66,7 +66,7 @@ public class AccountFactory {
   @Getter
   @Builder
   @ToString
-  private static class AccountMock implements Account {
+  private static final class AccountMock implements Account {
 
     private Long id;
 

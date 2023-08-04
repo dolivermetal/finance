@@ -71,7 +71,7 @@ subprojects {
     maxErrors = 0
     maxWarnings = 0
     ignoreFailures = false
-    toolVersion('8.28')
+    toolVersion('10.12.2')
   }
 
   pmd {
