@@ -24,4 +24,6 @@ public interface Transaction {
 
   LocalDateTime getUpdateDate();
 
+  Referrer getReferrer();
+
 }
