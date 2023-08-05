@@ -43,7 +43,7 @@ public class TransactionFactory {
         .code(UUID.randomUUID())
         .referenceDate(LocalDateTime.now())
         .amount(AMOUNT)
-        .category(Category.OTHERS)
+        .category(Category.OTHER)
         .description(DESCRIPTION)
         .creationDate(LocalDateTime.now())
         .updateDate(LocalDateTime.now())

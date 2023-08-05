@@ -106,7 +106,7 @@ public class TransactionEntity implements Transaction {
     }
 
     if (Objects.isNull(this.category)) {
-      this.category = Category.OTHERS;
+      this.category = Category.OTHER;
     }
   }
 }
