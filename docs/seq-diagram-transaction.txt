@@ -17,10 +17,11 @@ activate bd
 core<-bd: TransactionEntity
 deactivate bd
 core->core:OutboxService.create(transaction)
-core->core:OutboxService.create(outbox, referrer)
-core->bd:OutboxRepository.save(outbox, referrer)
+activate core #gray
+core->bd:OutboxRepository.save(outbox)
 activate bd
 core<-bd: OutboxEntity
+deactivate core
 deactivate bd
 api<-core: Transaction
 deactivate core
