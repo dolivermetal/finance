@@ -61,7 +61,9 @@ class CreditCardServiceTest {
 
     assertAll(
         () -> assertEquals(creditCardCreated.getAlias(), creditCard.getAlias()),
+        () -> assertEquals(creditCardCreated.getBrand(), creditCard.getBrand()),
         () -> assertNotNull(creditCardCreated.getId()),
+        () -> assertNotNull(creditCardCreated.getCreationDate()),
         () -> Mockito.verify(repository, Mockito.times(1))
             .save(Mockito.any(CreditCardEntity.class))
     );
@@ -75,6 +77,31 @@ class CreditCardServiceTest {
     assertAll(
         () -> assertThrows(IllegalArgumentException.class, () -> service.create(creditCard, creditCard.getPerson()
             .getCode())),
+        () -> Mockito.verify(repository, Mockito.never())
+            .save(Mockito.any(CreditCardEntity.class))
+    );
+  }
+
+  @Test
+  @DisplayName("Deve retornar IllegalArgumentException ao criar um cartão de crédito sem código")
+  void shouldReturnIllegalArgumentExceptionWhenCreateCreditCardWithoutCode() {
+    final CreditCard creditCard = factory.getWithoutCode();
+
+    assertAll(
+        () -> assertThrows(IllegalArgumentException.class, () -> service.create(creditCard, creditCard.getPerson()
+            .getCode())),
+        () -> Mockito.verify(repository, Mockito.never())
+            .save(Mockito.any(CreditCardEntity.class))
+    );
+  }
+
+  @Test
+  @DisplayName("Deve retornar IllegalArgumentException ao criar um cartão de crédito sem pessoa")
+  void shouldReturnIllegalArgumentExceptionWhenCreateCreditCardWithoutPerson() {
+    final CreditCard creditCard = factory.getDefault();
+
+    assertAll(
+        () -> assertThrows(IllegalArgumentException.class, () -> service.create(creditCard, null)),
         () -> Mockito.verify(repository, Mockito.never())
             .save(Mockito.any(CreditCardEntity.class))
     );

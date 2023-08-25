@@ -31,6 +31,12 @@ public class CreditCardFactory {
     return mock;
   }
 
+  public CreditCard getWithoutCode() {
+    final CreditCardMock mock = getDefaultMock();
+    mock.code = null;
+    return mock;
+  }
+
   private CreditCardMock getDefaultMock() {
     return CreditCardMock.builder()
         .id(ID)

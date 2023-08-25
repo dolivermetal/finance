@@ -1,9 +1,14 @@
 package br.com.doliver.controller;
 
+import br.com.doliver.service.AccountService;
+
+import br.com.doliver.service.CreditCardService;
+
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.doliver.config.IntegrationTestConfig;
@@ -16,6 +21,10 @@ import br.com.doliver.factory.person.PersonFactory;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 
+import org.springframework.boot.test.mock.mockito.SpyBean;
+
+import java.util.UUID;
+
 class CreditCardControllerTest extends IntegrationTestConfig {
 
   private final CreditCardFormFactory formFactory = new CreditCardFormFactory();
@@ -25,6 +34,9 @@ class CreditCardControllerTest extends IntegrationTestConfig {
 
   @Autowired
   private PersonFactory personFactory;
+
+  @SpyBean
+  private CreditCardService service;
 
   @Test
   @DisplayName("Deve criar um cartão de crédito")
@@ -50,7 +62,7 @@ class CreditCardControllerTest extends IntegrationTestConfig {
 
   @Test
   @DisplayName("Deve retornar BadRequest ao tentar criar um cartão de crédito sem apelido")
-  void shouldReturnBadRequestWhenCreateAccountWithoutAlias() {
+  void shouldReturnBadRequestWhenCreateCreditCardWithoutAlias() {
     CreditCardForm form = formFactory.getWithEmptyAlias();
 
     PersonEntity personEntity = personFactory.create();
@@ -72,7 +84,7 @@ class CreditCardControllerTest extends IntegrationTestConfig {
 
   @Test
   @DisplayName("Deve retornar BadRequest ao tentar criar um cartão de crédito sem código")
-  void shouldReturnBadRequestWhenCreateAccountWithoutCode() {
+  void shouldReturnBadRequestWhenCreateCreditCardWithoutCode() {
     CreditCardForm form = formFactory.getWithoutCode();
 
     PersonEntity personEntity = personFactory.create();
@@ -90,6 +102,31 @@ class CreditCardControllerTest extends IntegrationTestConfig {
         .log()
         .all()
         .statusCode(HttpStatus.SC_BAD_REQUEST);
+  }
+
+  @Test
+  @DisplayName("Deve retornar InternalServerError ao tentar criar um cartão de crédito")
+  void shouldReturnInternalServerErrorWhenCreateCreditCard() {
+    CreditCardForm form = formFactory.getDefault();
+
+    PersonEntity personEntity = personFactory.create();
+    form.setPersonCode(personEntity.getCode());
+
+    Mockito.when(service.create(form.asCreditCard(), form.getPersonCode()))
+        .thenThrow(new RuntimeException());
+
+    RestAssured.given()
+        .log()
+        .all()
+        .contentType(ContentType.JSON)
+        .and()
+        .body(form)
+        .when()
+        .post("/cards/credit")
+        .then()
+        .log()
+        .all()
+        .statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR);
   }
 
   @Test
@@ -125,10 +162,30 @@ class CreditCardControllerTest extends IntegrationTestConfig {
         .all()
         .contentType(ContentType.JSON)
         .when()
-        .get("/cards/credit/ee0df165-ae1e-42ae-81e1-09e79804b3f7")
+        .get("/cards/credit/" + UUID.randomUUID())
         .then()
         .log()
         .all()
         .statusCode(HttpStatus.SC_NOT_FOUND);
+  }
+
+  @Test
+  @DisplayName("Deve retornar InternalServerError ao tentar consultar um cartão de crédito")
+  void shouldReturnInternalServerErrorWhenTryToSearchAnCreditCard() {
+    String code = UUID.randomUUID().toString();
+    Mockito.when(service.find(code))
+        .thenThrow(new RuntimeException());
+
+    RestAssured.given()
+        .log()
+        .all()
+        .contentType(ContentType.JSON)
+        .and()
+        .when()
+        .get("/cards/credit/" + code)
+        .then()
+        .log()
+        .all()
+        .statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR);
   }
 }
