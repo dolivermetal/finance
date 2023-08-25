@@ -32,6 +32,7 @@ public class CreditCardForm {
     return new CreditCardFormToCreditCardAdapter(this);
   }
 
+  @ToString
   private static class CreditCardFormToCreditCardAdapter implements CreditCard {
 
     private final CreditCardForm form;

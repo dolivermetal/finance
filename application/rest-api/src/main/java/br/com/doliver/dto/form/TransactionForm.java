@@ -39,6 +39,7 @@ public class TransactionForm {
     return new TransactionFormToTransactionAdapter(this);
   }
 
+  @ToString
   private static class TransactionFormToTransactionAdapter implements Transaction {
 
     private final TransactionForm form;
@@ -69,7 +70,7 @@ public class TransactionForm {
 
     @Override
     public Category getCategory() {
-      return !Objects.isNull(form.getCategory()) ? Category.valueOf(form.getCategory()) : null;
+      return !Objects.isNull(form.getCategory()) ? Category.getByName(form.getCategory()) : null;
     }
 
     @Override
