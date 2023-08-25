@@ -1,7 +1,5 @@
 package br.com.doliver.domain.enums;
 
-import lombok.Getter;
-
 /**
  * Categorias para classificação das transações.
  */
@@ -92,11 +90,12 @@ public enum Category {
    */
   TRAVEL("Travel");
 
-  @Getter
-  private final String name;
-
   Category(final String name) {
-    this.name = name;
   }
+
+  public static Category getByName(final String name) {
+    return Category.valueOf(name.toUpperCase().replaceAll(" |-", "_"));
+  }
+
 }
 
