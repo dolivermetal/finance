@@ -35,13 +35,11 @@ public class AccountController {
       log.info("msg=account created, response={}", response);
       return ResponseEntity.ok(response);
     } catch (IllegalArgumentException e) {
-      log.error("msg=exception, e.type={}, e.message={}", e.getClass()
-          .toString(), e.getMessage());
+      log.error("msg=exception, e.type={}, e.message={}", e.getClass(), e.getMessage());
       return ResponseEntity.badRequest()
           .build();
     } catch (Exception e) {
-      log.error("msg=exception, e.type={}, e.message={}", e.getClass()
-          .toString(), e.getMessage());
+      log.error("msg=exception, e.type={}, e.message={}", e.getClass(), e.getMessage());
       return ResponseEntity.internalServerError()
           .build();
     }
@@ -52,7 +50,7 @@ public class AccountController {
     try {
       log.info("msg=list accounts");
       List<Account> accounts = service.list();
-      return Objects.isNull(accounts)
+      return Objects.isNull(accounts) || accounts.isEmpty()
           ? ResponseEntity.notFound().build()
           : ResponseEntity.ok(accounts.stream().map(AccountResponse::new).toList());
     } catch (Exception e) {
