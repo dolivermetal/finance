@@ -1,8 +1,6 @@
 package br.com.doliver.controller;
 
-import br.com.doliver.service.AccountService;
-
-import br.com.doliver.service.CreditCardService;
+import java.util.UUID;
 
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
@@ -10,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 
 import br.com.doliver.config.IntegrationTestConfig;
 import br.com.doliver.database.entity.CreditCardEntity;
@@ -18,12 +17,9 @@ import br.com.doliver.dto.form.CreditCardForm;
 import br.com.doliver.factory.creditcard.CreditCardFactory;
 import br.com.doliver.factory.creditcard.CreditCardFormFactory;
 import br.com.doliver.factory.person.PersonFactory;
+import br.com.doliver.service.CreditCardService;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-
-import org.springframework.boot.test.mock.mockito.SpyBean;
-
-import java.util.UUID;
 
 class CreditCardControllerTest extends IntegrationTestConfig {
 
