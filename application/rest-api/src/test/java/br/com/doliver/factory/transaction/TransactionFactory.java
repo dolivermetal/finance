@@ -4,15 +4,13 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import br.com.doliver.domain.Referrer;
-import br.com.doliver.domain.enums.Category;
-
-import br.com.doliver.domain.enums.ReferrerType;
-
 import org.springframework.stereotype.Component;
 
 import br.com.doliver.database.entity.TransactionEntity;
 import br.com.doliver.database.repository.TransactionRepository;
+import br.com.doliver.domain.Referrer;
+import br.com.doliver.domain.enums.Category;
+import br.com.doliver.domain.enums.ReferrerType;
 import br.com.leonardoferreira.jbacon.JBacon;
 import lombok.RequiredArgsConstructor;
 
@@ -45,7 +43,7 @@ public class TransactionFactory extends JBacon<TransactionEntity> {
   }
 
   @Override
-  protected void persist(TransactionEntity transaction) {
+  protected void persist(final TransactionEntity transaction) {
     repository.save(transaction);
   }
 }

@@ -19,7 +19,7 @@ import org.springframework.http.HttpHeaders;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-public class OriginFilterTest {
+class OriginFilterTest {
 
   @Mock
   private HttpServletRequest request;

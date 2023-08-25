@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class CategoryTest {
+class CategoryTest {
 
   @ParameterizedTest(name = "Dado {0}, deve retornar categoria {1}")
   @DisplayName("Deve retornar a categoria dado um nome")

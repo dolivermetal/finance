@@ -1,24 +1,19 @@
 package br.com.doliver.controller;
 
-import br.com.doliver.database.entity.PersonEntity;
-import br.com.doliver.dto.form.CreditCardForm;
-import br.com.doliver.dto.form.TransactionForm;
-import br.com.doliver.factory.transaction.TransactionFormFactory;
-
-import br.com.doliver.service.TransactionService;
-
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import br.com.doliver.config.IntegrationTestConfig;
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
-
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 
-public class TransactionControllerTest extends IntegrationTestConfig {
+import br.com.doliver.config.IntegrationTestConfig;
+import br.com.doliver.dto.form.TransactionForm;
+import br.com.doliver.factory.transaction.TransactionFormFactory;
+import br.com.doliver.service.TransactionService;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+
+class TransactionControllerTest extends IntegrationTestConfig {
 
   private final TransactionFormFactory formFactory = new TransactionFormFactory();
 
