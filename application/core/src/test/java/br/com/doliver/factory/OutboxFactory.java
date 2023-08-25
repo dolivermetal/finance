@@ -23,6 +23,18 @@ public class OutboxFactory {
     return getDefaultMock();
   }
 
+  public Outbox getWithEmptyTopic() {
+    final OutboxMock mock = getDefaultMock();
+    mock.topic = "";
+    return mock;
+  }
+
+  public Outbox getWithEmptyMetadata() {
+    final OutboxMock mock = getDefaultMock();
+    mock.metadata = "";
+    return mock;
+  }
+
   private OutboxMock getDefaultMock() {
     return OutboxMock.builder()
         .id(ID)

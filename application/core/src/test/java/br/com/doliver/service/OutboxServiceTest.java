@@ -16,6 +16,7 @@ import br.com.doliver.factory.OutboxFactory;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class OutboxServiceTest {
 
@@ -53,6 +54,30 @@ class OutboxServiceTest {
         () -> assertNotNull(outboxCreated.getId()),
         () -> Mockito.verify(repository, Mockito.times(1))
             .save(new OutboxEntity(outbox))
+    );
+  }
+
+  @Test
+  @DisplayName("Deve retornar IllegalArgumentException ao criar um outbox com tópico em branco")
+  void shouldReturnIllegalArgumentExceptionWhenCreateOutboxWithEmptyTopic() {
+    final Outbox outbox = factory.getWithEmptyTopic();
+
+    assertAll(
+        () -> assertThrows(IllegalArgumentException.class, () -> service.create(outbox)),
+        () -> Mockito.verify(repository, Mockito.never())
+            .save(Mockito.any(OutboxEntity.class))
+    );
+  }
+
+  @Test
+  @DisplayName("Deve retornar IllegalArgumentException ao criar um outbox com metadata em branco")
+  void shouldReturnIllegalArgumentExceptionWhenCreateOutboxWithEmptyMetadata() {
+    final Outbox outbox = factory.getWithEmptyMetadata();
+
+    assertAll(
+        () -> assertThrows(IllegalArgumentException.class, () -> service.create(outbox)),
+        () -> Mockito.verify(repository, Mockito.never())
+            .save(Mockito.any(OutboxEntity.class))
     );
   }
 
