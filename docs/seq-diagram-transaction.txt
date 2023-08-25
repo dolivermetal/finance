@@ -1,0 +1,53 @@
+title Fluxo de registro de compras
+
+actor user
+participant api
+participant core
+database bd
+participant kconnect
+participant kafka
+participant async
+
+user->api: POST /transactions
+activate api
+api->core: TransactionService.create(transaction, referrer)
+activate core
+core->bd: TransactionRepository.save(transaction)
+activate bd
+core<-bd: TransactionEntity
+deactivate bd
+core->core:OutboxService.create(transaction)
+activate core #gray
+core->bd:OutboxRepository.save(outbox)
+activate bd
+core<-bd: OutboxEntity
+deactivate core
+deactivate bd
+api<-core: Transaction
+deactivate core
+user<-api: TransactionResponse
+deactivate api
+
+
+kconnect->bd: list outbox
+activate kconnect
+activate bd
+kconnect<-bd: List<OutboxEntity>
+deactivate bd
+kconnect->kafka:publish(transaction)
+activate kafka
+deactivate kconnect
+
+
+kafka-->async: consume(transaction)
+deactivate kafka
+activate async
+async->core: StatementService.create(transaction)
+activate core
+core->bd: StatementRepository.save(statement)
+activate bd
+core<-bd: StatementEntity
+deactivate bd
+async<-core: <<void>>
+deactivate async
+deactivate core

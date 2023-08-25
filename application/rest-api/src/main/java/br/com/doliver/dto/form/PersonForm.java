@@ -23,6 +23,7 @@ public class PersonForm {
     return new PersonFormToPersonAdapter(this);
   }
 
+  @ToString
   private static class PersonFormToPersonAdapter implements Person {
 
     private final PersonForm form;

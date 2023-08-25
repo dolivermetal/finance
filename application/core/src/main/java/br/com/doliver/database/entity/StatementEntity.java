@@ -55,7 +55,7 @@ public class StatementEntity implements Statement {
   @JoinColumn(name = "idt_transaction", nullable = false, foreignKey = @ForeignKey(name = "statement_fk02"))
   private TransactionEntity transaction;
 
-  @Column(name = "num_balance")
+  @Column(name = "num_balance", precision = 19, scale = 2, nullable = false)
   private BigDecimal balance;
 
   @Column(name = "dat_reference")

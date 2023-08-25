@@ -14,11 +14,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import br.com.doliver.domain.Referrer;
 import br.com.doliver.domain.Transaction;
 import br.com.doliver.domain.enums.Category;
 import lombok.Data;
@@ -48,7 +50,7 @@ public class TransactionEntity implements Transaction {
   @Column(name = "dat_reference")
   private LocalDateTime referenceDate;
 
-  @Column(name = "num_amount", scale = 19, precision = 2, nullable = false)
+  @Column(name = "num_amount", precision = 19, scale = 2, nullable = false)
   private BigDecimal amount;
 
   @Enumerated(EnumType.STRING)
@@ -66,6 +68,9 @@ public class TransactionEntity implements Transaction {
   @Column(name = "dat_update", nullable = false)
   private LocalDateTime updateDate;
 
+  @Transient
+  private Referrer referrer;
+
   public TransactionEntity(final Transaction transaction) {
     this.id = transaction.getId();
     this.code = transaction.getCode();
@@ -75,6 +80,7 @@ public class TransactionEntity implements Transaction {
     this.description = transaction.getDescription();
     this.creationDate = transaction.getCreationDate();
     this.updateDate = transaction.getUpdateDate();
+    this.referrer = transaction.getReferrer();
 
     this.validate();
     this.generateDefaultValues();
@@ -86,7 +92,11 @@ public class TransactionEntity implements Transaction {
     }
 
     if (Objects.isNull(this.description) || this.description.isEmpty()) {
-      throw new IllegalArgumentException("amount can't be null or empty");
+      throw new IllegalArgumentException("description can't be null or empty");
+    }
+
+    if (Objects.isNull(this.referrer)) {
+      throw new IllegalArgumentException("referrer can't be null");
     }
   }
 
@@ -96,7 +106,7 @@ public class TransactionEntity implements Transaction {
     }
 
     if (Objects.isNull(this.category)) {
-      this.category = Category.OTHERS;
+      this.category = Category.OTHER;
     }
   }
 }

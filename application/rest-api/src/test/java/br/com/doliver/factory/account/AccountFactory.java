@@ -52,4 +52,8 @@ public class AccountFactory extends JBacon<AccountEntity> {
     }
     repository.save(account);
   }
+
+  public void cleanDatabase() {
+    repository.deleteAll();
+  }
 }

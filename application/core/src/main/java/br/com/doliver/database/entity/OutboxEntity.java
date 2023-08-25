@@ -44,7 +44,7 @@ public class OutboxEntity implements Outbox {
   @Column(name = "nam_topic", nullable = false)
   private String topic;
 
-  @Column(name = "jsn_metadata", nullable = false)
+  @Column(name = "jsn_metadata", nullable = false, columnDefinition = "text")
   private String metadata;
 
   @Column(name = "ind_integration_status", length = 1)

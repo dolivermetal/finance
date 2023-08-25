@@ -4,8 +4,10 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import br.com.doliver.domain.Referrer;
 import br.com.doliver.domain.Transaction;
 import br.com.doliver.domain.enums.Category;
+import br.com.doliver.domain.enums.ReferrerType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,38 +21,39 @@ public class TransactionFactory {
 
   private static final String DESCRIPTION = "Descrição";
 
-  public Transaction getDefault() {
-    return getDefaultMock();
+  public Transaction getDefault(final Referrer referrer) {
+    return getDefaultMock(referrer);
   }
 
   public Transaction getWithZeroAmount() {
-    final TransactionMock mock = getDefaultMock();
+    final TransactionMock mock = getDefaultMock(new Referrer(ReferrerType.ACCOUNT, UUID.randomUUID()));
     mock.amount = BigDecimal.ZERO;
     return mock;
   }
 
   public Transaction getWithEmptyDescription() {
-    final TransactionMock mock = getDefaultMock();
+    final TransactionMock mock = getDefaultMock(new Referrer(ReferrerType.ACCOUNT, UUID.randomUUID()));
     mock.description = "";
     return mock;
   }
 
-  private TransactionMock getDefaultMock() {
+  private TransactionMock getDefaultMock(final Referrer referrer) {
     return TransactionMock.builder()
         .id(ID)
         .code(UUID.randomUUID())
         .referenceDate(LocalDateTime.now())
         .amount(AMOUNT)
-        .category(Category.OTHERS)
+        .category(Category.OTHER)
         .description(DESCRIPTION)
         .creationDate(LocalDateTime.now())
         .updateDate(LocalDateTime.now())
+        .referrer(referrer)
         .build();
   }
 
   @Getter
   @Builder
-  private static class TransactionMock implements Transaction {
+  private static final class TransactionMock implements Transaction {
 
     private Long id;
 
@@ -67,6 +70,8 @@ public class TransactionFactory {
     private LocalDateTime creationDate;
 
     private LocalDateTime updateDate;
+
+    private Referrer referrer;
 
   }
 }

@@ -22,13 +22,13 @@ public class CreditCardService {
   private final PersonRepository personRepository;
 
   public CreditCard create(final CreditCard creditCard, final UUID personCode) {
-    log.info("i=saving credit card on database, creditCard={}", creditCard);
+    log.info("msg=saving credit card on database, creditCard={}", creditCard);
     PersonEntity personEntity = personRepository.findByCode(personCode);
     return repository.save(new CreditCardEntity(creditCard, personEntity));
   }
 
   public CreditCard find(final String code) {
-    log.info("i=finding credit card, code={}", code);
+    log.info("msg=finding credit card, code={}", code);
     return repository.findByCode(UUID.fromString(code));
   }
 }

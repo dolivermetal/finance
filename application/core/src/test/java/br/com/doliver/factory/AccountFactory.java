@@ -41,10 +41,17 @@ public class AccountFactory {
     return mock;
   }
 
+  public Account getWithoutCode() {
+    final AccountMock mock = getDefaultMock();
+    mock.code = null;
+    return mock;
+  }
+
   public List<Account> getList(final int size) {
     List<Account> accounts = new ArrayList<>();
     for (int i = 0; i < size; i++) {
-      accounts.add(getDefaultWithID(Integer.valueOf(i).longValue()));
+      accounts.add(getDefaultWithID(Integer.valueOf(i)
+          .longValue()));
     }
     return accounts;
   }
@@ -66,7 +73,7 @@ public class AccountFactory {
   @Getter
   @Builder
   @ToString
-  private static class AccountMock implements Account {
+  private static final class AccountMock implements Account {
 
     private Long id;
 

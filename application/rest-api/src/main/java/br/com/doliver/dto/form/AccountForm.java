@@ -28,6 +28,7 @@ public class AccountForm {
     return new AccountFormToAccountAdapter(this);
   }
 
+  @ToString
   private static class AccountFormToAccountAdapter implements Account {
 
     private final AccountForm form;

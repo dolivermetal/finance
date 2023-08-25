@@ -22,18 +22,20 @@ public class OriginFilter extends OncePerRequestFilter {
   );
 
   private static final List<String> IGNORE_PATHS = List.of(
-      "/actuator/",
-      "/swagger-ui/",
-      "/v3/api-docs"
+      "/persons",
+      "/accounts",
+      "/cards/credit",
+      "/outbox",
+      "/transaction"
   );
 
   @Override
   protected boolean shouldNotFilter(final @NonNull HttpServletRequest request) {
     return IGNORE_PATHS.stream()
-        .anyMatch(
-            path -> !Objects.isNull(request.getHeader(HttpHeaders.REFERER)) && request.getHeader(HttpHeaders.REFERER)
-                .contains(path) || request.getServletPath()
-                .contains(path));
+        .anyMatch(path ->
+            !Objects.isNull(request.getHeader(HttpHeaders.REFERER))
+            && request.getHeader(HttpHeaders.REFERER).contains(path)
+            || request.getServletPath().contains(path));
   }
 
   @Override

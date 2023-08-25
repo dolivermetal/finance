@@ -47,7 +47,7 @@ class AccountServiceTest {
 
   @Test
   @DisplayName("Deve criar uma conta com sucesso.")
-  void shouldCreateAccountWithSucess() {
+  void shouldCreateAccountWithSuccess() {
     final Account account = factory.getDefault();
     final PersonEntity person = new PersonEntity(account.getPerson());
 
@@ -63,6 +63,7 @@ class AccountServiceTest {
     assertAll(
         () -> assertEquals(accountCreated.getAlias(), account.getAlias()),
         () -> assertNotNull(accountCreated.getId()),
+        () -> assertNotNull(accountCreated.getCreationDate()),
         () -> Mockito.verify(repository, Mockito.times(1))
             .save(Mockito.any(AccountEntity.class))
     );
@@ -84,6 +85,18 @@ class AccountServiceTest {
   }
 
   @Test
+  @DisplayName("Deve retornar IllegalArgumentException ao criar uma conta sem código")
+  void shouldReturnIllegalArgumentExceptionWhenCreateAccountWithoutCode() {
+    final Account account = factory.getWithoutCode();
+    assertAll(
+        () -> assertThrows(IllegalArgumentException.class, () -> service.create(account, account.getPerson()
+            .getCode())),
+        () -> Mockito.verify(repository, Mockito.never())
+            .save(Mockito.any(AccountEntity.class))
+    );
+  }
+
+  @Test
   @DisplayName("Deve retornar NullPointerException ao criar uma conta nula")
   void shouldReturnNullPointerExceptionWhenCreateAccountIsNull() {
     assertAll(
@@ -95,7 +108,7 @@ class AccountServiceTest {
 
   @Test
   @DisplayName("Deve retornar IllegalArgumentException ao criar uma conta sem pessoa")
-  void shouldReturnIllegalArgumentExceptionWhenCreateAccountWithouPerson() {
+  void shouldReturnIllegalArgumentExceptionWhenCreateAccountWithoutPerson() {
     final Account account = factory.getWithoutPerson();
 
     assertAll(
@@ -127,7 +140,7 @@ class AccountServiceTest {
 
   @Test
   @DisplayName("Deve encontrar uma conta com sucesso")
-  void shoulReturnAnAccountWithSuccess() {
+  void shouldReturnAnAccountWithSuccess() {
     final Account account = factory.getDefault();
 
     Mockito.when(repository.findByCode(Mockito.any(UUID.class)))
@@ -140,7 +153,9 @@ class AccountServiceTest {
         () -> assertEquals(accountFounded.getId(), account.getId()),
         () -> assertEquals(accountFounded.getCode(), account.getCode()),
         () -> assertEquals(accountFounded.getAlias(), account.getAlias()),
-        () -> assertEquals(accountFounded.getPerson().getCode(), account.getPerson().getCode())
+        () -> assertEquals(accountFounded.getPerson()
+            .getCode(), account.getPerson()
+            .getCode())
     );
   }
 
