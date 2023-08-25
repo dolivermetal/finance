@@ -54,6 +54,7 @@ class PersonServiceTest {
     assertAll(
         () -> assertEquals(personCreated.getName(), person.getName()),
         () -> assertNotNull(personCreated.getId()),
+        () -> assertNotNull(personCreated.getCreationDate()),
         () -> Mockito.verify(repository, Mockito.times(1))
             .create(Mockito.any(PersonEntity.class))
     );
