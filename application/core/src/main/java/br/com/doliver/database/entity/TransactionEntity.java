@@ -50,7 +50,7 @@ public class TransactionEntity implements Transaction {
   @Column(name = "dat_reference")
   private LocalDateTime referenceDate;
 
-  @Column(name = "num_amount", scale = 19, precision = 2, nullable = false)
+  @Column(name = "num_amount", precision = 19, scale = 2, nullable = false)
   private BigDecimal amount;
 
   @Enumerated(EnumType.STRING)
@@ -92,7 +92,7 @@ public class TransactionEntity implements Transaction {
     }
 
     if (Objects.isNull(this.description) || this.description.isEmpty()) {
-      throw new IllegalArgumentException("amount can't be null or empty");
+      throw new IllegalArgumentException("description can't be null or empty");
     }
 
     if (Objects.isNull(this.referrer)) {
