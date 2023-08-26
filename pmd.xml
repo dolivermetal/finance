@@ -2,6 +2,8 @@
 <ruleset name="myruleset">
   <description>DEFAULT RULESET</description>
 
+  <exclude-pattern>.*/generated-main-avro-java/.*</exclude-pattern>
+
   <rule ref="category/java/bestpractices.xml">
     <exclude name="GuardLogStatement"/>
     <exclude name="ForLoopCanBeForeach"/>
@@ -50,7 +52,7 @@
   <!-- metodos equals e hashcode nao precisam validar o if sem chaves-->
   <rule ref="category/java/codestyle.xml/ControlStatementBraces">
     <properties>
-      <property name="violationSuppressXPath" value="//MethodDeclarator[@Image='hashCode' or @Image='equals']"/>
+      <property name="violationSuppressXPath" value="//MethodDeclarator[@Name='hashCode' or @Name='equals']"/>
     </properties>
   </rule>
   <rule ref="category/java/design.xml">
@@ -67,7 +69,7 @@
 
   <rule ref="category/java/design.xml/CyclomaticComplexity">
     <properties>
-      <property name="violationSuppressXPath" value="//MethodDeclarator[@Image='hashCode' or @Image='equals']"/>
+      <property name="violationSuppressXPath" value="//MethodDeclarator[@Name='hashCode' or @Name='equals']"/>
     </properties>
   </rule>
   <rule ref="category/java/design.xml/ExcessivePublicCount">

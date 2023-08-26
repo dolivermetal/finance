@@ -4,22 +4,6 @@ group 'br.com.doliver'
 version '1.0-SNAPSHOT'
 
 buildscript {
-  ext {
-    lombokVersion = '1.18.20'
-    springBootVersion = '2.6.7'
-    postgresVersion = '42.3.4'
-    oracleVersion = '19.17.0.0'
-    jaxbApiVersion = '2.4.0-b180830.0359'
-    restAssuredVersion = '5.2.0'
-    jBaconVersion = '2.1.1'
-    h2DBVersion = '2.1.214'
-    spotbugsVersion = '4.4.1'
-    junitVersion = '5.4.2'
-    mockitoVersion = '3.1.0'
-    wiremockVersion = '2.19.0'
-    springCloudWireMock = '2.2.6.RELEASE'
-  }
-
   repositories {
     mavenCentral()
     gradlePluginPortal()
@@ -27,6 +11,7 @@ buildscript {
 
   dependencies {
     classpath 'gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:4.7.5'
+    classpath 'com.github.davidmc24.gradle.plugin:gradle-avro-plugin:1.8.0'
   }
 }
 
@@ -35,6 +20,9 @@ subprojects {
 
   repositories {
     mavenCentral()
+    maven {
+      url = 'https://packages.confluent.io/maven/'
+    }
   }
 
   sourceCompatibility = JavaVersion.VERSION_16
@@ -43,16 +31,18 @@ subprojects {
   compileJava.options.encoding = StandardCharsets.UTF_8.displayName()
 
   dependencies {
-    compileOnly "com.github.spotbugs:spotbugs-annotations:${spotbugsVersion}"
-    compileOnly "org.projectlombok:lombok:${lombokVersion}"
-    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    compileOnly 'com.github.spotbugs:spotbugs-annotations:4.4.1'
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    compileOnly 'org.apache.avro:avro:1.11.2'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
 
-    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
-    testCompileOnly "com.github.spotbugs:spotbugs-annotations:${spotbugsVersion}"
-    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    testCompileOnly 'org.projectlombok:lombok:1.18.20'
+    testCompileOnly 'com.github.spotbugs:spotbugs-annotations:4.4.1'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
 
-    testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
-    testImplementation "org.mockito:mockito-junit-jupiter:${mockitoVersion}"
+    testImplementation 'org.apache.avro:avro:1.11.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.4.2'
+    testImplementation 'org.mockito:mockito-junit-jupiter:3.1.0'
   }
 
   test {
@@ -65,6 +55,7 @@ subprojects {
   apply plugin: 'pmd'
   apply plugin: 'checkstyle'
   apply plugin: 'com.github.spotbugs'
+  apply plugin: 'com.github.davidmc24.gradle.plugin.avro'
 
   checkstyle {
     configFile = file("${rootDir}/checkstyle.xml")
@@ -108,36 +99,39 @@ subprojects {
 project(':application:core') {
   dependencies {
     // Spring
-    implementation "org.springframework.boot:spring-boot-starter:${springBootVersion}"
-    implementation "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
+    implementation 'org.springframework.boot:spring-boot-starter:2.6.7'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.7'
+    implementation 'org.springframework.kafka:spring-kafka:2.6.7'
 
     // Database
-    implementation "org.postgresql:postgresql:${postgresVersion}"
-    implementation "com.oracle.database.jdbc:ojdbc10:${oracleVersion}"
+    implementation 'org.postgresql:postgresql:42.3.4'
+    // implementation "com.oracle.database.jdbc:ojdbc10:19.17.0.0"
+
+    // Kafka
+    implementation 'io.confluent:kafka-avro-serializer:5.3.0'
 
     // Others
-    implementation "javax.xml.bind:jaxb-api:${jaxbApiVersion}"
+    implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
   }
 }
 
 project(':application:rest-api') {
   apply plugin: 'application'
-
   mainClassName = 'br.com.doliver.Application'
 
   dependencies {
     implementation project(':application:core')
 
     // Spring
-    implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
-    testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.6.7'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.7'
 
     // Tests
-    testImplementation "io.rest-assured:rest-assured:${restAssuredVersion}"
-    testImplementation "com.github.tomakehurst:wiremock-standalone:${wiremockVersion}"
-    testImplementation "org.springframework.cloud:spring-cloud-contract-wiremock:${springCloudWireMock}"
-    testImplementation "br.com.leonardoferreira:JBacon:${jBaconVersion}"
-    testImplementation "com.h2database:h2:${h2DBVersion}"
-    testImplementation "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
+    testImplementation 'io.rest-assured:rest-assured:5.2.0'
+    testImplementation 'com.github.tomakehurst:wiremock-standalone:2.19.0'
+    testImplementation 'org.springframework.cloud:spring-cloud-contract-wiremock:2.2.6.RELEASE'
+    testImplementation 'br.com.leonardoferreira:JBacon:2.1.1'
+    testImplementation 'com.h2database:h2:2.1.214'
+    testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.7'
   }
 }

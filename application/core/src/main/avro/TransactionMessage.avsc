@@ -1,0 +1,39 @@
+{
+  "namespace": "br.com.doliver.domain.event",
+  "type": "record",
+  "name": "TransactionMessage",
+  "fields": [
+    {
+      "name": "code",
+      "type": "string"
+    },
+    {
+      "name": "referenceDate",
+      "type": "string"
+    },
+    {
+      "name": "amount",
+      "type": "double"
+    },
+    {
+      "name": "category",
+      "type": "string"
+    },
+    {
+      "name": "description",
+      "type": "string"
+    },
+    {
+      "name": "creationDate",
+      "type": "string"
+    },
+    {
+      "name": "updateDate",
+      "type": "string"
+    },
+    {
+      "name": "referrer",
+      "type": "ReferrerMessage"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "namespace": "br.com.doliver.domain.event",
+  "type": "record",
+  "name": "ReferrerMessage",
+  "fields": [
+    {
+      "name": "type",
+      "type": "string"
+    },
+    {
+      "name": "code",
+      "type": "string"
+    }
+  ]
+}

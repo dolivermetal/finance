@@ -3,7 +3,7 @@
   <Match>
     <Or>
       <Class name="~.*Test$"/>
-      <Package name="~avro.*"/>
+      <Class name="~.*Message"/>
     </Or>
   </Match>
   <Match>
