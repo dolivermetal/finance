@@ -18,6 +18,7 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
+import org.springframework.util.ObjectUtils;
 
 import br.com.doliver.domain.Person;
 import lombok.Getter;
@@ -72,7 +73,7 @@ public class PersonEntity implements Person {
   }
 
   private void validate() {
-    if (Objects.isNull(this.name) || this.name.isEmpty()) {
+    if (ObjectUtils.isEmpty(this.name)) {
       throw new IllegalArgumentException("name can't be null or empty");
     }
 

@@ -19,6 +19,7 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.util.ObjectUtils;
 
 import br.com.doliver.domain.Referrer;
 import br.com.doliver.domain.Transaction;
@@ -87,11 +88,12 @@ public class TransactionEntity implements Transaction {
   }
 
   private void validate() {
+
     if (Objects.isNull(this.amount) || this.amount.compareTo(BigDecimal.ZERO) <= 0) {
       throw new IllegalArgumentException("amount can't be null or equal zero");
     }
 
-    if (Objects.isNull(this.description) || this.description.isEmpty()) {
+    if (ObjectUtils.isEmpty(this.description)) {
       throw new IllegalArgumentException("description can't be null or empty");
     }
 

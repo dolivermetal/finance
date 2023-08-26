@@ -18,6 +18,7 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
+import org.springframework.util.ObjectUtils;
 
 import br.com.doliver.domain.CreditCard;
 import lombok.Data;
@@ -71,7 +72,7 @@ public class CreditCardEntity implements CreditCard {
   }
 
   private void validate() {
-    if (Objects.isNull(this.alias) || this.alias.isEmpty()) {
+    if (ObjectUtils.isEmpty(this.alias)) {
       throw new IllegalArgumentException("alias can't be null or empty");
     }
 
