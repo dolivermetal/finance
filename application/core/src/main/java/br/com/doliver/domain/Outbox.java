@@ -33,11 +33,18 @@ public interface Outbox {
   String getTopic();
 
   /**
+   * ID de chave do tópico.
+   *
+   * @return Long - ID de chave do tópico
+   */
+  String getTopicKey();
+
+  /**
    * Conteúdo da mensagem.
    *
    * @return String - conteúdo da mensagem
    */
-  String getMetadata();
+  String getTopicMessage();
 
   /**
    * Status para controle de envio da mensagem.

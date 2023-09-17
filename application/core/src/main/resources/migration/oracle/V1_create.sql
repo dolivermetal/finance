@@ -16,7 +16,8 @@ create table finance_adm.outbox (
     idt_outbox                     number(18)      default finance_adm.sq_outbox_idt.nextval not null,
     cod_outbox                     varchar2(40)    not null,
     nam_topic                      varchar2(40)    not null,
-    jsn_metadata                   clob            not null,
+    cod_topic_key                  varchar2(40)    not null,
+    jsn_topic_message              clob            not null,
     ind_integration_status         varchar2(20)    not null,
     dat_creation                   timestamp       default systimestamp not null,
     dat_update                     timestamp       default systimestamp not null

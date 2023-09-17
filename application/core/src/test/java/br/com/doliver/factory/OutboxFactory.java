@@ -15,7 +15,9 @@ public class OutboxFactory {
 
   private static final String TOPIC = "topic.name";
 
-  private static final String METADATA = "metadata";
+  private static final String TOPIC_KEY = "topic.key";
+
+  private static final String TOPIC_MESSAGE = "topic.message";
 
   private static final String INTEGRATION_STATUS = "W";
 
@@ -29,9 +31,15 @@ public class OutboxFactory {
     return mock;
   }
 
-  public Outbox getWithEmptyMetadata() {
+  public Outbox getWithEmptyTopicKey() {
     final OutboxMock mock = getDefaultMock();
-    mock.metadata = "";
+    mock.topicKey = "";
+    return mock;
+  }
+
+  public Outbox getWithEmptyTopicMessage() {
+    final OutboxMock mock = getDefaultMock();
+    mock.topicMessage = "";
     return mock;
   }
 
@@ -40,7 +48,8 @@ public class OutboxFactory {
         .id(ID)
         .code(UUID.randomUUID())
         .topic(TOPIC)
-        .metadata(METADATA)
+        .topicKey(TOPIC_KEY)
+        .topicMessage(TOPIC_MESSAGE)
         .integrationStatus(INTEGRATION_STATUS)
         .creationDate(LocalDateTime.now())
         .updateDate(LocalDateTime.now())
@@ -57,7 +66,9 @@ public class OutboxFactory {
 
     private String topic;
 
-    private String metadata;
+    private String topicKey;
+
+    private String topicMessage;
 
     private String integrationStatus;
 
