@@ -2,6 +2,7 @@ package br.com.doliver.database.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -24,6 +25,8 @@ import org.springframework.util.ObjectUtils;
 import br.com.doliver.domain.Referrer;
 import br.com.doliver.domain.Transaction;
 import br.com.doliver.domain.enums.Category;
+import br.com.doliver.domain.event.ReferrerMessage;
+import br.com.doliver.domain.event.TransactionMessage;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -110,5 +113,22 @@ public class TransactionEntity implements Transaction {
     if (Objects.isNull(this.category)) {
       this.category = Category.OTHER;
     }
+  }
+
+  public TransactionMessage buildNewMessage() {
+    final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    return TransactionMessage.newBuilder()
+        .setCode(this.getCode().toString())
+        .setReferenceDate(this.getReferenceDate().format(formatter))
+        .setAmount(this.getAmount().doubleValue())
+        .setCategory(this.getCategory().name())
+        .setDescription(this.getDescription())
+        .setCreationDate(this.getCreationDate().format(formatter))
+        .setUpdateDate(this.getUpdateDate().format(formatter))
+        .setReferrer(ReferrerMessage.newBuilder()
+            .setType(this.getReferrer().type().name())
+            .setCode(this.getReferrer().code().toString())
+            .build())
+        .build();
   }
 }
