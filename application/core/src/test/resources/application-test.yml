@@ -13,6 +13,10 @@ spring:
   h2:
     console.enabled: true
 
+#schema:
+#  registry:
+#    url: mock://test
+
 logging:
   level:
     root: INFO

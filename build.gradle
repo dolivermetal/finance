@@ -99,9 +99,9 @@ subprojects {
 project(':application:core') {
   dependencies {
     // Spring
-    implementation 'org.springframework.boot:spring-boot-starter:2.6.7'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.7'
-    implementation 'org.springframework.kafka:spring-kafka:2.6.7'
+    implementation 'org.springframework.boot:spring-boot-starter:2.7.17'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.17'
+    implementation 'org.springframework.kafka:spring-kafka:2.9.13'
 
     // Database
     implementation 'org.postgresql:postgresql:42.3.4'
@@ -123,8 +123,8 @@ project(':application:rest-api') {
     implementation project(':application:core')
 
     // Spring
-    implementation 'org.springframework.boot:spring-boot-starter-web:2.6.7'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.7'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.7.17'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.17'
 
     // Tests
     testImplementation 'io.rest-assured:rest-assured:5.2.0'
@@ -132,6 +132,6 @@ project(':application:rest-api') {
     testImplementation 'org.springframework.cloud:spring-cloud-contract-wiremock:2.2.6.RELEASE'
     testImplementation 'br.com.leonardoferreira:JBacon:2.1.1'
     testImplementation 'com.h2database:h2:2.1.214'
-    testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.7'
+    testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.17'
   }
 }
