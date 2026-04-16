@@ -1,5 +1,10 @@
 package br.com.doliver.service;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,11 +16,6 @@ import br.com.doliver.database.repository.CreditCardRepository;
 import br.com.doliver.domain.CreditCard;
 import br.com.doliver.factory.CreditCardFactory;
 import br.com.doliver.factory.PersonFactory;
-
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CreditCardServiceTest {
 

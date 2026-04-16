@@ -3,10 +3,10 @@ package br.com.doliver.config;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class APIConfig {
+public class ApiConfig {
 
 //  private static final PropertyNamingStrategy STRATEGY = PropertyNamingStrategies.SNAKE_CASE;
-//
+
 //  @Bean
 //  public ObjectMapper objectMapper() {
 //    final ObjectMapper mapper = new ObjectMapper();

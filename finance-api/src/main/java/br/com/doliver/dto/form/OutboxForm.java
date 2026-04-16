@@ -2,11 +2,11 @@ package br.com.doliver.dto.form;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-
-import br.com.doliver.domain.Outbox;
 import lombok.Data;
 import tools.jackson.databind.PropertyNamingStrategies;
 import tools.jackson.databind.annotation.JsonNaming;
+
+import br.com.doliver.domain.Outbox;
 
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
@@ -20,13 +20,7 @@ public class OutboxForm {
         return new OutboxFormToOutboxAdapter(this);
     }
 
-    private static class OutboxFormToOutboxAdapter implements Outbox {
-
-        private final OutboxForm form;
-
-        public OutboxFormToOutboxAdapter(final OutboxForm form) {
-            this.form = form;
-        }
+    private record OutboxFormToOutboxAdapter(OutboxForm form) implements Outbox {
 
         @Override
         public Long getId() {

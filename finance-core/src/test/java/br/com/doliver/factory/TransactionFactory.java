@@ -3,12 +3,12 @@ package br.com.doliver.factory;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
-
-import br.com.doliver.domain.Transaction;
-import br.com.doliver.domain.enums.Category;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import br.com.doliver.domain.Transaction;
+import br.com.doliver.domain.enums.Category;
 
 @NoArgsConstructor
 public class TransactionFactory {

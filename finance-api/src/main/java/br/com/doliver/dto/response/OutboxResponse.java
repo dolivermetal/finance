@@ -1,10 +1,10 @@
 package br.com.doliver.dto.response;
 
 import java.time.LocalDateTime;
-
-import br.com.doliver.domain.Outbox;
 import lombok.Getter;
 import lombok.ToString;
+
+import br.com.doliver.domain.Outbox;
 
 @Getter
 @ToString

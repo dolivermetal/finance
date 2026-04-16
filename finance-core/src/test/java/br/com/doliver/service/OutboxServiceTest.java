@@ -1,7 +1,10 @@
 package br.com.doliver.service;
 
-import java.util.Optional;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,10 +15,6 @@ import br.com.doliver.database.entity.OutboxEntity;
 import br.com.doliver.database.repository.OutboxRepository;
 import br.com.doliver.domain.Outbox;
 import br.com.doliver.factory.OutboxFactory;
-
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class OutboxServiceTest {
 
@@ -50,7 +49,7 @@ class OutboxServiceTest {
                 + "igual ao informado"),
             () -> assertEquals(outboxCreated.getMetadata(), outbox.getMetadata(), "Metadata do outbox criado deve ser "
                 + "igual ao informado"),
-            () -> assertEquals(outboxCreated.getIntegrationStatus(), outbox.getIntegrationStatus(),"Status de integração"
+            () -> assertEquals(outboxCreated.getIntegrationStatus(), outbox.getIntegrationStatus(), "Status de integração"
                 + " do outbox criado deve ser igual ao informado"),
             () -> assertEquals(outboxCreated.getCreationDate(), outbox.getCreationDate(), "Data de criação do outbox "
                 + "criado deve ser igual ao informado"),
@@ -73,18 +72,18 @@ class OutboxServiceTest {
         final Outbox outboxCreated = service.find(outbox.getId());
 
         assertAll(
-            () -> assertEquals(outboxCreated.getCode(), outbox.getCode(),"Código do outbox deve ser igual ao "
+            () -> assertEquals(outboxCreated.getCode(), outbox.getCode(), "Código do outbox deve ser igual ao "
                 + "informado"),
-            () -> assertEquals(outboxCreated.getTopic(), outbox.getTopic(),"Nome do tópico do outbox deve ser igual "
+            () -> assertEquals(outboxCreated.getTopic(), outbox.getTopic(), "Nome do tópico do outbox deve ser igual "
                 + "ao informado"),
-            () -> assertEquals(outboxCreated.getMetadata(), outbox.getMetadata(),"Metadata do outbox deve ser igual "
+            () -> assertEquals(outboxCreated.getMetadata(), outbox.getMetadata(), "Metadata do outbox deve ser igual "
                 + "ao informado"),
-            () -> assertEquals(outboxCreated.getIntegrationStatus(), outbox.getIntegrationStatus(),"Status de integração"
-                    + " do outbox deve ser igual ao informado"),
-            () -> assertEquals(outboxCreated.getCreationDate(), outbox.getCreationDate(),"Data de criação do outbox deve"
-                    + " ser igual ao informado"),
-            () -> assertEquals(outboxCreated.getUpdateDate(), outbox.getUpdateDate(),"Data de atualização do outbox deve"
-                    + " ser igual ao informado"),
+            () -> assertEquals(outboxCreated.getIntegrationStatus(), outbox.getIntegrationStatus(), "Status de integração"
+                + " do outbox deve ser igual ao informado"),
+            () -> assertEquals(outboxCreated.getCreationDate(), outbox.getCreationDate(), "Data de criação do outbox deve"
+                + " ser igual ao informado"),
+            () -> assertEquals(outboxCreated.getUpdateDate(), outbox.getUpdateDate(), "Data de atualização do outbox deve"
+                + " ser igual ao informado"),
             () -> assertNotNull(outboxCreated.getId(), "ID do outbox não deve ser nulo"),
             () -> Mockito.verify(repository, Mockito.times(1))
                 .findById(outbox.getId())

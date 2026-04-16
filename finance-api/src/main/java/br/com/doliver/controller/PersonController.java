@@ -1,7 +1,8 @@
 package br.com.doliver.controller;
 
 import java.util.Objects;
-
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,8 +15,6 @@ import br.com.doliver.domain.Person;
 import br.com.doliver.dto.form.PersonForm;
 import br.com.doliver.dto.response.PersonResponse;
 import br.com.doliver.service.PersonService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
@@ -29,8 +28,8 @@ public class PersonController {
     public ResponseEntity<PersonResponse> create(@RequestBody final PersonForm form) {
         try {
             log.info("msg=create person, form={}", form);
-            Person person = service.create(form.asPerson());
-            PersonResponse response = new PersonResponse(person);
+            final Person person = service.create(form.asPerson());
+            final PersonResponse response = new PersonResponse(person);
             log.info("msg=person created, response={}", response);
             return ResponseEntity.ok(response);
         } catch (IllegalArgumentException e) {
@@ -46,7 +45,7 @@ public class PersonController {
     public ResponseEntity<PersonResponse> find(@PathVariable final String code) {
         try {
             log.info("msg=find person, code={}", code);
-            Person person = service.find(code);
+            final Person person = service.find(code);
             if (Objects.isNull(person)) {
                 return ResponseEntity.notFound().build();
             }

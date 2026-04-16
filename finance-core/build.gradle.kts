@@ -5,6 +5,7 @@ plugins {
     id("java-library")
     id("org.springframework.boot").version("4.0.5").apply(false)
     id("pmd")
+    id("checkstyle")
 }
 
 repositories {
@@ -48,5 +49,9 @@ tasks.test {
 pmd {
     toolVersion = "7.23.0"
     isConsoleOutput = true
-    ruleSets = listOf("${rootProject.projectDir}/pmd.xml")
+    ruleSets = listOf("${rootProject.projectDir}/config/pmd.xml")
+}
+
+checkstyle {
+    toolVersion = "13.4.0"
 }

@@ -1,9 +1,9 @@
 package br.com.doliver.factory.account;
 
 import java.util.UUID;
+import lombok.AllArgsConstructor;
 
 import br.com.doliver.dto.form.AccountForm;
-import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class AccountFormFactory {
@@ -15,19 +15,19 @@ public class AccountFormFactory {
     }
 
     public AccountForm getWithEmptyAlias() {
-        AccountForm form = this.getDefaultMock();
+        final AccountForm form = this.getDefaultMock();
         form.setAlias("");
         return form;
     }
 
     public AccountForm getWithoutCode() {
-        AccountForm form = this.getDefaultMock();
+        final AccountForm form = this.getDefaultMock();
         form.setCode(null);
         return form;
     }
 
     private AccountForm getDefaultMock() {
-        AccountForm form = new AccountForm();
+        final AccountForm form = new AccountForm();
         form.setCode(UUID.randomUUID());
         form.setAlias(ALIAS);
         form.setPersonCode(UUID.randomUUID());

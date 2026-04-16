@@ -4,9 +4,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class APIApplication {
+public final class ApiApplication {
+
+    private ApiApplication() {}
 
     static void main() {
-        SpringApplication.run(APIApplication.class);
+        SpringApplication.run(ApiApplication.class);
     }
 }

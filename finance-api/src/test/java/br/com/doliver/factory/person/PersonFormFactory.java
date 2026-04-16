@@ -1,9 +1,9 @@
 package br.com.doliver.factory.person;
 
 import java.util.UUID;
+import lombok.AllArgsConstructor;
 
 import br.com.doliver.dto.form.PersonForm;
-import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class PersonFormFactory {
@@ -15,19 +15,19 @@ public class PersonFormFactory {
     }
 
     public PersonForm getWithEmptyName() {
-        PersonForm form = this.getDefaultMock();
+        final PersonForm form = this.getDefaultMock();
         form.setName("");
         return form;
     }
 
     public PersonForm getWithoutCode() {
-        PersonForm form = this.getDefaultMock();
+        final PersonForm form = this.getDefaultMock();
         form.setCode(null);
         return form;
     }
 
     private PersonForm getDefaultMock() {
-        PersonForm form = new PersonForm();
+        final PersonForm form = new PersonForm();
         form.setCode(UUID.randomUUID());
         form.setName(NAME);
         return form;

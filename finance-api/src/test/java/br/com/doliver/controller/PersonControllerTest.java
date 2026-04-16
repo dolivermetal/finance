@@ -1,5 +1,7 @@
 package br.com.doliver.controller;
 
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
@@ -11,8 +13,6 @@ import br.com.doliver.database.entity.PersonEntity;
 import br.com.doliver.dto.form.PersonForm;
 import br.com.doliver.factory.person.PersonFactory;
 import br.com.doliver.factory.person.PersonFormFactory;
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 
 class PersonControllerTest extends IntegrationTestConfig {
 
@@ -24,7 +24,7 @@ class PersonControllerTest extends IntegrationTestConfig {
     @Test
     @DisplayName("Deve criar uma pessoa")
     void shouldCreatePerson() {
-        PersonForm form = formFactory.getDefault();
+        final PersonForm form = formFactory.getDefault();
 
         RestAssured.given()
             .log()
@@ -43,7 +43,7 @@ class PersonControllerTest extends IntegrationTestConfig {
     @Test
     @DisplayName("Deve retornar BadRequest ao tentar criar uma pessoa sem nome")
     void shouldReturnBadRequestWhenCreatePersonWithoutName() {
-        PersonForm form = formFactory.getWithEmptyName();
+        final PersonForm form = formFactory.getWithEmptyName();
 
         RestAssured.given()
             .log()
@@ -62,7 +62,7 @@ class PersonControllerTest extends IntegrationTestConfig {
     @Test
     @DisplayName("Deve retornar BadRequest ao tentar criar uma pessoa sem código")
     void shouldReturnBadRequestWhenCreatePersonWithoutCode() {
-        PersonForm form = formFactory.getWithoutCode();
+        final PersonForm form = formFactory.getWithoutCode();
 
         RestAssured.given()
             .log()
@@ -81,7 +81,7 @@ class PersonControllerTest extends IntegrationTestConfig {
     @Test
     @DisplayName("Deve consultar uma pessoa")
     void shouldSearchPerson() {
-        PersonEntity entity = factory.create();
+        final PersonEntity entity = factory.create();
 
         RestAssured.given()
             .log()
@@ -104,7 +104,7 @@ class PersonControllerTest extends IntegrationTestConfig {
 
     @Test
     @DisplayName("Deve retornar NotFound ao consultar uma pessoa inexistente")
-    void shouldReturnNotFoundWhenTryToSearchAPersonWhoNotExists() {
+    void shouldReturnNotFoundWhenTryToSearchPersonWhoNotExists() {
         RestAssured.given()
             .log()
             .all()

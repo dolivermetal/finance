@@ -1,7 +1,8 @@
 package br.com.doliver.controller;
 
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import java.util.List;
-
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
@@ -15,10 +16,10 @@ import br.com.doliver.dto.form.AccountForm;
 import br.com.doliver.factory.account.AccountFactory;
 import br.com.doliver.factory.account.AccountFormFactory;
 import br.com.doliver.factory.person.PersonFactory;
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 
 class AccountControllerTest extends IntegrationTestConfig {
+
+    private static final String PATH_ACCOUNTS = "/accounts";
 
     private final AccountFormFactory formFactory = new AccountFormFactory();
 
@@ -31,9 +32,9 @@ class AccountControllerTest extends IntegrationTestConfig {
     @Test
     @DisplayName("Deve criar uma conta")
     void shouldCreateAccount() {
-        AccountForm form = formFactory.getDefault();
+        final AccountForm form = formFactory.getDefault();
 
-        PersonEntity personEntity = personFactory.create();
+        final PersonEntity personEntity = personFactory.create();
         form.setPersonCode(personEntity.getCode());
 
         RestAssured.given()
@@ -43,7 +44,7 @@ class AccountControllerTest extends IntegrationTestConfig {
             .and()
             .body(form)
             .when()
-            .post("/accounts")
+            .post(PATH_ACCOUNTS)
             .then()
             .log()
             .all()
@@ -53,9 +54,9 @@ class AccountControllerTest extends IntegrationTestConfig {
     @Test
     @DisplayName("Deve retornar BadRequest ao tentar criar uma conta sem apelido")
     void shouldReturnBadRequestWhenCreateAccountWithoutAlias() {
-        AccountForm form = formFactory.getWithEmptyAlias();
+        final AccountForm form = formFactory.getWithEmptyAlias();
 
-        PersonEntity personEntity = personFactory.create();
+        final PersonEntity personEntity = personFactory.create();
         form.setPersonCode(personEntity.getCode());
 
         RestAssured.given()
@@ -65,7 +66,7 @@ class AccountControllerTest extends IntegrationTestConfig {
             .and()
             .body(form)
             .when()
-            .post("/accounts")
+            .post(PATH_ACCOUNTS)
             .then()
             .log()
             .all()
@@ -75,9 +76,9 @@ class AccountControllerTest extends IntegrationTestConfig {
     @Test
     @DisplayName("Deve retornar BadRequest ao tentar criar uma conta sem código")
     void shouldReturnBadRequestWhenCreateAccountWithoutCode() {
-        AccountForm form = formFactory.getWithoutCode();
+        final AccountForm form = formFactory.getWithoutCode();
 
-        PersonEntity personEntity = personFactory.create();
+        final PersonEntity personEntity = personFactory.create();
         form.setPersonCode(personEntity.getCode());
 
         RestAssured.given()
@@ -87,7 +88,7 @@ class AccountControllerTest extends IntegrationTestConfig {
             .and()
             .body(form)
             .when()
-            .post("/accounts")
+            .post(PATH_ACCOUNTS)
             .then()
             .log()
             .all()
@@ -97,14 +98,14 @@ class AccountControllerTest extends IntegrationTestConfig {
     @Test
     @DisplayName("Deve consultar uma conta")
     void shouldSearchAccount() {
-        AccountEntity entity = factory.create();
+        final AccountEntity entity = factory.create();
 
         RestAssured.given()
             .log()
             .all()
             .contentType(ContentType.JSON)
             .when()
-            .get("/accounts/" + entity.getCode())
+            .get(PATH_ACCOUNTS + entity.getCode())
             .then()
             .log()
             .all()
@@ -138,7 +139,7 @@ class AccountControllerTest extends IntegrationTestConfig {
             .all()
             .contentType(ContentType.JSON)
             .when()
-            .get("/accounts/ee0df165-ae1e-42ae-81e1-09e79804b3f7")
+            .get(PATH_ACCOUNTS + "/ee0df165-ae1e-42ae-81e1-09e79804b3f7")
             .then()
             .log()
             .all()
@@ -148,7 +149,7 @@ class AccountControllerTest extends IntegrationTestConfig {
     @Test
     @DisplayName("Deve listar todas as contas")
     void shouldListAccounts() {
-        List<AccountEntity> entities = factory.create(2);
+        final List<AccountEntity> entities = factory.create(2);
         // FIXME: avaliar como limpar o banco antes dessa execução
 
         RestAssured.given()
@@ -156,7 +157,7 @@ class AccountControllerTest extends IntegrationTestConfig {
             .all()
             .contentType(ContentType.JSON)
             .when()
-            .get("/accounts")
+            .get(PATH_ACCOUNTS)
             .then()
             .log()
             .all()

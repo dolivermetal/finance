@@ -2,12 +2,12 @@ package br.com.doliver.dto.form;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-
-import br.com.doliver.domain.Person;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
+
+import br.com.doliver.domain.Person;
 
 @Getter
 @Setter
@@ -23,13 +23,7 @@ public class PersonForm {
         return new PersonFormToPersonAdapter(this);
     }
 
-    private static class PersonFormToPersonAdapter implements Person {
-
-        private final PersonForm form;
-
-        public PersonFormToPersonAdapter(final PersonForm form) {
-            this.form = form;
-        }
+    private record PersonFormToPersonAdapter(PersonForm form) implements Person {
 
         @Override
         public Long getId() {

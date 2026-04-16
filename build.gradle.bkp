@@ -132,9 +132,9 @@ project(':application:rest-api') {
     implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
     testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
 
-    ''// Tests
+    // Tests
     testImplementation "io.rest-assured:rest-assured:${restAssuredVersion}"
-    testImplementation "com.github.tomakehurst:wiremock-standalone:${wiremockVersion}"''
+    testImplementation "com.github.tomakehurst:wiremock-standalone:${wiremockVersion}"
     testImplementation "org.springframework.cloud:spring-cloud-contract-wiremock:${springCloudWireMock}"
     testImplementation "br.com.leonardoferreira:JBacon:${jBaconVersion}"
     testImplementation "com.h2database:h2:${h2DBVersion}"

@@ -2,12 +2,12 @@ package br.com.doliver.factory;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-
-import br.com.doliver.domain.Person;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
+
+import br.com.doliver.domain.Person;
 
 @AllArgsConstructor
 public class PersonFactory {

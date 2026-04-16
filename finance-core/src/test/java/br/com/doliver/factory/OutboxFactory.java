@@ -2,11 +2,11 @@ package br.com.doliver.factory;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-
-import br.com.doliver.domain.Outbox;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import br.com.doliver.domain.Outbox;
 
 @NoArgsConstructor
 public class OutboxFactory {

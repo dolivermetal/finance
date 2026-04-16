@@ -11,14 +11,14 @@
     </rule>
 
     <rule ref="category/java/codestyle.xml">
-        <exclude name="LongVariable"/>
-        <exclude name="ShortVariable"/>
         <exclude name="AtLeastOneConstructor"/>
+        <exclude name="CommentDefaultAccessModifier"/>
+        <exclude name="LongVariable"/>
+        <exclude name="OnlyOneReturn"/>
+        <exclude name="ShortVariable"/>
         <!--    <exclude name="BooleanGetMethodName"/>-->
         <!--    <exclude name="MethodArgumentCouldBeFinal"/>-->
         <!--    <exclude name="LocalVariableCouldBeFinal"/>-->
-        <!--    <exclude name="CommentDefaultAccessModifier"/>-->
-        <!--    <exclude name="OnlyOneReturn"/>-->
         <!--    <exclude name="ConfusingTernary"/>-->
         <!--    <exclude name="CallSuperInConstructor"/>-->
         <!--    <exclude name="ShortMethodName"/>-->
@@ -48,14 +48,13 @@
     <!--  </rule>-->
 
     <rule ref="category/java/design.xml">
-        <!--    <exclude name="AvoidCatchingGenericException"/>-->
+        <exclude name="LoosePackageCoupling"/>
         <!--    <exclude name="AvoidThrowingRawExceptionTypes"/>-->
         <!--    <exclude name="ExcessiveImports"/>-->
         <!--    <exclude name="TooManyMethods"/>-->
         <!--    <exclude name="DataClass"/>-->
         <!--    <exclude name="TooManyFields"/>-->
         <!--    <exclude name="GodClass"/>-->
-        <exclude name="LoosePackageCoupling"/>
     </rule>
     <rule ref="category/java/design.xml/LawOfDemeter">
         <properties>
@@ -98,6 +97,7 @@
 
 
     <rule ref="category/java/errorprone.xml">
+        <exclude name="AvoidCatchingGenericException"/>
         <!--    <exclude name="AvoidFieldNameMatchingMethodName"/>-->
         <!--    <exclude name="NullAssignment"/>-->
         <!--    <exclude name="UseLocaleWithCaseConversions"/>-->

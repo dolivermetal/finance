@@ -1,12 +1,12 @@
 package br.com.doliver.controller;
 
+import io.restassured.RestAssured;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import br.com.doliver.config.IntegrationTestConfig;
-import io.restassured.RestAssured;
 
 class FilterOriginControllerTest extends IntegrationTestConfig {
 

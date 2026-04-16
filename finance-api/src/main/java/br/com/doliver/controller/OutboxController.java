@@ -1,7 +1,8 @@
 package br.com.doliver.controller;
 
 import java.util.Objects;
-
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,8 +15,6 @@ import br.com.doliver.domain.Outbox;
 import br.com.doliver.dto.form.OutboxForm;
 import br.com.doliver.dto.response.OutboxResponse;
 import br.com.doliver.service.OutboxService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
@@ -29,8 +28,8 @@ public class OutboxController {
     public ResponseEntity<OutboxResponse> create(@RequestBody final OutboxForm form) {
         try {
             log.info("msg=create outbox, form={}", form);
-            Outbox outbox = service.create(form.asOutbox());
-            OutboxResponse response = new OutboxResponse(outbox);
+            final Outbox outbox = service.create(form.asOutbox());
+            final OutboxResponse response = new OutboxResponse(outbox);
             log.info("msg=outbox created, response={}", response);
             return ResponseEntity.ok(response);
         } catch (Exception e) {

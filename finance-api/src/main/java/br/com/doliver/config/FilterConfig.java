@@ -11,7 +11,7 @@ public class FilterConfig {
 
     @Bean
     public FilterRegistrationBean<OriginFilter> originFilter() {
-        FilterRegistrationBean<OriginFilter> filter = new FilterRegistrationBean<>();
+        final FilterRegistrationBean<OriginFilter> filter = new FilterRegistrationBean<>();
         filter.setFilter(new OriginFilter());
         filter.addUrlPatterns(FilterOriginController.BASE_PATH + "/*");
         return filter;

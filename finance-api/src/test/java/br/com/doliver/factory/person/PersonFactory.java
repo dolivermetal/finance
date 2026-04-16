@@ -2,13 +2,12 @@ package br.com.doliver.factory.person;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import br.com.doliver.database.entity.PersonEntity;
 import br.com.doliver.database.repository.PersonRepository;
 import br.com.leonardoferreira.jbacon.JBacon;
-import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
@@ -20,7 +19,7 @@ public class PersonFactory extends JBacon<PersonEntity> {
 
     @Override
     protected PersonEntity getDefault() {
-        PersonEntity person = new PersonEntity();
+        final PersonEntity person = new PersonEntity();
         person.setCode(UUID.randomUUID());
         person.setName(NAME);
         person.setCreationDate(LocalDateTime.now());

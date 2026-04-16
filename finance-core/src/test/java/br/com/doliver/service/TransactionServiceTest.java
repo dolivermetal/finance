@@ -1,5 +1,10 @@
 package br.com.doliver.service;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,11 +15,6 @@ import br.com.doliver.database.entity.TransactionEntity;
 import br.com.doliver.database.repository.TransactionRepository;
 import br.com.doliver.domain.Transaction;
 import br.com.doliver.factory.TransactionFactory;
-
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class TransactionServiceTest {
 
@@ -42,14 +42,14 @@ class TransactionServiceTest {
         final Transaction transactionCreated = service.create(transaction);
 
         assertAll(
-            () -> assertEquals(transactionCreated.getDescription(), transaction.getDescription(),"Descrição da transação"
-                    + " deve ser igual ao informado"),
-            () -> assertEquals(transactionCreated.getReferenceDate(), transaction.getReferenceDate(),"Data de referencia"
-                    + " da transação deve ser igual ao informado"),
+            () -> assertEquals(transactionCreated.getDescription(), transaction.getDescription(), "Descrição da transação"
+                + " deve ser igual ao informado"),
+            () -> assertEquals(transactionCreated.getReferenceDate(), transaction.getReferenceDate(), "Data de referencia"
+                + " da transação deve ser igual ao informado"),
             () -> assertEquals(transactionCreated.getAmount(), transaction.getAmount(), "Valor da transação deve ser "
                 + "igual ao informado"),
-            () -> assertEquals(transactionCreated.getCategory(), transaction.getCategory(),"Categoria da transação deve "
-                    + "ser igual ao informado"),
+            () -> assertEquals(transactionCreated.getCategory(), transaction.getCategory(), "Categoria da transação deve "
+                + "ser igual ao informado"),
             () -> assertNotNull(transactionCreated.getId(), "ID da transação não deve ser nulo"),
             // () -> assertNotNull(transactionCreated.getAccount()),
             () -> Mockito.verify(repository, Mockito.times(1))
@@ -120,7 +120,7 @@ class TransactionServiceTest {
     //  @DisplayName("Deve retornar IllegalArgumentException ao criar uma transação sem uma conta ou cartão de crédito")
     //  void shouldReturnIllegalArgumentExceptionWhenCreateTransactionWithoutAnAccountOrACreditCard() {
     //    final var transaction = factory.getDefault();
-    //
+
     //    assertAll(
     //        () -> assertThrows(IllegalArgumentException.class, () -> service.create(transaction)),
     //        () -> Mockito.verify(repository, Mockito.never())

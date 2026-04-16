@@ -2,14 +2,14 @@ package br.com.doliver.dto.form;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-
-import br.com.doliver.domain.Account;
-import br.com.doliver.domain.Person;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import tools.jackson.databind.PropertyNamingStrategies;
 import tools.jackson.databind.annotation.JsonNaming;
+
+import br.com.doliver.domain.Account;
+import br.com.doliver.domain.Person;
 
 @Getter
 @Setter
@@ -27,13 +27,7 @@ public class AccountForm {
         return new AccountFormToAccountAdapter(this);
     }
 
-    private static class AccountFormToAccountAdapter implements Account {
-
-        private final AccountForm form;
-
-        public AccountFormToAccountAdapter(final AccountForm form) {
-            this.form = form;
-        }
+    private record AccountFormToAccountAdapter(AccountForm form) implements Account {
 
         @Override
         public Long getId() {

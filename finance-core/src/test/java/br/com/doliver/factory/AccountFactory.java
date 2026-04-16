@@ -4,13 +4,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import br.com.doliver.domain.Account;
-import br.com.doliver.domain.Person;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
+
+import br.com.doliver.domain.Account;
+import br.com.doliver.domain.Person;
 
 @AllArgsConstructor
 public class AccountFactory {
@@ -25,7 +25,7 @@ public class AccountFactory {
         return getDefaultMock();
     }
 
-    public Account getDefaultWithID(final Long id) {
+    public Account getDefaultWithId(final Long id) {
         return getDefaultMock(id, true, true);
     }
 
@@ -40,7 +40,7 @@ public class AccountFactory {
     public List<Account> getList(final int size) {
         final List<Account> accounts = new ArrayList<>();
         for (int i = 0; i < size; i++) {
-            accounts.add(getDefaultWithID(Integer.valueOf(i).longValue()));
+            accounts.add(getDefaultWithId(Integer.valueOf(i).longValue()));
         }
         return accounts;
     }

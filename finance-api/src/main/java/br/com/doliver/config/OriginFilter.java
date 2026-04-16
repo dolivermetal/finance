@@ -1,18 +1,16 @@
 package br.com.doliver.config;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-
-import org.springframework.http.HttpHeaders;
-import org.springframework.web.filter.OncePerRequestFilter;
-
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import lombok.NonNull;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 public class OriginFilter extends OncePerRequestFilter {
 
@@ -43,18 +41,20 @@ public class OriginFilter extends OncePerRequestFilter {
         final @NonNull FilterChain filterChain)
         throws ServletException, IOException {
 
-        String headerOrigin = request.getHeader(HttpHeaders.ORIGIN);
+        final String headerOrigin = request.getHeader(HttpHeaders.ORIGIN);
 
-        if (!Objects.isNull(headerOrigin)) {
-            if (ALLOWED_ORIGINS.contains(headerOrigin)) {
-                filterChain.doFilter(request, response);
-            } else {
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Requisição não autorizada");
-            }
+        if (hasOriginHeader(headerOrigin) && ALLOWED_ORIGINS.contains(headerOrigin)) {
+            filterChain.doFilter(request, response);
+        } else if (hasOriginHeader(headerOrigin) && !ALLOWED_ORIGINS.contains(headerOrigin)) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Requisição não autorizada");
         } else {
             response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED,
                 "Header " + HttpHeaders.ORIGIN + " não existe"
             );
         }
+    }
+
+    private boolean hasOriginHeader(final String headerOrigin) {
+        return !Objects.isNull(headerOrigin);
     }
 }

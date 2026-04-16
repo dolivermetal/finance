@@ -1,14 +1,13 @@
 package br.com.doliver.database.repository.impl;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import java.util.UUID;
-
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.doliver.database.entity.PersonEntity;
 import br.com.doliver.database.repository.PersonRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 
 @Repository
 public class PostgresPersonRepository implements PersonRepository {
