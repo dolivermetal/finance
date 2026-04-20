@@ -9,6 +9,12 @@
         <!--    <exclude name="UseVarargs"/>-->
         <!--    <exclude name="UseCollectionIsEmpty"/>-->
     </rule>
+    <rule ref="category/java/bestpractices.xml/UnitTestShouldIncludeAssert">
+        <properties>
+            <property name="extraAssertMethodNames" value="then" />
+        </properties>
+    </rule>
+
 
     <rule ref="category/java/codestyle.xml">
         <exclude name="AtLeastOneConstructor"/>
