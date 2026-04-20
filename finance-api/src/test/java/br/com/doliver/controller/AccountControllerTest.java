@@ -105,7 +105,7 @@ class AccountControllerTest extends IntegrationTestConfig {
             .all()
             .contentType(ContentType.JSON)
             .when()
-            .get(PATH_ACCOUNTS + entity.getCode())
+            .get(PATH_ACCOUNTS + "/" + entity.getCode())
             .then()
             .log()
             .all()
