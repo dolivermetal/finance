@@ -1,4 +1,0 @@
-rootProject.name = 'finance'
-
-include 'application:core',
-  'application:rest-api'
