@@ -92,3 +92,22 @@ finance-core/   domínio, serviços, persistência e migrações SQL
 config/         configurações de Checkstyle, PMD e SpotBugs
 docs/           diagramas do domínio e do modelo de dados
 ```
+
+## Agentes, skills e steering
+
+O projeto tem uma camada de orientação para agentes:
+
+- `AGENTS.md`: regras operacionais, comandos e riscos conhecidos.
+- `docs/PROJECT_CONTEXT.md`: análise detalhada de arquitetura, domínio, endpoints, persistência, testes e dívidas técnicas.
+- `.opencode/agents/project-explainer.md`: agente somente leitura que explica o projeto.
+- `.opencode/skills/finance-project-guide/SKILL.md`: visão geral sob demanda.
+- `.opencode/skills/finance-change-workflow/SKILL.md`: fluxo de mudança segura por camada.
+- `.opencode/skills/finance-testing/SKILL.md`: padrão de testes e comandos.
+
+Exemplo de uso no OpenCode:
+
+```text
+Use o agente project-explainer para explicar o fluxo de criação de uma conta.
+```
+
+O agente não altera arquivos. Para implementar, use o agente de build com as skills `finance-change-workflow` e `finance-testing`.
