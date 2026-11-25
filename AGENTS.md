@@ -92,7 +92,6 @@ Controller -> Form/Response -> Service -> Repository -> JPA -> PostgreSQL
 
 - `GET /outbox/{id}` nunca retorna 404: `EntityNotFoundException` cai no catch genérico e vira 500.
 - `OutboxResponse.integrationStatus` recebe `outbox.getMetadata()`.
-- `TransactionEntity` usa `scale = 19, precision = 2` (invertido em relação a `numeric(19,2)`).
 - `PersonService.find` usa `PersonSpringDataRepository`; `create` usa `PersonRepository`/`EntityManager`.
   `PostgresPersonRepository.findByCode` não é usado.
 - `Outbox` é apenas persistência de evento; não há publisher Kafka ativo.

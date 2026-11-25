@@ -49,7 +49,7 @@ public class TransactionEntity implements Transaction {
     @Column(name = "dat_reference")
     private LocalDateTime referenceDate;
 
-    @Column(name = "num_amount", scale = 19, precision = 2, nullable = false)
+    @Column(name = "num_amount", precision = 19, scale = 2, nullable = false)
     private BigDecimal amount;
 
     @Enumerated(EnumType.STRING)
