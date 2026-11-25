@@ -82,12 +82,12 @@ class PersonControllerTest extends IntegrationTestConfig {
 
 ## Comandos
 
-Windows:
+Windows (PowerShell; o prefixo `.\` é obrigatório):
 
-```bat
-gradlew.bat :finance-core:test --tests "br.com.doliver.service.PersonServiceTest"
-gradlew.bat :finance-api:test --tests "br.com.doliver.controller.PersonControllerTest"
-gradlew.bat test
+```powershell
+.\gradlew.bat :finance-core:test --tests "br.com.doliver.service.PersonServiceTest"
+.\gradlew.bat :finance-api:test --tests "br.com.doliver.controller.PersonControllerTest"
+.\gradlew.bat test
 ```
 
 Linux/macOS/Git Bash:
@@ -115,4 +115,4 @@ Linux/macOS/Git Bash:
 - [ ] Usa factory existente quando possível.
 - [ ] Não depende de ordem de lista nem de estado compartilhado.
 - [ ] Roda no módulo correto.
-- [ ] `gradlew.bat test` passa.
+- [ ] `.\gradlew.bat test` passa.

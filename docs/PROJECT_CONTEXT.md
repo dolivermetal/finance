@@ -284,13 +284,13 @@ Não há serviço para `Statement`.
 
 ### 9.1 Comandos
 
-Windows:
+Windows (PowerShell; o prefixo `.\` é obrigatório):
 
-```bat
-gradlew.bat test
-gradlew.bat check
-gradlew.bat :finance-api:bootRun
-gradlew.bat :finance-core:test --tests "br.com.doliver.service.PersonServiceTest"
+```powershell
+.\gradlew.bat test
+.\gradlew.bat check
+.\gradlew.bat :finance-api:bootRun
+.\gradlew.bat :finance-core:test --tests "br.com.doliver.service.PersonServiceTest"
 ```
 
 Linux/macOS/Git Bash:
@@ -377,7 +377,6 @@ O `Outbox` é apenas persistência:
 | Média | `GET /outbox/{id}` nunca devolve 404 | `OutboxService.find` lança `EntityNotFoundException`; controller captura `Exception` | Cliente recebe 500 para recurso inexistente | Mapear `EntityNotFoundException` para 404 |
 | Média | `OutboxResponse.integrationStatus` recebe `metadata` | `OutboxResponse` linha 24 | Resposta incorreta | Usar `outbox.getIntegrationStatus()` |
 | Média | `TransactionEntity` com `scale=19, precision=2` | `TransactionEntity` linha 49 | Mapeamento invertido em relação a `numeric(19,2)` | Trocar para `precision = 19, scale = 2` |
-| Média | `mainClass` aponta para `br.com.doliver.APIApplication` | `finance-api/build.gradle.kts` linha 50; classe real `ApiApplication` | Scripts/execução podem falhar | Corrigir para `br.com.doliver.ApiApplication` |
 | Média | `PersonService.find` usa repositório diferente do create | `PersonService` vs `PostgresPersonRepository` | Comportamento inconsistente e código morto | Padronizar um repositório |
 | Média | Testes só com H2; sem PostgreSQL real | `application-test.yml` | Divergências de dialeto passam despercebidas | Adicionar Testcontainers |
 | Média | `AccountControllerTest.shouldListAccounts` depende de posição `[2]` | teste linha 165 | Teste frágil/ordem implícita | Buscar por código em vez de índice |

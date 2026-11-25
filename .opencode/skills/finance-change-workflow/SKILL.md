@@ -55,13 +55,13 @@ Mudar o projeto Finance no menor ponto responsável, preservando contratos e pro
 
 ## Comandos
 
-Windows:
+Windows (PowerShell; o prefixo `.\` é obrigatório):
 
-```bat
-gradlew.bat :finance-core:test --tests "br.com.doliver.service.PersonServiceTest"
-gradlew.bat :finance-api:test --tests "br.com.doliver.controller.PersonControllerTest"
-gradlew.bat test
-gradlew.bat check
+```powershell
+.\gradlew.bat :finance-core:test --tests "br.com.doliver.service.PersonServiceTest"
+.\gradlew.bat :finance-api:test --tests "br.com.doliver.controller.PersonControllerTest"
+.\gradlew.bat test
+.\gradlew.bat check
 ```
 
 Linux/macOS/Git Bash:
@@ -85,7 +85,7 @@ Linux/macOS/Git Bash:
 ## Critério de pronto
 
 - Teste focado passa.
-- `gradlew.bat test` passa.
-- `gradlew.bat check` passa.
+- `.\gradlew.bat test` passa.
+- `.\gradlew.bat check` passa.
 - Contrato HTTP e schema documentados.
 - Nenhum arquivo gerado ou credencial incluído no diff.

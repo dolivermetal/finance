@@ -1,46 +1,30 @@
 # AGENTS.md
 
-Guia operacional para agentes neste repositório. Leia `docs/PROJECT_CONTEXT.md` para a análise detalhada de arquitetura, domínio, endpoints e riscos.
+Guia operacional para agentes. Contexto detalhado de arquitetura, domínio e endpoints:
+`docs/PROJECT_CONTEXT.md`.
 
-## Objetivo do projeto
-
-API REST de gestão financeira pessoal: pessoas, contas, cartões, transações, extratos e outbox. Monorepo Gradle com API Spring Boot e módulo de domínio/persistência.
-
-## Stack
-
-- Java 26, Gradle 9.4.1 (Kotlin DSL), Spring Boot 4.0.5
-- Spring Web MVC, Spring Data JPA/Hibernate
-- PostgreSQL principal; H2 nos testes de API
-- Lombok, JUnit 6, Mockito, REST Assured, WireMock
-- PMD 7.23.0 e Checkstyle 13.4.0
-
-## Módulos
-
-- `finance-core`: interfaces de domínio, entidades JPA, repositórios, serviços e SQL.
-- `finance-api`: aplicação Spring Boot, controllers REST, forms/responses e filtro de origem.
-- `application/`: código órfão, fora de `settings.gradle.kts`. Não use como referência.
-- `build.gradle.bkp`: build Groovy legado. Não use.
-- `docs/finance.xml`: diagrama draw.io. Não é fonte executável.
+Fluxos e padrões: `.opencode/skills/finance-change-workflow/SKILL.md`,
+`.opencode/skills/finance-testing/SKILL.md` e `.opencode/skills/finance-project-guide/SKILL.md`.
+Explicação somente leitura: `.opencode/agents/project-explainer.md`.
 
 ## Comandos
 
-Windows:
+Requer JDK 26 e use o wrapper Gradle. No PowerShell, o prefixo `.\` é obrigatório; `gradlew.bat`
+sozinho não é encontrado.
 
-```bat
-gradlew.bat test
-gradlew.bat check
-gradlew.bat :finance-api:bootRun
-gradlew.bat :finance-core:test --tests "br.com.doliver.service.PersonServiceTest"
+```powershell
+.\gradlew.bat test
+.\gradlew.bat check
+.\gradlew.bat :finance-core:test --tests "br.com.doliver.service.PersonServiceTest"
+.\gradlew.bat :finance-api:test --tests "br.com.doliver.controller.PersonControllerTest"
 ```
 
-Linux/macOS/Git Bash:
+Em Linux/macOS/Git Bash, troque `.\gradlew.bat` por `./gradlew`.
 
-```bash
-./gradlew test
-./gradlew check
-./gradlew :finance-api:bootRun
-./gradlew :finance-core:test --tests "br.com.doliver.service.PersonServiceTest"
-```
+`.\gradlew.bat :finance-api:bootRun` sobe a API. O `mainClass` em `finance-api/build.gradle.kts` é
+`br.com.doliver.ApiApplication`, igual à classe real. O `bootJar` gera `Start-Class` correto, então
+`java -jar finance-api/build/libs/finance-api.jar` também funciona. A API exige o PostgreSQL local
+criado antes.
 
 Banco local:
 
@@ -48,7 +32,19 @@ Banco local:
 docker compose up -d postgres
 ```
 
-Depois aplique manualmente `finance-core/src/main/resources/database-user-creation.sql` e `finance-core/src/main/resources/migration/postgres/V1_create.sql`. Não há Flyway/Liquibase. O script `V1_create.sql` apaga tabelas: nunca rode em banco com dados sem confirmar.
+Depois aplique manualmente, nesta ordem,
+`finance-core/src/main/resources/database-user-creation.sql` e
+`finance-core/src/main/resources/migration/postgres/V1_create.sql`. Não há Flyway/Liquibase.
+`V1_create.sql` começa com `drop table if exists`: nunca rode em banco com dados sem confirmar.
+Kafka no Compose não é usado pela aplicação.
+
+## Módulos
+
+- `finance-core`: interfaces de domínio, entidades JPA, repositórios, serviços e SQL.
+- `finance-api`: aplicação Spring Boot, controllers, forms/responses e filtro de origem.
+- Não há `build.gradle.kts` na raiz; cada módulo declara plugins e dependências.
+- Ignore `application/` (fora de `settings.gradle.kts`), `build.gradle.bkp` (build Groovy legado)
+  e `docs/finance.xml` (diagrama draw.io).
 
 ## Arquitetura
 
@@ -56,53 +52,50 @@ Depois aplique manualmente `finance-core/src/main/resources/database-user-creati
 Controller -> Form/Response -> Service -> Repository -> JPA -> PostgreSQL
 ```
 
-- Domínio são interfaces em `br.com.doliver.domain`.
-- Entidades JPA e adapters de `Form` implementam essas interfaces.
-- Controllers capturam exceções localmente; não há `@ControllerAdvice`.
-- Validação principal fica nos construtores das entidades (`IllegalArgumentException`).
-- `PersonService.find` usa `PersonSpringDataRepository`; `PostgresPersonRepository.findByCode` existe mas não é usado.
-- `Outbox` é persistência de evento. Não há publisher Kafka ativo.
+- Domínio são interfaces em `br.com.doliver.domain`; entidades JPA as implementam. Forms usam
+  adapters em `record` privado.
+- Validação principal fica nos construtores das entidades (`IllegalArgumentException`). Não há
+  Bean Validation nos DTOs.
+- Controllers capturam exceções localmente; não há `@ControllerAdvice`. Não presuma status HTTP
+  convencional (ex.: outbox).
+- Novo endpoint: controller/DTOs em `finance-api`; serviço, domínio e repositório em `finance-core`.
+- JSON: `AccountForm` e `OutboxForm` usam snake_case; `PersonForm` e todas as responses usam
+  camelCase. A linha `property-naming-strategy=SNAKE_CASE` em
+  `finance-api/src/main/resources/application.yml` não define a propriedade Spring esperada e não
+  está ativa.
+- Não há autenticação/autorização. `OriginFilter` cobre apenas `/origin/*` e usa allowlist fixa
+  `"teste"`.
 
 ## Convenções
 
 - Java com 4 espaços, LF, máximo 150 colunas (`.editorconfig`, Checkstyle).
 - Use `final` em parâmetros. Lombok é o padrão para boilerplate.
+- Imports: grupos separados, com `br.com.**` por último.
 - Logs SLF4J no formato `msg=..., chave={}`.
-- Pacote base `br.com.doliver`; imports `br.com.**` por último.
-- Novo endpoint: controller e DTOs em `finance-api`; serviço, domínio e repositório em `finance-core`.
 - Não edite `build/`, `.gradle/` ou arquivos gerados.
 - Credenciais do repositório são de desenvolvimento. Não adicione segredos reais.
 
 ## Testes
 
 - Unitários de serviço: `finance-core/src/test`, JUnit 6 + Mockito + factories.
-- Integração de API: `finance-api/src/test`, `@SpringBootTest(RANDOM_PORT)` + REST Assured + H2.
+- Integração de API: `finance-api/src/test`, `@SpringBootTest(RANDOM_PORT)` + REST Assured + H2 via
+  `IntegrationTestConfig`.
+- O perfil `test` efetivo está em `finance-api/src/test/resources/application-test.yml`
+  (`ddl-auto: create-drop`); o equivalente em `finance-core` está vazio.
+- Testes de API compartilham contexto H2. Não dependa de ordem nem de posição de lista;
+  `AccountControllerTest.shouldListAccounts` usa índice `[2]` e é frágil.
+- H2 não prova compatibilidade com PostgreSQL real. Mudança de schema exige revisar também os
+  scripts em `migration/postgres` e `migration/oracle`.
 - Rode o teste focado primeiro; depois `test` e `check`.
-- Testes de API compartilham contexto H2. Evite depender de ordem ou posição de lista.
 
-## Limites e riscos conhecidos
+## Armadilhas conhecidas
 
-- `finance-api/build.gradle.kts` define `mainClass = "br.com.doliver.APIApplication"`, mas a classe é `ApiApplication`.
 - `GET /outbox/{id}` nunca retorna 404: `EntityNotFoundException` cai no catch genérico e vira 500.
 - `OutboxResponse.integrationStatus` recebe `outbox.getMetadata()`.
-- `TransactionEntity` usa `scale=19, precision=2` (invertido em relação a `numeric(19,2)`).
-- `CreditCardEntity`, `TransactionEntity` e `OutboxEntity` não usam `@JdbcTypeCode(SqlTypes.VARCHAR)` para UUID, embora o schema use `varchar(40)`.
-- `finance-api/src/main/resources/application.yml` tem `property-naming-strategy=SNAKE_CASE` (YAML inválido para propriedade).
-- Não há autenticação/autorização. `OriginFilter` cobre apenas `/origin/*` e usa allowlist fixa `"teste"`.
-- Kafka no Compose não está integrado à aplicação.
+- `TransactionEntity` usa `scale = 19, precision = 2` (invertido em relação a `numeric(19,2)`).
+- Apenas `PersonEntity` e `AccountEntity` usam `@JdbcTypeCode(SqlTypes.VARCHAR)` para UUID,
+  embora o schema use `varchar(40)` em todas as tabelas.
+- `PersonService.find` usa `PersonSpringDataRepository`; `create` usa `PersonRepository`/`EntityManager`.
+  `PostgresPersonRepository.findByCode` não é usado.
+- `Outbox` é apenas persistência de evento; não há publisher Kafka ativo.
 - Não há endpoints para cartões, transações ou extratos.
-
-## Fluxo para agentes
-
-1. Leia este arquivo e `docs/PROJECT_CONTEXT.md`.
-2. Localize a camada responsável antes de editar.
-3. Preserve contratos existentes e adicione teste focado.
-4. Rode `gradlew.bat test` e `gradlew.bat check`.
-5. Atualize a documentação se mudar arquitetura, endpoint ou schema.
-
-## Camada de agentes
-
-- Agente explicador: `.opencode/agents/project-explainer.md`.
-- Skill de visão geral: `.opencode/skills/finance-project-guide/SKILL.md`.
-- Skill de mudança segura: `.opencode/skills/finance-change-workflow/SKILL.md`.
-- Skill de testes: `.opencode/skills/finance-testing/SKILL.md`.
