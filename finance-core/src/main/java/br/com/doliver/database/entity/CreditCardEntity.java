@@ -17,6 +17,8 @@ import java.util.UUID;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import br.com.doliver.domain.CreditCard;
 
@@ -39,6 +41,7 @@ public class CreditCardEntity implements CreditCard {
     private Long id;
 
     @Column(name = "cod_credit_card", nullable = false)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
     private UUID code;
 
     @Column(name = "nam_alias", nullable = false, length = 50)

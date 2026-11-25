@@ -17,7 +17,9 @@ import java.util.UUID;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.type.SqlTypes;
 
 import br.com.doliver.domain.Transaction;
 import br.com.doliver.domain.enums.Category;
@@ -41,6 +43,7 @@ public class TransactionEntity implements Transaction {
     private Long id;
 
     @Column(name = "cod_transaction", nullable = false)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
     private UUID code;
 
     @Column(name = "dat_reference")

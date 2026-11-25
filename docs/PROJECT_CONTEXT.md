@@ -208,7 +208,7 @@ Padrões de nomenclatura:
 | `des_` | descrição | `des_transaction` |
 | `jsn_` | JSON serializado | `jsn_metadata` |
 
-UUIDs são armazenados como `varchar(40)` no PostgreSQL, não como tipo `uuid` nativo. `PersonEntity` e `AccountEntity` usam `@JdbcTypeCode(SqlTypes.VARCHAR)` para alinhar o mapeamento. `CreditCardEntity`, `TransactionEntity` e `OutboxEntity` não usam essa anotação, o que pode gerar incompatibilidade com o schema manual.
+UUIDs são armazenados como `varchar(40)` no PostgreSQL, não como tipo `uuid` nativo. Todas as entidades com `cod_*` UUID — `PersonEntity`, `AccountEntity`, `CreditCardEntity`, `TransactionEntity`, `OutboxEntity` e `StatementEntity` — usam `@JdbcTypeCode(SqlTypes.VARCHAR)` para alinhar o mapeamento ao schema manual.
 
 ### 6.3 Migrações
 
@@ -370,7 +370,6 @@ O `Outbox` é apenas persistência:
 
 | Severidade | Problema | Evidência | Impacto | Direção |
 | --- | --- | --- | --- | --- |
-| Alta | UUID sem `@JdbcTypeCode(VARCHAR)` em `CreditCardEntity`, `TransactionEntity` e `OutboxEntity` | schema usa `varchar(40)`; só Person/Account anotam | Pode falhar em PostgreSQL real ao gravar/ler UUID | Anotar os três campos ou migrar schema para `uuid` |
 | Alta | Sem Flyway/Liquibase; `V1_create.sql` destrutivo | `migration/postgres/V1_create.sql` começa com `drop table` | Schema drift e perda de dados em execução manual | Adotar migração versionada; separar script de reset |
 | Alta | Sem autenticação/autorização | nenhum security config | Qualquer cliente acessa dados financeiros | Adicionar Spring Security/API key e testes |
 | Alta | `OriginFilter` só cobre `/origin/*` e allowlist fixa `"teste"` | `FilterConfig`, `OriginFilter` | Falsa sensação de proteção; não é CORS global | Mover para configuração global ou remover |
