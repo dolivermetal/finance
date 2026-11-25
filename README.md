@@ -58,11 +58,14 @@ Execute a API:
 ./gradlew :finance-api:bootRun
 ```
 
-No Windows:
+No Windows (PowerShell; o prefixo `.\` é obrigatório):
 
-```bat
-gradlew.bat :finance-api:bootRun
+```powershell
+.\gradlew.bat :finance-api:bootRun
 ```
+
+Também é possível gerar o jar com `.\gradlew.bat :finance-api:bootJar` e executar
+`java -jar finance-api/build/libs/finance-api.jar`.
 
 Para iniciar também a infraestrutura Kafka definida no Compose:
 
@@ -80,8 +83,8 @@ Execute os testes dos módulos:
 
 No Windows:
 
-```bat
-gradlew.bat test
+```powershell
+.\gradlew.bat test
 ```
 
 ## Estrutura

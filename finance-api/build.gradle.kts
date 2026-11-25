@@ -47,7 +47,7 @@ java {
 }
 
 application {
-    mainClass = "br.com.doliver.APIApplication"
+    mainClass = "br.com.doliver.ApiApplication"
 }
 
 tasks.test {
